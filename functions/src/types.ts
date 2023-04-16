@@ -9,6 +9,7 @@ export {Timestamp};
 export type Image = {
     name: string
     url: string
+    ref: string
   }
 
 export const userConverter = {
@@ -39,8 +40,8 @@ export type Article = {
     id: string
     images: Image[]
     title: string
-    content: string
     description: string
+    content: string
     slug: string
     creationDate: Timestamp
     updateDate: Timestamp

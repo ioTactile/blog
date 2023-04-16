@@ -81,6 +81,7 @@
 <script lang="ts" async setup>
 import { VForm } from 'vuetify/components'
 import { collection, getDocs } from 'firebase/firestore'
+import { useFirestore } from 'vuefire'
 import { useFirebaseFunctions } from '~/composables/useFirebaseFunctions'
 import { userConverter, LocalUserType } from '~/stores'
 
@@ -95,9 +96,11 @@ const role = ref<'admin' | null>(null)
 const loading = ref(false)
 const removing = ref<string | null>(null)
 const form = ref<VForm>()
+
 const usersRef = collection(db, 'users').withConverter(userConverter)
 const usersDocs = await getDocs(usersRef)
 const users = ref(usersDocs.docs.map(doc => doc.data()))
+
 const createUser = async () => {
   if (
     !(await form.value?.validate())?.valid ||
@@ -106,7 +109,9 @@ const createUser = async () => {
   ) {
     return
   }
+
   loading.value = true
+
   try {
     const { data } = await functions<
         { email: string; password: string; role: { admin: true } },
@@ -116,6 +121,7 @@ const createUser = async () => {
         password: password.value,
         role: { admin: true }
       })
+
     users.value.push(data)
     dialog.value = false
   } finally {
@@ -124,14 +130,17 @@ const createUser = async () => {
 }
 const removeUser = async (id: string) => {
   removing.value = id
+
   try {
     await functions('removeAdmin')({ id })
+
     users.value = users.value.filter(user => user.id !== id)
   } finally {
     removing.value = null
   }
 }
-function getRole (role: { admin: true } | undefined) {
+
+const getRole = (role: { admin: true } | undefined) => {
   if (!role) {
     return 'Utilisateur'
   }
