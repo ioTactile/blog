@@ -32,49 +32,52 @@
       </tbody>
     </v-table>
 
-    <v-dialog v-model="dialog" width="450" :persistent="loading">
-      <v-card>
-        <v-form ref="form" @submit.prevent="createUser">
-          <v-card-title class="d-flex align-center">
-            Création d'un nouvel admin
-            <v-spacer />
-            <v-btn
-              icon="mdi-close"
-              variant="text"
-              :disabled="loading"
-              @click="dialog = false"
-            />
-          </v-card-title>
-          <v-card-text>
-            <InputsEmail v-model="email" variant="outlined" icon />
-            <InputsPasswordFirst
-              v-model="password"
-              variant="outlined"
-              not-in-line
-            />
-            <v-checkbox
-              v-model="role"
-              label="Ajouter comme admin"
-              value="admin"
-              hide-details
-            />
-          </v-card-text>
-          <v-card-actions justify="end" class="mr-2">
-            <v-btn variant="text" :disabled="loading" @click="dialog = false">
-              Annuler
-            </v-btn>
-            <v-btn
-              color="buttonBack"
-              variant="outlined"
-              :loading="loading"
-              type="submit"
-            >
-              Ajouter
-            </v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
+    <client-only>
+      <v-dialog v-model="dialog" width="450" :persistent="loading">
+        <v-card>
+          <v-form ref="form" @submit.prevent="createUser">
+            <v-card-title class="d-flex align-center">
+              <div>Création d'un nouvel admin</div>
+              <v-spacer />
+              <v-btn
+                icon="mdi-close"
+                variant="text"
+                :disabled="loading"
+                @click="dialog = false"
+              />
+            </v-card-title>
+            <v-card-text>
+              <inputs-email v-model="email" variant="outlined" icon />
+              <inputs-password-first
+                v-model="password"
+                variant="outlined"
+                not-in-line
+              />
+              <v-checkbox
+                v-model="role"
+                label="Ajouter comme admin"
+                value="admin"
+                hide-details
+              />
+            </v-card-text>
+            <v-card-actions class="mr-2">
+              <v-btn variant="text" :disabled="loading" @click="dialog = false">
+                Annuler
+              </v-btn>
+              <v-spacer />
+              <v-btn
+                color="buttonBack"
+                :loading="loading"
+                type="submit"
+                variant="elevated"
+              >
+                Ajouter
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-dialog>
+    </client-only>
   </v-container>
 </template>
 

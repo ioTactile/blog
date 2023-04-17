@@ -12,29 +12,29 @@
           <th>Image principale</th>
           <th>Titre</th>
           <th>Description</th>
-          <th>Date</th>
-          <th>Actions</th>
+          <th>Date de création</th>
+          <th />
         </tr>
       </thead>
       <tbody>
-        <tr v-for="articleItem in articles" :key="articleItem.id">
+        <tr v-for="article in articles" :key="article.id">
           <td>
-            <StorageImg
-              :storage-src="articleItem.images?.[0]?.url"
+            <storage-img
+              :storage-src="article.images?.[0]?.url"
               width="100"
               height="100"
               contain
             />
           </td>
-          <td>{{ articleItem.title }}</td>
-          <td>{{ articleItem.description }}</td>
-          <td>{{ dateFormatter(articleItem.creationDate) }}</td>
+          <td>{{ article.title }}</td>
+          <td>{{ article.description }}</td>
+          <td>{{ dateFormatter(article.creationDate) }}</td>
           <td>
             <v-btn
               icon="mdi-pencil"
               color="secondary"
               variant="text"
-              @click="edit(articleItem)"
+              @click="edit(article)"
             />
           </td>
         </tr>
@@ -45,10 +45,15 @@
       <v-dialog v-model="dialog" :persistent="loading || fileLoading">
         <v-card>
           <v-form ref="form" @submit.prevent="saveArticle">
-            <v-card-title class="d-flex">
+            <v-card-title class="d-flex align-center">
               <div>Création d'une actualité</div>
               <v-spacer />
-              <v-btn icon="mdi-close" :disabled="loading || fileLoading" variant="text" @click="reset" />
+              <v-btn
+                icon="mdi-close"
+                :disabled="loading || fileLoading"
+                variant="text"
+                @click="reset"
+              />
             </v-card-title>
             <v-card-text>
               <v-row>
@@ -67,7 +72,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <ImagesManager
+                  <images-manager
                     ref="imageManager"
                     v-model="images"
                     :slug="id || ''"
@@ -77,7 +82,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <div ref="editor" />
+                  <tiptap-editor v-model="content" />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -110,10 +115,6 @@
 import { VForm } from 'vuetify/components'
 import { collection, getDocs, setDoc, doc, query, orderBy, Timestamp } from 'firebase/firestore'
 import { useFirestore, useCurrentUser } from 'vuefire'
-import EditorJS from '@editorjs/editorjs'
-import Header from '@editorjs/header'
-import List from '@editorjs/list'
-import Embed from '@editorjs/embed'
 import slugify from 'slugify'
 import { articleConverter, LocalArticleType } from '~/stores'
 import { Image } from '~/functions/src/types'
@@ -130,7 +131,6 @@ const images = ref<Image[]>([])
 const title = ref<string>('')
 const description = ref<string>('')
 const content = ref<string>('')
-const editor = ref<EditorJS>()
 const creationDate = ref(new Date(Date.now()))
 const loading = ref(false)
 const fileLoading = ref(false)
@@ -149,36 +149,6 @@ const articles = ref(await getArticles())
 const createArticle = () => {
   id.value = doc(articlesRef).id
   dialog.value = true
-
-  editor.value = new EditorJS({
-    holder: 'editorjs',
-    tools: {
-      header: {
-        class: Header,
-        inlineToolbar: true
-      },
-      list: {
-        class: List,
-        inlineToolbar: [
-          'link',
-          'bold'
-        ]
-      },
-      embed: {
-        class: Embed,
-        inlineToolbar: false,
-        config: {
-          services: {
-            youtube: true,
-            coub: true
-          }
-        }
-      }
-    },
-    onReady: () => {
-      console.log('Editor.js is ready to work!')
-    }
-  })
 }
 
 const saveArticle = async () => {
@@ -187,7 +157,6 @@ const saveArticle = async () => {
 
   try {
     await imageManager.value.save()
-    content.value = JSON.stringify(await editor.value?.save())
 
     const articleRef = doc(articlesRef, id.value)
     await setDoc(articleRef, {
@@ -210,13 +179,13 @@ const saveArticle = async () => {
   }
 }
 
-const edit = (newsItem: LocalArticleType) => {
-  id.value = newsItem.id
-  images.value = newsItem.images
-  title.value = newsItem.title
-  description.value = newsItem.description
-  content.value = newsItem.content
-  creationDate.value = newsItem.creationDate
+const edit = (articleItem: LocalArticleType) => {
+  id.value = articleItem.id
+  images.value = articleItem.images
+  title.value = articleItem.title
+  description.value = articleItem.description
+  content.value = articleItem.content
+  creationDate.value = articleItem.creationDate
   dialog.value = true
 }
 
