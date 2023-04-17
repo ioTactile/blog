@@ -1,14 +1,12 @@
 <template>
   <div>
     <v-app-bar color="background" elevation="0" height="80">
-      <v-spacer class="d-block d-sm-none" />
-      <NuxtLink to="/" class="text-decoration-none">
-        <v-app-bar-title
-          class="font-weight-bold text-headline text-sm-h5 text-md-h4 ml-sm-12"
-          tag="h1"
+      <NuxtLink to="/" class="text-decoration-none ml-4">
+        <h1
+          class="font-weight-bold text-headline text-h5 text-md-h4"
         >
           ioTactile
-        </v-app-bar-title>
+        </h1>
       </NuxtLink>
       <v-spacer />
       <div v-if="admin && adminUser" class="text-center">

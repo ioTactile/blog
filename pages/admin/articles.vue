@@ -32,7 +32,7 @@
           <td>
             <v-btn
               icon="mdi-pencil"
-              color="secondary"
+              color="stroke"
               variant="text"
               @click="edit(article)"
             />
@@ -140,7 +140,7 @@ const form = ref<VForm>()
 const articlesRef = collection(db, 'articles').withConverter(articleConverter)
 
 const getArticles = async () => {
-  const articlesQuery = query(articlesRef, orderBy('date', 'desc'))
+  const articlesQuery = query(articlesRef, orderBy('creationDate', 'desc'))
   const articles = await getDocs(articlesQuery)
   return articles.docs.map(doc => doc.data())
 }
@@ -179,13 +179,13 @@ const saveArticle = async () => {
   }
 }
 
-const edit = (articleItem: LocalArticleType) => {
-  id.value = articleItem.id
-  images.value = articleItem.images
-  title.value = articleItem.title
-  description.value = articleItem.description
-  content.value = articleItem.content
-  creationDate.value = articleItem.creationDate
+const edit = (article: LocalArticleType) => {
+  id.value = article.id
+  images.value = article.images
+  title.value = article.title
+  description.value = article.description
+  content.value = article.content
+  creationDate.value = article.creationDate
   dialog.value = true
 }
 
