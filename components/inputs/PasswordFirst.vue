@@ -8,7 +8,7 @@
         :type="show ? 'text' : 'password'"
         label="Mot de passe"
         :variant="variant"
-        name="password"
+        name="createPassword"
         :class="inputClass"
         autocomplete="new-password"
         @click:append-inner="show = !show"
