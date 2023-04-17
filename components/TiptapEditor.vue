@@ -79,6 +79,9 @@
       <v-btn variant="flat" @click="editor?.chain().focus().setHorizontalRule().run()">
         _
       </v-btn>
+      <v-btn variant="flat" @click="editor?.chain().focus().setHardBreak().run()">
+        Space
+      </v-btn>
 
       <v-btn variant="flat" :disabled="!editor?.isActive('link')" @click="editor?.chain().focus().unsetLink().run()">
         <v-icon icon="mdi-link-off" />
@@ -196,39 +199,41 @@
 <script lang="ts" setup>
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 
-import StarterKit from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/starter-kit'
 
-import Underline from '@tiptap/extension-underline'
+import { HardBreak } from '@tiptap/extension-hard-break'
 
-import Highlight from '@tiptap/extension-highlight'
+import { Underline } from '@tiptap/extension-underline'
 
-import TextStyle from '@tiptap/extension-text-style'
+import { Highlight } from '@tiptap/extension-highlight'
 
-import Color from '@tiptap/extension-color'
+import { TextStyle } from '@tiptap/extension-text-style'
 
-import Subscript from '@tiptap/extension-subscript'
+import { Color } from '@tiptap/extension-color'
 
-import Superscript from '@tiptap/extension-superscript'
+import { Subscript } from '@tiptap/extension-subscript'
 
-import TextAlign from '@tiptap/extension-text-align'
+import { Superscript } from '@tiptap/extension-superscript'
 
-import Link from '@tiptap/extension-link'
+import { TextAlign } from '@tiptap/extension-text-align'
 
-import Image from '@tiptap/extension-image'
+import { Link } from '@tiptap/extension-link'
 
-import TaskItem from '@tiptap/extension-task-item'
+import { Image } from '@tiptap/extension-image'
 
-import TaskList from '@tiptap/extension-task-list'
+import { TaskItem } from '@tiptap/extension-task-item'
 
-import Youtube from '@tiptap/extension-youtube'
+import { TaskList } from '@tiptap/extension-task-list'
 
-import Table from '@tiptap/extension-table'
+import { Youtube } from '@tiptap/extension-youtube'
 
-import TableCell from '@tiptap/extension-table-cell'
+import { Table } from '@tiptap/extension-table'
 
-import TableHeader from '@tiptap/extension-table-header'
+import { TableCell } from '@tiptap/extension-table-cell'
 
-import TableRow from '@tiptap/extension-table-row'
+import { TableHeader } from '@tiptap/extension-table-header'
+
+import { TableRow } from '@tiptap/extension-table-row'
 
 const componentProps = defineProps<{modelValue?: string}>()
 const emits = defineEmits<{(e: 'update:model-value', newVal?: string): void}>()
@@ -237,6 +242,7 @@ const editor = useEditor({
   content: componentProps.modelValue,
   extensions: [
     StarterKit.configure({ heading: { levels: [2, 3, 4, 5, 6] } }),
+    HardBreak,
     Underline,
     Highlight.configure({ multicolor: true }),
     TextStyle,

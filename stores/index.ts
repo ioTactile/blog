@@ -62,11 +62,19 @@ export const articleConverter: FirestoreDataConverter<LocalArticleType> = {
     options
   ) => {
     const data = snapshot.data(options)
+    const comments = data.comments?.map((comment) => {
+      return {
+        ...comment,
+        creationDate: comment.creationDate.toDate()
+      }
+    })
+
     return {
       ...data,
       id: snapshot.id,
       creationDate: data.creationDate.toDate(),
-      updateDate: data.updateDate.toDate()
+      updateDate: data.updateDate.toDate(),
+      comments
     }
   }
 }

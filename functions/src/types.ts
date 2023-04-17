@@ -43,6 +43,17 @@ export type Article = {
     description: string
     content: string
     slug: string
+    comments?: Comment[]
     creationDate: Timestamp
     updateDate: Timestamp
   }
+
+export type Comment = {
+    id: string
+    articleId: string
+    userId?: string
+    firstName: string
+    lastName: string
+    content: string
+    creationDate: Timestamp
+}

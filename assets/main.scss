@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
-$font-family: 'Comfortaa', cursive;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk&display=swap');
+$font-family-title: 'Playfair Display';
+$font-family: 'Schibsted Grotesk';
 
 .v-application {
   [class*='text-'] {
@@ -11,5 +13,8 @@ $font-family: 'Comfortaa', cursive;
 body {
   max-width: 1920px;
   margin: 0 auto;
-  background-color: #f2f7f5;
 }
+
+// h1 {
+//   font-family: $font-family-title, serif !important;
+// }
