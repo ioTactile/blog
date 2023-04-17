@@ -7,7 +7,7 @@ const serviceAccount: ServiceAccount = {
 }
 
 export default defineNuxtConfig({
-  modules: ['nuxt-vuefire'],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', 'nuxt-vuefire'],
   build: { transpile: ['vuetify'] },
   vite: { define: { 'process.env.DEBUG': false } },
   typescript: { shim: false },

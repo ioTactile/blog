@@ -8,11 +8,17 @@ import { Timestamp, User, Article } from '~/functions/src/types'
 
 export const useStore = defineStore('main', () => {
   const av1Support = ref<null | boolean>(null)
+  const avifSupport = ref<null | boolean>(null)
   const vp9Support = ref<null | boolean>(null)
+  const webpSupport = ref<null | boolean>(null)
+  const search = ref('')
 
   return {
     av1Support,
-    vp9Support
+    avifSupport,
+    vp9Support,
+    webpSupport,
+    search
   }
 })
 
