@@ -198,42 +198,42 @@
 
 <script lang="ts" setup>
 import { useEditor, EditorContent } from '@tiptap/vue-3'
-
-import { StarterKit } from '@tiptap/starter-kit'
-
-import { HardBreak } from '@tiptap/extension-hard-break'
-
-import { Underline } from '@tiptap/extension-underline'
-
-import { Highlight } from '@tiptap/extension-highlight'
-
-import { TextStyle } from '@tiptap/extension-text-style'
-
-import { Color } from '@tiptap/extension-color'
-
-import { Subscript } from '@tiptap/extension-subscript'
-
-import { Superscript } from '@tiptap/extension-superscript'
-
-import { TextAlign } from '@tiptap/extension-text-align'
-
-import { Link } from '@tiptap/extension-link'
-
-import { Image } from '@tiptap/extension-image'
-
-import { TaskItem } from '@tiptap/extension-task-item'
-
-import { TaskList } from '@tiptap/extension-task-list'
-
-import { Youtube } from '@tiptap/extension-youtube'
-
-import { Table } from '@tiptap/extension-table'
-
-import { TableCell } from '@tiptap/extension-table-cell'
-
-import { TableHeader } from '@tiptap/extension-table-header'
-
-import { TableRow } from '@tiptap/extension-table-row'
+// eslint-disable-next-line import/no-named-as-default
+import StarterKit from '@tiptap/starter-kit'
+// eslint-disable-next-line import/no-named-as-default
+import Underline from '@tiptap/extension-underline'
+// eslint-disable-next-line import/no-named-as-default
+import HardBreak from '@tiptap/extension-hard-break'
+// eslint-disable-next-line import/no-named-as-default
+import Highlight from '@tiptap/extension-highlight'
+// eslint-disable-next-line import/no-named-as-default
+import TextStyle from '@tiptap/extension-text-style'
+// eslint-disable-next-line import/no-named-as-default
+import Color from '@tiptap/extension-color'
+// eslint-disable-next-line import/no-named-as-default
+import Subscript from '@tiptap/extension-subscript'
+// eslint-disable-next-line import/no-named-as-default
+import Superscript from '@tiptap/extension-superscript'
+// eslint-disable-next-line import/no-named-as-default
+import TextAlign from '@tiptap/extension-text-align'
+// eslint-disable-next-line import/no-named-as-default
+import Link from '@tiptap/extension-link'
+// eslint-disable-next-line import/no-named-as-default
+import Image from '@tiptap/extension-image'
+// eslint-disable-next-line import/no-named-as-default
+import TaskItem from '@tiptap/extension-task-item'
+// eslint-disable-next-line import/no-named-as-default
+import TaskList from '@tiptap/extension-task-list'
+// eslint-disable-next-line import/no-named-as-default
+import Youtube from '@tiptap/extension-youtube'
+// eslint-disable-next-line import/no-named-as-default
+import Table from '@tiptap/extension-table'
+// eslint-disable-next-line import/no-named-as-default
+import TableCell from '@tiptap/extension-table-cell'
+// eslint-disable-next-line import/no-named-as-default
+import TableHeader from '@tiptap/extension-table-header'
+// eslint-disable-next-line import/no-named-as-default
+import TableRow from '@tiptap/extension-table-row'
 
 const componentProps = defineProps<{modelValue?: string}>()
 const emits = defineEmits<{(e: 'update:model-value', newVal?: string): void}>()
@@ -242,9 +242,9 @@ const editor = useEditor({
   content: componentProps.modelValue,
   extensions: [
     StarterKit.configure({ heading: { levels: [2, 3, 4, 5, 6] } }),
-    HardBreak,
     Underline,
     Highlight.configure({ multicolor: true }),
+    HardBreak,
     TextStyle,
     Color.configure({ types: ['textStyle'] }),
     Subscript,

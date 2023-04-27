@@ -10,13 +10,16 @@
       </NuxtLink>
       <v-spacer />
       <div v-if="admin && adminUser" class="text-center">
-        <v-btn variant="text" to="/admin/articles">
+        <v-btn variant="text" to="/admin/articles" class="text-capitalize">
           Articles
         </v-btn>
-        <v-btn variant="text" to="/admin/utilisateurs">
+        <v-btn variant="text" to="/admin/utilisateurs" class="text-capitalize">
           Utilisateurs
         </v-btn>
       </div>
+      <v-btn variant="text" to="/à-propos" class="text-capitalize">
+        À propos
+      </v-btn>
       <v-btn icon="mdi-account" size="large" @click="isLogin('/profil')" />
     </v-app-bar>
 
