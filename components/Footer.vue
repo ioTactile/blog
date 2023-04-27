@@ -2,7 +2,7 @@
   <div>
     <v-footer color="background" class="py-4">
       <v-row>
-        <v-col cols="12" class="text-center mt-4">
+        <v-col cols="12" class="text-center text-md-h6 mt-4">
           © {{ new Date().getFullYear() }} - Réalisé par
           <a
             href="https://github.com/ioTactile"
