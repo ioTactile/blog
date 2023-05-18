@@ -1,5 +1,9 @@
 <template>
   <v-container>
+    <Head>
+      <Title>À Propos</Title>
+      <Meta name="description" content="Page où je présente le site et moi-même" />
+    </Head>
     <div class="content-container">
       <v-row>
         <v-col cols="12">
@@ -29,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+import { VContainer, VRow, VCol } from 'vuetify/components'
 </script>
 
   <style scoped>

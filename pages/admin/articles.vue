@@ -31,7 +31,7 @@
           <td>{{ dateFormatter(article.creationDate) }}</td>
           <td>
             <v-btn
-              icon="mdi-pencil"
+              :icon="mdiPencil"
               color="stroke"
               variant="text"
               @click="edit(article)"
@@ -49,7 +49,7 @@
               <div>Création d'une actualité</div>
               <v-spacer />
               <v-btn
-                icon="mdi-close"
+                :icon="mdiClose"
                 :disabled="loading || fileLoading"
                 variant="text"
                 @click="reset"
@@ -61,7 +61,7 @@
                   <v-text-field
                     v-model="title"
                     label="Titre"
-                    :rules="[(v) => !!v || 'Le titre est requis']"
+                    :rules="[(v: string) => !!v || 'Le titre est requis']"
                   />
                 </v-col>
                 <v-col cols="12">
@@ -112,7 +112,8 @@
 </template>
 
 <script lang="ts" async setup>
-import { VForm } from 'vuetify/components'
+import { mdiPencil, mdiClose } from '@mdi/js'
+import { VContainer, VForm, VTextField, VTextarea, VBtn, VSpacer, VDialog, VCard, VCardTitle, VCardText, VCardActions, VRow, VCol, VTable } from 'vuetify/components'
 import { collection, getDocs, setDoc, doc, query, orderBy, Timestamp } from 'firebase/firestore'
 import { useFirestore, useCurrentUser } from 'vuefire'
 import slugify from 'slugify'

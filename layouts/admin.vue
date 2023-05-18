@@ -12,8 +12,8 @@
 </template>
 
 <script lang="ts" setup>
+import { VApp, VMain } from 'vuetify/components'
 import { storeToRefs } from 'pinia'
-import { useCurrentUser } from 'vuefire'
 import { useStore } from '~/stores'
 import TestAllFeatures from '~/assets/feature-test'
 

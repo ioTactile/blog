@@ -15,3 +15,7 @@
     </v-footer>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { VFooter, VRow, VCol } from 'vuetify/components'
+</script>

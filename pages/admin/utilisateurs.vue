@@ -20,7 +20,7 @@
           <td>{{ getRole(user.role) }}</td>
           <td class="text-right">
             <v-btn
-              icon="mdi-delete"
+              :icon="mdiDelete"
               :disabled="removing !== null"
               :loading="removing === user.id"
               color="error"
@@ -40,7 +40,7 @@
               <div>Création d'un nouvel admin</div>
               <v-spacer />
               <v-btn
-                icon="mdi-close"
+                :icon="mdiClose"
                 variant="text"
                 :disabled="loading"
                 @click="dialog = false"
@@ -82,9 +82,9 @@
 </template>
 
 <script lang="ts" async setup>
-import { VForm } from 'vuetify/components'
+import { mdiDelete, mdiClose } from '@mdi/js'
+import { VContainer, VForm, VTable, VBtn, VDialog, VCard, VCardTitle, VCardText, VCardActions, VSpacer, VCheckbox } from 'vuetify/components'
 import { collection, getDocs } from 'firebase/firestore'
-import { useFirestore } from 'vuefire'
 import { useFirebaseFunctions } from '~/composables/useFirebaseFunctions'
 import { userConverter, LocalUserType } from '~/stores'
 

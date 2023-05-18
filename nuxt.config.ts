@@ -10,7 +10,10 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', 'nuxt-vuefire'],
   build: { transpile: ['vuetify'] },
   vite: { define: { 'process.env.DEBUG': false } },
-  typescript: { shim: false },
+  typescript: {
+    shim: false,
+    strict: true
+  },
   css: ['vuetify/styles', '~/assets/main.scss'],
   vuefire: {
     auth: true,

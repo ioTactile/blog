@@ -1,5 +1,9 @@
 <template>
   <v-container>
+    <Head>
+      <Title>{{ article.title }}</Title>
+      <Meta name="description" :content="article.description" />
+    </Head>
     <div class="container">
       <v-row align="center" justify="center">
         <v-col cols="12">
@@ -7,7 +11,7 @@
             {{ article.title }}
           </h2>
         </v-col>
-        <v-col cols="12" class="d-flex justify-center">
+        <v-col cols="12" class="d-flex justify-center pa-0 image-border">
           <v-img :src="article.images?.[0]?.url" />
         </v-col>
         <v-col cols="12" class="content-container">
@@ -27,9 +31,7 @@
           :to="`/articles/${previousArticle.slug}`"
           class="d-flex align-center pt-10 text-stroke text-decoration-none"
         >
-          <v-icon size="x-large">
-            mdi-arrow-left
-          </v-icon>
+          <v-icon size="x-large" :icon="mdiArrowLeft" />
           <span class="pl-2 text-h5">Précédent</span>
         </NuxtLink>
         <v-spacer />
@@ -39,9 +41,7 @@
           class="d-flex align-center pt-10 text-stroke text-decoration-none"
         >
           <span class="pr-2 text-h5">Suivant</span>
-          <v-icon size="x-large">
-            mdi-arrow-right
-          </v-icon>
+          <v-icon size="x-large" :icon="mdiArrowRight" />
         </NuxtLink>
       </div>
     </div>
@@ -49,8 +49,9 @@
 </template>
 
 <script lang="ts" async setup>
+import { VContainer, VRow, VCol, VImg, VIcon, VSpacer } from 'vuetify/components'
+import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
 import { collection, getDocs, query, orderBy } from '@firebase/firestore'
-import { useFirestore } from 'vuefire'
 import { articleConverter, LocalArticleType } from '~/stores'
 
 const db = useFirestore()
@@ -84,5 +85,9 @@ const dateFormatter = new Intl.DateTimeFormat('fr', {
 .content-container {
     max-width: 800px;
     margin: 0 auto;
+}
+
+.image-border {
+  border: 1px solid rgb(var(--v-theme-headline));
 }
 </style>

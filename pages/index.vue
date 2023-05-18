@@ -1,8 +1,12 @@
 <template>
   <v-container>
+    <Head>
+      <Title>ioTactile</Title>
+      <Meta name="description" content="Page d'accueil où l'on retrouve tous les liens vers les articles du blog" />
+    </Head>
     <v-row>
       <v-col v-for="article in articles" :key="article.id" cols="12">
-        <v-card :to="`/articles/${article.slug}`" elevation="0" rounded="O">
+        <v-card :to="`/articles/${article.slug}`" rounded="O" color="main">
           <v-row>
             <v-col cols="12" md="6">
               <storage-img
@@ -29,7 +33,7 @@
 
               <v-card-actions class="justify-center">
                 <div>Lire la suite</div>
-                <v-icon end icon="mdi-chevron-right" />
+                <v-icon end :icon="mdiChevronRight" />
               </v-card-actions>
             </v-col>
           </v-row>
@@ -40,6 +44,8 @@
 </template>
 
 <script lang="ts" async setup>
+import { VContainer, VRow, VCol, VIcon, VCard, VCardTitle, VCardText, VCardActions, VCardSubtitle } from 'vuetify/components'
+import { mdiChevronRight } from '@mdi/js'
 import { collection, query, orderBy, getDocs } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
 import { articleConverter } from '~/stores'

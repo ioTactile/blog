@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import { VImg } from 'vuetify/components'
 import { getDownloadURL, ref as storageRef } from 'firebase/storage'
 import { storeToRefs } from 'pinia'
 import { useFirebaseStorage } from 'vuefire'

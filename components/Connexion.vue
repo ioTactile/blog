@@ -11,7 +11,7 @@
           Blog de iotactile
         </span>
         <v-btn
-          icon="mdi-close"
+          :icon="mdiClose"
           variant="text"
           :disabled="loading !== null"
           @click="emits('update:modelValue', false)"
@@ -73,7 +73,8 @@
 </template>
 
 <script lang="ts" setup>
-import { VForm } from 'vuetify/components'
+import { VForm, VWindow, VWindowItem, VCard, VBtn, VCardText, VDialog, VTabs, VTab, VCardTitle } from 'vuetify/components'
+import { mdiClose } from '@mdi/js'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -84,7 +85,6 @@ import {
 } from 'firebase/auth'
 import { FirebaseError } from '@firebase/util'
 import { Timestamp, doc, setDoc } from 'firebase/firestore'
-import { useFirestore, useCurrentUser, useFirebaseAuth } from 'vuefire'
 import { userConverter } from '~/stores'
 
 const { notifier } = useNotifier()

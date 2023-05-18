@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk&display=swap');
-$font-family-title: 'Playfair Display';
 $font-family: 'Schibsted Grotesk';
 
 .v-application {
@@ -14,7 +12,3 @@ body {
   max-width: 1920px;
   margin: 0 auto;
 }
-
-// h1 {
-//   font-family: $font-family-title, serif !important;
-// }

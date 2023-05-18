@@ -1,10 +1,7 @@
-import '@mdi/font/css/materialdesignicons.css'
 import { createVuetify, ThemeDefinition } from 'vuetify'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 
-const myTheme: ThemeDefinition = {
+const myCustomLightTheme: ThemeDefinition = {
   dark: false,
   colors: {
     // Illustration
@@ -25,6 +22,27 @@ const myTheme: ThemeDefinition = {
   }
 }
 
+const myCustomDarkTheme: ThemeDefinition = {
+  dark: true,
+  colors: {
+    // Illustration
+    main: '#272343', // dark blue
+    secondary: '#2d334a', // dark blue
+    tertiary: '#3a405e', // dark blue
+    stroke: '#fffffe', // white
+    highlight: '#ffd803', // yellow
+    // Elements
+    background: '#1c1f2e', // dark background color
+    headline: '#fffffe', // white
+    paragraph: '#e3f6f5', // light blue
+    buttonBack: '#ffd803', // yellow
+    buttonText: '#fffffe', // white
+    // Events
+    error: '#ed4337', // red
+    success: '#4caf50' // green
+  }
+}
+
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     ssr: true,
@@ -34,11 +52,9 @@ export default defineNuxtPlugin((nuxtApp) => {
       sets: { mdi }
     },
     theme: {
-      defaultTheme: 'myTheme',
-      themes: { myTheme }
-    },
-    components,
-    directives
+      defaultTheme: 'myCustomLightTheme',
+      themes: { myCustomLightTheme, myCustomDarkTheme }
+    }
   })
 
   nuxtApp.vueApp.use(vuetify)

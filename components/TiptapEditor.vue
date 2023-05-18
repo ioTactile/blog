@@ -2,31 +2,31 @@
   <div>
     <v-toolbar height="48" color="white" border class="tiptap-toolbar">
       <v-btn variant="flat" :disabled="!editor?.can().undo()" @click="editor?.chain().focus().undo().run()">
-        <v-icon icon="mdi-undo" />
+        <v-icon :icon="mdiUndo" />
       </v-btn>
       <v-btn variant="flat" :disabled="!editor?.can().redo()" @click="editor?.chain().focus().redo().run()">
-        <v-icon icon="mdi-redo" />
+        <v-icon :icon="mdiRedo" />
       </v-btn>
 
       <v-btn variant="flat" :active="editor?.isActive('bold')" @click="editor?.chain().focus().toggleBold().run()">
-        <v-icon icon="mdi-format-bold" />
+        <v-icon :icon="mdiFormatBold" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('italic')" @click="editor?.chain().focus().toggleItalic().run()">
-        <v-icon icon="mdi-format-italic" />
+        <v-icon :icon="mdiFormatItalic" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('underline')" @click="editor?.chain().focus().toggleUnderline().run()">
-        <v-icon icon="mdi-format-underline" />
+        <v-icon :icon="mdiFormatUnderline" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('strike')" @click="editor?.chain().focus().toggleStrike().run()">
-        <v-icon icon="mdi-format-strikethrough" />
+        <v-icon :icon="mdiFormatStrikethrough" />
       </v-btn>
       <v-btn variant="flat" class="px-0 full-height-content" :active="editor?.isActive('textStyle', { color })" @click="editor?.chain().focus().setColor(color).run()">
-        <v-icon icon="mdi-format-color-text" size="x-large" class="mx-4" :style="{color}" />
+        <v-icon :icon="mdiFormatColorText" size="x-large" class="mx-4" :style="{color}" />
         <v-divider vertical />
         <v-menu :close-on-content-click="false">
           <template #activator="{ props }">
             <v-btn v-bind="props" class="px-0 h-100 custom-min-width" variant="flat">
-              <v-icon icon="mdi-arrow-down-drop-circle" size="small" />
+              <v-icon :icon="mdiArrowDownDropCircle" size="small" />
             </v-btn>
           </template>
           <v-color-picker v-model="color" show-swatches />
@@ -34,7 +34,7 @@
       </v-btn>
       <v-btn variant="flat" class="px-0 full-height-content" :active="editor?.isActive('highlight')" @click="editor?.chain().focus().toggleHighlight({ color: backgroundColor }).run()">
         <div class="d-flex align-center flex-column justify-center">
-          <v-icon icon="mdi-format-color-highlight" size="x-large" class="mx-4" />
+          <v-icon :icon="mdiFormatColorHighlight" size="x-large" class="mx-4" />
           <v-sheet
             tile
             height="4"
@@ -46,35 +46,35 @@
         <v-menu :close-on-content-click="false">
           <template #activator="{ props }">
             <v-btn v-bind="props" class="px-0 h-100 custom-min-width" variant="flat">
-              <v-icon icon="mdi-arrow-down-drop-circle" size="small" />
+              <v-icon :icon="mdiArrowDownDropCircle" size="small" />
             </v-btn>
           </template>
           <v-color-picker v-model="backgroundColor" show-swatches />
         </v-menu>
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('subscript')" @click="editor?.chain().focus().toggleSubscript().run()">
-        <v-icon icon="mdi-format-subscript" />
+        <v-icon :icon="mdiFormatSubscript" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('superscript')" @click="editor?.chain().focus().toggleSuperscript().run()">
-        <v-icon icon="mdi-format-superscript" />
+        <v-icon :icon="mdiFormatSuperscript" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('blockquote')" @click="editor?.chain().focus().toggleBlockquote().run()">
-        <v-icon icon="mdi-format-quote-open" />
+        <v-icon :icon="mdiFormatQuoteOpen" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('bulletList')" @click="editor?.chain().focus().toggleBulletList().run()">
-        <v-icon icon="mdi-format-list-bulleted" />
+        <v-icon :icon="mdiFormatListBulleted" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('orderedList')" @click="editor?.chain().focus().toggleOrderedList().run()">
-        <v-icon icon="mdi-format-list-numbered" />
+        <v-icon :icon="mdiFormatListNumbered" />
       </v-btn>
       <v-btn variant="flat" :active="editor?.isActive('taskList')" @click="editor?.chain().focus().toggleTaskList().run()">
-        <v-icon icon="mdi-format-list-checkbox" />
+        <v-icon :icon="mdiFormatListCheckbox" />
       </v-btn>
       <v-btn variant="flat" :disabled="!editor?.can().sinkListItem('listItem')" @click="editor?.chain().focus().sinkListItem('listItem').run()">
-        <v-icon icon="mdi-format-indent-increase" />
+        <v-icon :icon="mdiFormatIndentIncrease" />
       </v-btn>
       <v-btn variant="flat" :disabled="!editor?.can().liftListItem('listItem')" @click="editor?.chain().focus().liftListItem('listItem').run()">
-        <v-icon icon="mdi-format-indent-decrease" />
+        <v-icon :icon="mdiFormatIndentDecrease" />
       </v-btn>
       <v-btn variant="flat" @click="editor?.chain().focus().setHorizontalRule().run()">
         _
@@ -84,12 +84,12 @@
       </v-btn>
 
       <v-btn variant="flat" :disabled="!editor?.isActive('link')" @click="editor?.chain().focus().unsetLink().run()">
-        <v-icon icon="mdi-link-off" />
+        <v-icon :icon="mdiLinkOff" />
       </v-btn>
       <v-menu :close-on-content-click="false" width="300">
         <template #activator="{ props }">
           <v-btn v-bind="props" variant="flat">
-            <v-icon icon="mdi-link" size="large" />
+            <v-icon :icon="mdiLink" size="large" />
           </v-btn>
         </template>
         <div class="bg-white pa-6">
@@ -106,7 +106,7 @@
       <v-menu :close-on-content-click="false" width="300">
         <template #activator="{ props }">
           <v-btn v-bind="props" variant="flat">
-            <v-icon icon="mdi-image" size="large" />
+            <v-icon :icon="mdiImage" size="large" />
           </v-btn>
         </template>
         <div class="bg-white pa-6">
@@ -123,7 +123,7 @@
       <v-menu :close-on-content-click="false" width="300">
         <template #activator="{ props }">
           <v-btn v-bind="props" variant="flat">
-            <v-icon icon="mdi-video" size="large" />
+            <v-icon :icon="mdiVideo" size="large" />
           </v-btn>
         </template>
         <div class="bg-white pa-6">
@@ -139,53 +139,53 @@
       </v-menu>
 
       <v-btn-toggle divided>
-        <v-btn icon="mdi-format-header-2" :active="editor?.isActive('heading', { level: 2 })" @click="editor?.chain().focus().toggleHeading({ level: 2 }).run()" />
-        <v-btn icon="mdi-format-header-3" :active="editor?.isActive('heading', { level: 3 })" @click="editor?.chain().focus().toggleHeading({ level: 3 }).run()" />
-        <v-btn icon="mdi-format-header-4" :active="editor?.isActive('heading', { level: 4 })" @click="editor?.chain().focus().toggleHeading({ level: 4 }).run()" />
-        <v-btn icon="mdi-format-header-5" :active="editor?.isActive('heading', { level: 5 })" @click="editor?.chain().focus().toggleHeading({ level: 5 }).run()" />
-        <v-btn icon="mdi-format-header-6" :active="editor?.isActive('heading', { level: 6 })" @click="editor?.chain().focus().toggleHeading({ level: 6 }).run()" />
+        <v-btn :icon="mdiFormatHeader2" :active="editor?.isActive('heading', { level: 2 })" @click="editor?.chain().focus().toggleHeading({ level: 2 }).run()" />
+        <v-btn :icon="mdiFormatHeader3" :active="editor?.isActive('heading', { level: 3 })" @click="editor?.chain().focus().toggleHeading({ level: 3 }).run()" />
+        <v-btn :icon="mdiFormatHeader4" :active="editor?.isActive('heading', { level: 4 })" @click="editor?.chain().focus().toggleHeading({ level: 4 }).run()" />
+        <v-btn :icon="mdiFormatHeader5" :active="editor?.isActive('heading', { level: 5 })" @click="editor?.chain().focus().toggleHeading({ level: 5 }).run()" />
+        <v-btn :icon="mdiFormatHeader6" :active="editor?.isActive('heading', { level: 6 })" @click="editor?.chain().focus().toggleHeading({ level: 6 }).run()" />
       </v-btn-toggle>
 
       <v-btn-toggle mandatory divided @update:model-value="editor?.chain().focus().setTextAlign($event).run()">
-        <v-btn :active="editor?.isActive({ textAlign: 'left' })" icon="mdi-format-align-left" value="left" />
-        <v-btn :active="editor?.isActive({ textAlign: 'center' })" icon="mdi-format-align-center" value="center" />
-        <v-btn :active="editor?.isActive({ textAlign: 'right' })" icon="mdi-format-align-right" value="right" />
-        <v-btn :active="editor?.isActive({ textAlign: 'justify' })" icon="mdi-format-align-justify" value="justify" />
+        <v-btn :active="editor?.isActive({ textAlign: 'left' })" :icon="mdiFormatAlignLeft" value="left" />
+        <v-btn :active="editor?.isActive({ textAlign: 'center' })" :icon="mdiFormatAlignCenter" value="center" />
+        <v-btn :active="editor?.isActive({ textAlign: 'right' })" :icon="mdiFormatAlignRight" value="right" />
+        <v-btn :active="editor?.isActive({ textAlign: 'justify' })" :icon="mdiFormatAlignJustify" value="justify" />
       </v-btn-toggle>
 
       <div>
         <v-btn variant="flat" @click="editor?.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })">
-          <v-icon icon="mdi-table-plus" />
+          <v-icon :icon="mdiTablePlus" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().addColumnBefore().run()">
-          <v-icon icon="mdi-table-column-plus-before" />
+          <v-icon :icon="mdiTableColumnPlusBefore" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().addColumnAfter().run()">
-          <v-icon icon="mdi-table-column-plus-after" />
+          <v-icon :icon="mdiTableColumnPlusAfter" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().deleteColumn().run()">
-          <v-icon icon="mdi-table-column-remove" />
+          <v-icon :icon="mdiTableColumnRemove" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().addRowBefore().run()">
-          <v-icon icon="mdi-table-row-plus-before" />
+          <v-icon :icon="mdiTableRowPlusBefore" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().addRowAfter().run()">
-          <v-icon icon="mdi-table-row-plus-after" />
+          <v-icon :icon="mdiTableRowPlusAfter" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().deleteRow().run()">
-          <v-icon icon="mdi-table-row-remove" />
+          <v-icon :icon="mdiTableRowRemove" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().mergeCells().run()">
-          <v-icon icon="mdi-table-merge-cells" />
+          <v-icon :icon="mdiTableMergeCells" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().splitCell().run()">
-          <v-icon icon="mdi-table-split-cell" />
+          <v-icon :icon="mdiTableSplitCell" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().toggleHeaderCell().run()">
-          <v-icon icon="mdi-table-border" />
+          <v-icon :icon="mdiTableBorder" />
         </v-btn>
         <v-btn variant="flat" :disabled="!editor?.isActive('table')" @click="editor?.chain().focus().deleteTable().run()">
-          <v-icon icon="mdi-table-off" />
+          <v-icon :icon="mdiTableOff" />
         </v-btn>
       </div>
     </v-toolbar>
@@ -197,6 +197,8 @@
 </template>
 
 <script lang="ts" setup>
+import { VBtn, VSheet, VIcon, VToolbar, VBtnToggle, VMenu, VTextField, VForm, VColorPicker, VDivider } from 'vuetify/components'
+import { mdiArrowDownDropCircle, mdiFormatAlignCenter, mdiFormatAlignJustify, mdiFormatAlignLeft, mdiFormatAlignRight, mdiFormatBold, mdiFormatColorHighlight, mdiFormatColorText, mdiFormatHeader2, mdiFormatHeader3, mdiFormatHeader4, mdiFormatHeader5, mdiFormatHeader6, mdiFormatIndentDecrease, mdiFormatIndentIncrease, mdiFormatItalic, mdiFormatListBulleted, mdiFormatListCheckbox, mdiFormatListNumbered, mdiFormatQuoteOpen, mdiFormatStrikethrough, mdiFormatSubscript, mdiFormatSuperscript, mdiFormatUnderline, mdiImage, mdiLink, mdiLinkOff, mdiRedo, mdiTableBorder, mdiTableColumnPlusAfter, mdiTableColumnPlusBefore, mdiTableColumnRemove, mdiTableMergeCells, mdiTableOff, mdiTablePlus, mdiTableRowPlusAfter, mdiTableRowPlusBefore, mdiTableRowRemove, mdiTableSplitCell, mdiUndo, mdiVideo } from '@mdi/js'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 // eslint-disable-next-line import/no-named-as-default
 import StarterKit from '@tiptap/starter-kit'
@@ -258,7 +260,8 @@ const editor = useEditor({
     Table.configure({ resizable: true }),
     TableCell,
     TableHeader,
-    TableRow
+    TableRow,
+    HardBreaker
   ],
   onUpdate: () => emits('update:model-value', editor.value?.getHTML())
 })

@@ -1,5 +1,9 @@
 <template>
   <v-container>
+    <Head>
+      <Title>Profil</Title>
+      <Meta name="description" content="Page où l'on retrouve les informations utilisateur" />
+    </Head>
     <v-row>
       <v-col cols="12">
         <v-card rounded="0" color="main" elevation="0">
@@ -8,13 +12,13 @@
               Mon profil
             </h2>
             <v-btn
-              icon="mdi-dots-vertical"
+              :icon="mdiDotsVertical"
               variant="text"
               @click="openDeleteUser = !openDeleteUser"
             />
           </v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="updateProfile">
+            <v-form ref="form" @submit.prevent="updateProfile">
               <div class="d-flex">
                 <v-text-field
                   v-model="firstName"
@@ -33,7 +37,7 @@
                 />
                 <v-btn
                   class="ml-2"
-                  icon="mdi-pencil"
+                  :icon="mdiPencil"
                   variant="text"
                   @click="isChange()"
                 />
@@ -88,9 +92,10 @@
 </template>
 
 <script lang="ts" setup>
+import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VForm, VTextField, VBtn, VDivider } from 'vuetify/components'
+import { mdiDotsVertical, mdiPencil } from '@mdi/js'
 import { deleteUser, getIdTokenResult, signOut } from '@firebase/auth'
 import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore'
-import { useFirestore } from 'vuefire'
 import { userConverter } from '~/stores'
 
 const { notifier } = useNotifier()
@@ -104,6 +109,7 @@ const change = ref(false)
 const openDeleteUser = ref(false)
 const firstName = ref<string>()
 const lastName = ref<string>()
+const form = ref(VForm)
 
 const isChange = () => {
   if (!change.value) {
@@ -131,7 +137,9 @@ onMounted(async () => {
 })
 
 const updateProfile = async () => {
+  if (!user.value || !(await form.value?.validate())?.valid) { return }
   loading.value = true
+
   try {
     if (user.value) {
       const userId = user.value.uid

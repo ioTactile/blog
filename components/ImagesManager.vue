@@ -20,7 +20,7 @@
             :clearable="false"
             :multiple="!unique"
             :accept="video ? 'video/*' : 'image/png,image/jpeg,image/svg+xml'"
-            :prepend-icon="video ? 'mdi-video' : 'mdi-image'"
+            :prepend-icon="video ? mdiVideo : mdiImage"
             :label="fileInputLabel"
           >
             <template #progress>
@@ -69,10 +69,10 @@
                 <template #item="{ element, index }">
                   <tr>
                     <td class="icon-container">
-                      <v-icon>mdi-drag</v-icon>
+                      <v-icon :icon="mdiDrag" />
                     </td>
                     <td v-if="allowCopy">
-                      <v-btn icon="mdi-content-copy" variant="text" :disabled="!element.url" @click="copy(element.url)" />
+                      <v-btn :icon="mdiContentCopy" variant="text" :disabled="!element.url" @click="copy(element.url)" />
                     </td>
                     <td class="text-left">
                       <VideoManager v-if="video" controls :src="element.ref" />
@@ -97,16 +97,15 @@
                             :size="isHovering ? 47 : 45"
                             class="pointer"
                             :class="isHovering ? 'elevation-12' : 'elevation-2'"
+                            :icon="mdiFilePdfBox"
                             @click="displayPdfFile(element)"
-                          >
-                            mdi-file-pdf-box
-                          </v-icon>
+                          />
                         </v-hover>
                       </template>
                     </td>
                     <td>
                       <v-btn
-                        icon="mdi-delete"
+                        :icon="mdiDelete"
                         color="red"
                         variant="text"
                         :loading="(fileRemoving === index)"
@@ -114,7 +113,7 @@
                       />
                       <v-tooltip v-if="index === 0" location="top" text="Image par défaut">
                         <template #activator="{ props: attrs }">
-                          <v-icon icon="mdi-crown" color="primary" dark v-bind="attrs" />
+                          <v-icon :icon="mdiCrown" color="primary" dark v-bind="attrs" />
                         </template>
                       </v-tooltip>
                     </td>
@@ -130,6 +129,8 @@
 </template>
 
 <script lang="ts" setup>
+import { VCard, VCardTitle, VCardText, VFileInput, VProgressLinear, VDivider, VTable, VBtn, VIcon, VTooltip, VChip, VRow, VCol, VContainer } from 'vuetify/components'
+import { mdiDrag, mdiContentCopy, mdiFilePdfBox, mdiCrown, mdiVideo, mdiImage, mdiDelete } from '@mdi/js'
 import draggable from 'vuedraggable'
 import {
   ref as storageRef,
