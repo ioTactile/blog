@@ -1,114 +1,120 @@
 <template>
-  <v-container>
-    <div class="pb-4">
-      <v-btn color="buttonBack" @click="createArticle">
-        Ajouter un article
-      </v-btn>
-    </div>
+  <div>
+    <Head>
+      <Title>Articles - ioTactile</Title>
+      <Meta name="description" content="Page où je rédige les articles - ioTactile" />
+    </Head>
+    <v-container>
+      <div class="pb-4">
+        <v-btn color="buttonBack" @click="createArticle">
+          Ajouter un article
+        </v-btn>
+      </div>
 
-    <v-table>
-      <thead>
-        <tr>
-          <th>Image principale</th>
-          <th>Titre</th>
-          <th>Description</th>
-          <th>Date de création</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="article in articles" :key="article.id">
-          <td>
-            <storage-img
-              :storage-src="article.images?.[0]?.url"
-              width="100"
-              height="100"
-              contain
-            />
-          </td>
-          <td>{{ article.title }}</td>
-          <td>{{ article.description }}</td>
-          <td>{{ dateFormatter(article.creationDate) }}</td>
-          <td>
-            <v-btn
-              :icon="mdiPencil"
-              color="stroke"
-              variant="text"
-              @click="edit(article)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
-
-    <client-only>
-      <v-dialog v-model="dialog" :persistent="loading || fileLoading">
-        <v-card>
-          <v-form ref="form" @submit.prevent="saveArticle">
-            <v-card-title class="d-flex align-center">
-              <div>Création d'une actualité</div>
-              <v-spacer />
-              <v-btn
-                :icon="mdiClose"
-                :disabled="loading || fileLoading"
-                variant="text"
-                @click="reset"
+      <v-table>
+        <thead>
+          <tr>
+            <th>Image principale</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Date de création</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="article in articles" :key="article.id">
+            <td>
+              <storage-img
+                :storage-src="article.images?.[0]?.url"
+                width="100"
+                height="100"
+                contain
               />
-            </v-card-title>
-            <v-card-text>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="title"
-                    label="Titre"
-                    :rules="[(v: string) => !!v || 'Le titre est requis']"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-textarea
-                    v-model="description"
-                    label="Description"
-                    rows="2"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <images-manager
-                    ref="imageManager"
-                    v-model="images"
-                    :slug="id || ''"
-                    collection="articles"
-                    :max-height="1000"
-                    @file-loading="fileLoading = $event"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <tiptap-editor v-model="content" />
-                </v-col>
-              </v-row>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn :loading="removing" :disabled="loading || fileLoading" color="error" @click="removeArticle">
-                Supprimer
-              </v-btn>
-              <v-spacer />
-              <v-btn variant="text" :disabled="loading || fileLoading || removing" @click="reset">
-                Annuler
-              </v-btn>
+            </td>
+            <td>{{ article.title }}</td>
+            <td>{{ article.description }}</td>
+            <td>{{ dateFormatter(article.creationDate) }}</td>
+            <td>
               <v-btn
-                color="buttonBack"
-                type="submit"
-                variant="elevated"
-                :loading="loading"
-                :disabled="fileLoading || removing"
-              >
-                Enregistrer
-              </v-btn>
-            </v-card-actions>
-          </v-form>
-        </v-card>
-      </v-dialog>
-    </client-only>
-  </v-container>
+                :icon="mdiPencil"
+                color="stroke"
+                variant="text"
+                @click="edit(article)"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
+
+      <client-only>
+        <v-dialog v-model="dialog" :persistent="loading || fileLoading">
+          <v-card>
+            <v-form ref="form" @submit.prevent="saveArticle">
+              <v-card-title class="d-flex align-center">
+                <div>Création d'une actualité</div>
+                <v-spacer />
+                <v-btn
+                  :icon="mdiClose"
+                  :disabled="loading || fileLoading"
+                  variant="text"
+                  @click="reset"
+                />
+              </v-card-title>
+              <v-card-text>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="title"
+                      label="Titre"
+                      :rules="[(v: string) => !!v || 'Le titre est requis']"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea
+                      v-model="description"
+                      label="Description"
+                      rows="2"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <images-manager
+                      ref="imageManager"
+                      v-model="images"
+                      :slug="id || ''"
+                      collection="articles"
+                      :max-height="1000"
+                      @file-loading="fileLoading = $event"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <tiptap-editor v-model="content" />
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn :loading="removing" :disabled="loading || fileLoading" color="error" @click="removeArticle">
+                  Supprimer
+                </v-btn>
+                <v-spacer />
+                <v-btn variant="text" :disabled="loading || fileLoading || removing" @click="reset">
+                  Annuler
+                </v-btn>
+                <v-btn
+                  color="buttonBack"
+                  type="submit"
+                  variant="elevated"
+                  :loading="loading"
+                  :disabled="fileLoading || removing"
+                >
+                  Enregistrer
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-dialog>
+      </client-only>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts" async setup>

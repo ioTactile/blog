@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar color="background" height="80">
-      <v-app-bar-nav-icon class="d-block d-sm-none" @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon class="d-block d-sm-none" @click="toggleDrawer" />
       <v-spacer class="d-block d-sm-none" />
       <NuxtLink to="/" class="text-decoration-none ml-4">
         <v-img src="/iotactile.png" height="50" :width="xs ? '140' : '200'" />
@@ -69,6 +69,10 @@ const isLogin = (path: string) => {
   } else {
     navigateTo(path)
   }
+}
+
+const toggleDrawer = () => {
+  drawer.value = !drawer.value
 }
 
 const toggleTheme = () => {

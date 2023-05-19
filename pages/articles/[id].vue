@@ -1,51 +1,53 @@
 <template>
-  <v-container>
+  <div>
     <Head>
-      <Title>{{ article.title }}</Title>
+      <Title>{{ article.title + ' - ioTactile' }}</Title>
       <Meta name="description" :content="article.description" />
     </Head>
-    <div class="container">
-      <v-row align="center" justify="center">
-        <v-col cols="12">
-          <h2 class="pt-12 pb-4 font-weight-bold text-h4 text-sm-h3 text-center text-sm-left">
-            {{ article.title }}
-          </h2>
-        </v-col>
-        <v-col cols="12" class="d-flex justify-center pa-0 image-border">
-          <v-img :src="article.images?.[0]?.url" />
-        </v-col>
-        <v-col cols="12" class="content-container">
-          <div class="text-subtitle-2 text-sm-subtitle-1 ">
-            Publié {{ dateFormatter(article.creationDate) }}
-          </div>
-          <div class="font-weight-bold text-h6 text-sm-h5 py-4">
-            {{ article.description }}
-          </div>
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <div class="pt-10" v-html="article.content" />
-        </v-col>
-      </v-row>
-      <div class="d-flex">
-        <NuxtLink
-          v-if="previousArticle"
-          :to="`/articles/${previousArticle.slug}`"
-          class="d-flex align-center pt-10 text-stroke text-decoration-none"
-        >
-          <v-icon size="x-large" :icon="mdiArrowLeft" />
-          <span class="pl-2 text-h5">Précédent</span>
-        </NuxtLink>
-        <v-spacer />
-        <NuxtLink
-          v-if="nextArticle"
-          :to="`/articles/${nextArticle.slug}`"
-          class="d-flex align-center pt-10 text-stroke text-decoration-none"
-        >
-          <span class="pr-2 text-h5">Suivant</span>
-          <v-icon size="x-large" :icon="mdiArrowRight" />
-        </NuxtLink>
+    <v-container>
+      <div class="container">
+        <v-row align="center" justify="center">
+          <v-col cols="12">
+            <h2 class="pt-12 pb-4 font-weight-bold text-h4 text-sm-h3 text-center text-sm-left">
+              {{ article.title }}
+            </h2>
+          </v-col>
+          <v-col cols="12" class="d-flex justify-center pa-0 image-border">
+            <v-img :src="article.images?.[0]?.url" />
+          </v-col>
+          <v-col cols="12" class="content-container">
+            <div class="text-subtitle-2 text-sm-subtitle-1 ">
+              Publié {{ dateFormatter(article.creationDate) }}
+            </div>
+            <div class="font-weight-bold text-h6 text-sm-h5 py-4">
+              {{ article.description }}
+            </div>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <div class="pt-10" v-html="article.content" />
+          </v-col>
+        </v-row>
+        <div class="d-flex">
+          <NuxtLink
+            v-if="previousArticle"
+            :to="`/articles/${previousArticle.slug}`"
+            class="d-flex align-center pt-10 text-stroke text-decoration-none"
+          >
+            <v-icon size="x-large" :icon="mdiArrowLeft" />
+            <span class="pl-2 text-h5">Précédent</span>
+          </NuxtLink>
+          <v-spacer />
+          <NuxtLink
+            v-if="nextArticle"
+            :to="`/articles/${nextArticle.slug}`"
+            class="d-flex align-center pt-10 text-stroke text-decoration-none"
+          >
+            <span class="pr-2 text-h5">Suivant</span>
+            <v-icon size="x-large" :icon="mdiArrowRight" />
+          </NuxtLink>
+        </div>
       </div>
-    </div>
-  </v-container>
+    </v-container>
+  </div>
 </template>
 
 <script lang="ts" async setup>
