@@ -22,7 +22,13 @@
       <v-btn :icon="mdiAccount" size="large" @click="isLogin('/profil')" />
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" width="200" color="background">
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+      width="200"
+      color="background"
+    >
       <v-list nav>
         <v-list-item to="/about">
           À Propos
@@ -61,6 +67,8 @@ onMounted(async () => {
   }
   const { claims } = await getIdTokenResult(user.value, true)
   adminUser.value = claims.admin
+
+  localStorage.getItem('theme') === 'myCustomDarkTheme' ? theme.global.name.value = 'myCustomDarkTheme' : theme.global.name.value = 'myCustomLightTheme'
 })
 
 const isLogin = (path: string) => {
@@ -77,5 +85,7 @@ const toggleDrawer = () => {
 
 const toggleTheme = () => {
   theme.global.name.value = theme.name.value === 'myCustomLightTheme' ? 'myCustomDarkTheme' : 'myCustomLightTheme'
+
+  localStorage.setItem('theme', theme.global.name.value)
 }
 </script>

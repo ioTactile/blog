@@ -4,7 +4,7 @@
       <Title>Accueil - ioTactile</Title>
       <Meta name="description" :content="content" />
     </Head>
-    <v-container>
+    <v-container class="container">
       <v-row>
         <v-col v-for="article in articles" :key="article.id" cols="12">
           <v-card :to="`/articles/${article.slug}`" rounded="O" color="main">
@@ -71,3 +71,9 @@ const dateFormatter = new Intl.DateTimeFormat('fr', {
   minute: '2-digit'
 }).format
 </script>
+
+<style scoped>
+.container {
+  max-width: 1080px;
+}
+</style>

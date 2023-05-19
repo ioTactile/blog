@@ -4,7 +4,7 @@
       <Title>Profil - ioTactile</Title>
       <Meta name="description" content="Page où l'on retrouve les informations utilisateur - ioTactile" />
     </Head>
-    <v-container>
+    <v-container class="container">
       <v-row>
         <v-col cols="12">
           <v-card rounded="0" color="main" elevation="0">
@@ -210,3 +210,9 @@ const logout = async () => {
   }
 }
 </script>
+
+<style scoped>
+.container {
+  max-width: 1080px;
+}
+</style>
