@@ -80,7 +80,7 @@
                 v-if="userClaims?.admin"
                 class="mt-4"
                 block
-                color="buttonText"
+                color="logo"
                 to="/admin"
               >
                 Espace d'administration

@@ -8,6 +8,7 @@ const myCustomLightTheme: ThemeDefinition = {
     main: '#fffffe', // white
     secondary: '#e3f6f5', // light blue
     tertiary: '#bae8e8', // light blue
+    logo: '#d9c9ba', // light brown
     stroke: '#272343', // dark blue
     highlight: '#ffd803', // yellow
     // Elements
@@ -29,6 +30,7 @@ const myCustomDarkTheme: ThemeDefinition = {
     main: '#272343', // dark blue
     secondary: '#2d334a', // dark blue
     tertiary: '#3a405e', // dark blue
+    logo: '#d9c9ba', // light brown
     stroke: '#fffffe', // white
     highlight: '#ffd803', // yellow
     // Elements
