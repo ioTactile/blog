@@ -34,7 +34,7 @@ const myCustomDarkTheme: ThemeDefinition = {
     stroke: '#fffffe', // white
     highlight: '#ffd803', // yellow
     // Elements
-    background: '#1c1f2e', // dark background color
+    background: '#1c1f2e', // dark
     headline: '#fffffe', // white
     paragraph: '#e3f6f5', // light blue
     buttonBack: '#ffd803', // yellow
