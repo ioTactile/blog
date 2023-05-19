@@ -260,8 +260,7 @@ const editor = useEditor({
     Table.configure({ resizable: true }),
     TableCell,
     TableHeader,
-    TableRow,
-    HardBreaker
+    TableRow
   ],
   onUpdate: () => emits('update:model-value', editor.value?.getHTML())
 })
