@@ -190,7 +190,7 @@
       </div>
     </v-toolbar>
 
-    <v-sheet border>
+    <v-sheet border class="container-editor">
       <EditorContent :editor="editor" />
     </v-sheet>
   </div>
@@ -253,7 +253,7 @@ const editor = useEditor({
     Superscript,
     TextAlign.configure({ types: ['heading', 'paragraph'] }),
     Link.configure({ protocols: ['mailto'] }),
-    Image,
+    Image.configure({ inline: true, allowBase64: true }),
     TaskList,
     TaskItem.configure({ nested: true }),
     Youtube.configure({ modestBranding: true }),
@@ -288,6 +288,13 @@ onBeforeUnmount(() => editor.value?.destroy())
   padding: 24px;
 }
 
+.container-editor {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 .full-height-content {
   .v-btn__content {
     height: 100%
@@ -303,4 +310,5 @@ onBeforeUnmount(() => editor.value?.destroy())
     height: auto!important;
   }
 }
+
 </style>
