@@ -49,11 +49,8 @@ export type Article = {
 }
 
 export type Comment = {
-  id: string
-  articleId: string
-  userId?: string
   firstName: string
   lastName: string
   content: string
-  creationDate: Timestamp
+  createdAt: Timestamp
 }

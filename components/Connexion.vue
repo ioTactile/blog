@@ -113,9 +113,9 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   AuthErrorCodes,
-  getIdTokenResult,
-  ParsedToken
+  getIdTokenResult
 } from 'firebase/auth'
+import type { ParsedToken } from 'firebase/auth'
 import { FirebaseError } from '@firebase/util'
 import { Timestamp, doc, setDoc } from 'firebase/firestore'
 import { userConverter } from '~/stores'

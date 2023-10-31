@@ -111,7 +111,8 @@ import {
 } from 'vuetify/components'
 import { collection, getDocs } from 'firebase/firestore'
 import { useFirebaseFunctions } from '~/composables/useFirebaseFunctions'
-import { userConverter, LocalUserType } from '~/stores'
+import { userConverter } from '~/stores'
+import type { LocalUserType } from '~/stores'
 
 definePageMeta({ layout: 'admin' })
 

@@ -1,100 +1,91 @@
 <template>
-  <div>
-    <Head>
-      <Title>Profil - ioTactile</Title>
-      <Meta
-        name="description"
-        content="Page où l'on retrouve les informations utilisateur - ioTactile"
-      />
-    </Head>
-    <v-container class="container">
-      <v-row>
-        <v-col cols="12">
-          <v-card rounded="0" color="main" elevation="0">
-            <v-card-title class="d-flex justify-space-between align-center">
-              <h2 class="text-h5">Mon profil</h2>
-              <v-btn
-                :icon="mdiDotsVertical"
-                variant="text"
-                @click="openDeleteUser = !openDeleteUser"
-              />
-            </v-card-title>
-            <v-card-text>
-              <v-form ref="form" @submit.prevent="updateProfile">
-                <div class="d-flex">
-                  <v-text-field
-                    v-model="firstName"
-                    :disabled="!change"
-                    type="text"
-                    label="Prénom"
-                    variant="outlined"
-                  />
-                  <v-text-field
-                    v-model="lastName"
-                    :disabled="!change"
-                    type="text"
-                    label="Nom"
-                    variant="outlined"
-                    class="ml-2"
-                  />
-                  <v-btn
-                    class="ml-2"
-                    :icon="mdiPencil"
-                    variant="text"
-                    @click="isChange()"
-                  />
-                </div>
+  <v-container class="container">
+    <v-row>
+      <v-col cols="12">
+        <v-card rounded="0" color="main" elevation="0">
+          <v-card-title class="d-flex justify-space-between align-center">
+            <h2 class="text-h5">Mon profil</h2>
+            <v-btn
+              :icon="mdiDotsVertical"
+              variant="text"
+              @click="openDeleteUser = !openDeleteUser"
+            />
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="form" @submit.prevent="updateProfile">
+              <div class="d-flex">
+                <v-text-field
+                  v-model="firstName"
+                  :disabled="!change"
+                  type="text"
+                  label="Prénom"
+                  variant="outlined"
+                />
+                <v-text-field
+                  v-model="lastName"
+                  :disabled="!change"
+                  type="text"
+                  label="Nom"
+                  variant="outlined"
+                  class="ml-2"
+                />
                 <v-btn
-                  v-if="change"
-                  block
-                  type="submit"
-                  color="buttonBack"
-                  :loadind="loading"
-                >
-                  Modifier
-                </v-btn>
-              </v-form>
-            </v-card-text>
-            <v-divider />
-            <v-card-text>
+                  class="ml-2"
+                  :icon="mdiPencil"
+                  variant="text"
+                  @click="isChange()"
+                />
+              </div>
               <v-btn
-                class="mt-2"
+                v-if="change"
                 block
-                color="highlight"
-                :disabled="loading"
-                @click="logout"
-              >
-                Se déconnecter
-              </v-btn>
-              <v-btn
-                v-if="openDeleteUser"
-                class="mt-4"
-                block
+                type="submit"
                 color="buttonBack"
-                variant="outlined"
-                :disabled="loading"
-                @click="deleteProfile"
+                :loadind="loading"
               >
-                Supprimer votre compte
+                Modifier
               </v-btn>
-              <v-btn
-                v-if="userClaims?.admin"
-                class="mt-4"
-                block
-                color="logo"
-                to="/admin"
-              >
-                Espace d'administration
-              </v-btn>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+            </v-form>
+          </v-card-text>
+          <v-divider />
+          <v-card-text>
+            <v-btn
+              class="mt-2"
+              block
+              color="highlight"
+              :disabled="loading"
+              @click="logout"
+            >
+              Se déconnecter
+            </v-btn>
+            <v-btn
+              v-if="openDeleteUser"
+              class="mt-4"
+              block
+              color="buttonBack"
+              variant="outlined"
+              :disabled="loading"
+              @click="deleteProfile"
+            >
+              Supprimer votre compte
+            </v-btn>
+            <v-btn
+              v-if="userClaims?.admin"
+              class="mt-4"
+              block
+              color="logo"
+              to="/admin"
+            >
+              Espace d'administration
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import {
   VContainer,
   VRow,
@@ -124,6 +115,16 @@ const openDeleteUser = ref(false)
 const firstName = ref<string>()
 const lastName = ref<string>()
 const form = ref(VForm)
+
+useSeoMeta({
+  title: 'Profil',
+  ogTitle: 'Profil - ioTactile',
+  description: "Page où l'on retrouve les informations utilisateur",
+  ogDescription:
+    "Page où l'on retrouve les informations utilisateur - ioTactile",
+  ogImage: '/iotactile.png',
+  ogUrl: 'https://iotactile.com/profil'
+})
 
 const isChange = () => {
   if (!change.value) {

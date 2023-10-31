@@ -78,9 +78,9 @@ const { xs } = useDisplay()
 const theme = useTheme()
 const user = useCurrentUser()
 
-const login = ref(false)
-const adminUser = ref(false)
-const drawer = ref(false)
+const login = ref<boolean>(false)
+const adminUser = ref<boolean | unknown>(false)
+const drawer = ref<boolean>(false)
 
 defineProps<{ admin?: boolean }>()
 

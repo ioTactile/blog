@@ -1,10 +1,11 @@
 import {
-  FirestoreDataConverter,
   QueryDocumentSnapshot,
   Timestamp as FirestoreTimestamp
 } from '@firebase/firestore'
+import type { FirestoreDataConverter } from '@firebase/firestore'
 import { defineStore } from 'pinia'
-import { Timestamp, User, Article } from '~/functions/src/types'
+import { Timestamp } from '~/functions/src/types'
+import type { User, Article } from '~/functions/src/types'
 
 export const useStore = defineStore('main', () => {
   const av1Support = ref<null | boolean>(null)
@@ -66,12 +67,14 @@ export const articleConverter: FirestoreDataConverter<LocalArticleType> = {
     options
   ) => {
     const data = snapshot.data(options)
-    const comments = data.comments?.map((comment) => {
-      return {
-        ...comment,
-        creationDate: comment.creationDate.toDate()
-      }
-    })
+    const comments = data.comments
+      ? data.comments.map((comment) => {
+          return {
+            ...comment,
+            createdAt: comment.createdAt.toDate()
+          }
+        })
+      : []
 
     return {
       ...data,

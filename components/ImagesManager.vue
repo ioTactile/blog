@@ -23,16 +23,9 @@
             :prepend-icon="video ? mdiVideo : mdiImage"
             :label="fileInputLabel"
           >
-            <template #progress>
-              <v-progress-linear
-                absolute
-                height="2"
-                :model-value="uploadProgress"
-              />
-            </template>
-            <template #selection="{ text }">
+            <template #selection="{ fileNames }">
               <v-chip small label color="primary">
-                {{ text }}
+                {{ fileNames.join(', ') }}
               </v-chip>
             </template>
           </v-file-input>
@@ -149,7 +142,6 @@ import {
   VCardTitle,
   VCardText,
   VFileInput,
-  VProgressLinear,
   VDivider,
   VTable,
   VBtn,
@@ -158,7 +150,8 @@ import {
   VChip,
   VRow,
   VCol,
-  VContainer
+  VContainer,
+  VHover
 } from 'vuetify/components'
 import {
   mdiDrag,
@@ -174,9 +167,9 @@ import {
   ref as storageRef,
   deleteObject,
   uploadBytesResumable,
-  getDownloadURL,
-  StorageReference
+  getDownloadURL
 } from 'firebase/storage'
+import type { StorageReference } from 'firebase/storage'
 import { useFirebaseStorage } from 'vuefire'
 import { resizeImage } from '~/assets/imageManipulation'
 
@@ -195,6 +188,7 @@ type dbFile = {
   name: string
   file?: File
 }
+
 type tuUpFile = Omit<dbFile, 'ref'> & { file: File }
 
 const props = defineProps<{
@@ -226,8 +220,8 @@ const allImages = ref<dbFile[]>(
   Array.isArray(props.modelValue)
     ? props.modelValue
     : props.modelValue
-      ? [props.modelValue]
-      : []
+    ? [props.modelValue]
+    : []
 )
 const saving = ref(false)
 

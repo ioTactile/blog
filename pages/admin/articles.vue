@@ -158,8 +158,9 @@ import {
 } from 'firebase/firestore'
 import { useFirestore, useCurrentUser } from 'vuefire'
 import slugify from 'slugify'
-import { articleConverter, LocalArticleType } from '~/stores'
-import { Image } from '~/functions/src/types'
+import { articleConverter } from '~/stores'
+import type { LocalArticleType } from '~/stores'
+import type { Image } from '~/functions/src/types'
 
 definePageMeta({ layout: 'admin' })
 
@@ -213,6 +214,7 @@ const saveArticle = async () => {
       }),
       description: description.value,
       content: content.value,
+      comments: [],
       creationDate: Timestamp.fromDate(creationDate.value),
       updateDate: Timestamp.now()
     })
