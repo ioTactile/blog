@@ -31,7 +31,7 @@ withDefaults(
   }
 )
 
-defineEmits<{(e: 'update:model-value', value: string): void }>()
+defineEmits<{ (e: 'update:model-value', value: string): void }>()
 
 const rules = [
   (v?: string) => !!v || 'Adresse e-mail requise',

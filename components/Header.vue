@@ -8,17 +8,33 @@
       </NuxtLink>
       <v-spacer />
       <div v-if="admin && adminUser" class="text-center">
-        <v-btn variant="text" to="/admin/articles" class="text-capitalize text-h6">
+        <v-btn
+          variant="text"
+          to="/admin/articles"
+          class="text-capitalize text-h6"
+        >
           Articles
         </v-btn>
-        <v-btn variant="text" to="/admin/utilisateurs" class="text-capitalize text-h6">
+        <v-btn
+          variant="text"
+          to="/admin/utilisateurs"
+          class="text-capitalize text-h6"
+        >
           Utilisateurs
         </v-btn>
       </div>
-      <v-btn variant="text" to="/about" class="d-none d-sm-flex text-capitalize text-h6">
+      <v-btn
+        variant="text"
+        to="/about"
+        class="d-none d-sm-flex text-capitalize text-h6"
+      >
         À propos
       </v-btn>
-      <v-btn class="d-none d-sm-block" :icon="mdiThemeLightDark" @click="toggleTheme" />
+      <v-btn
+        class="d-none d-sm-block"
+        :icon="mdiThemeLightDark"
+        @click="toggleTheme"
+      />
       <v-btn :icon="mdiAccount" size="large" @click="isLogin('/profil')" />
     </v-app-bar>
 
@@ -30,9 +46,7 @@
       color="background"
     >
       <v-list nav>
-        <v-list-item to="/about">
-          À Propos
-        </v-list-item>
+        <v-list-item to="/about"> À Propos </v-list-item>
         <v-list-item @click="toggleTheme">
           Thème {{ theme.current.value.dark ? 'clair' : 'sombre' }}
         </v-list-item>
@@ -46,7 +60,16 @@
 </template>
 
 <script lang="ts" setup>
-import { VAppBar, VAppBarNavIcon, VBtn, VImg, VList, VListItem, VNavigationDrawer, VSpacer } from 'vuetify/components'
+import {
+  VAppBar,
+  VAppBarNavIcon,
+  VBtn,
+  VImg,
+  VList,
+  VListItem,
+  VNavigationDrawer,
+  VSpacer
+} from 'vuetify/components'
 import { mdiAccount, mdiThemeLightDark } from '@mdi/js'
 import { getIdTokenResult } from 'firebase/auth'
 import { useDisplay, useTheme } from 'vuetify'
@@ -68,7 +91,9 @@ onMounted(async () => {
   const { claims } = await getIdTokenResult(user.value, true)
   adminUser.value = claims.admin
 
-  localStorage.getItem('theme') === 'myCustomDarkTheme' ? theme.global.name.value = 'myCustomDarkTheme' : theme.global.name.value = 'myCustomLightTheme'
+  localStorage.getItem('theme') === 'myCustomDarkTheme'
+    ? (theme.global.name.value = 'myCustomDarkTheme')
+    : (theme.global.name.value = 'myCustomLightTheme')
 })
 
 const isLogin = (path: string) => {
@@ -84,7 +109,10 @@ const toggleDrawer = () => {
 }
 
 const toggleTheme = () => {
-  theme.global.name.value = theme.name.value === 'myCustomLightTheme' ? 'myCustomDarkTheme' : 'myCustomLightTheme'
+  theme.global.name.value =
+    theme.name.value === 'myCustomLightTheme'
+      ? 'myCustomDarkTheme'
+      : 'myCustomLightTheme'
 
   localStorage.setItem('theme', theme.global.name.value)
 }

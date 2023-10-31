@@ -2,7 +2,10 @@
   <div>
     <Head>
       <Title>Utilisateurs - ioTactile</Title>
-      <Meta name="description" content="Page où je créé un utilisateur administrateur - ioTactile" />
+      <Meta
+        name="description"
+        content="Page où je créé un utilisateur administrateur - ioTactile"
+      />
     </Head>
     <v-container>
       <div>
@@ -66,7 +69,11 @@
                 />
               </v-card-text>
               <v-card-actions class="mr-2">
-                <v-btn variant="text" :disabled="loading" @click="dialog = false">
+                <v-btn
+                  variant="text"
+                  :disabled="loading"
+                  @click="dialog = false"
+                >
                   Annuler
                 </v-btn>
                 <v-spacer />
@@ -89,7 +96,19 @@
 
 <script lang="ts" async setup>
 import { mdiDelete, mdiClose } from '@mdi/js'
-import { VContainer, VForm, VTable, VBtn, VDialog, VCard, VCardTitle, VCardText, VCardActions, VSpacer, VCheckbox } from 'vuetify/components'
+import {
+  VContainer,
+  VForm,
+  VTable,
+  VBtn,
+  VDialog,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VCardActions,
+  VSpacer,
+  VCheckbox
+} from 'vuetify/components'
 import { collection, getDocs } from 'firebase/firestore'
 import { useFirebaseFunctions } from '~/composables/useFirebaseFunctions'
 import { userConverter, LocalUserType } from '~/stores'
@@ -108,13 +127,13 @@ const form = ref<VForm>()
 
 const usersRef = collection(db, 'users').withConverter(userConverter)
 const usersDocs = await getDocs(usersRef)
-const users = ref(usersDocs.docs.map(doc => doc.data()))
+const users = ref(usersDocs.docs.map((doc) => doc.data()))
 
 const createUser = async () => {
   if (
     !(await form.value?.validate())?.valid ||
-      !email.value ||
-      !password.value
+    !email.value ||
+    !password.value
   ) {
     return
   }
@@ -123,13 +142,13 @@ const createUser = async () => {
 
   try {
     const { data } = await functions<
-        { email: string; password: string; role: { admin: true } },
-        LocalUserType
-      >('createAdmin')({
-        email: email.value,
-        password: password.value,
-        role: { admin: true }
-      })
+      { email: string; password: string; role: { admin: true } },
+      LocalUserType
+    >('createAdmin')({
+      email: email.value,
+      password: password.value,
+      role: { admin: true }
+    })
 
     users.value.push(data)
     dialog.value = false
@@ -143,7 +162,7 @@ const removeUser = async (id: string) => {
   try {
     await functions('removeAdmin')({ id })
 
-    users.value = users.value.filter(user => user.id !== id)
+    users.value = users.value.filter((user) => user.id !== id)
   } finally {
     removing.value = null
   }

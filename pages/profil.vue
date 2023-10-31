@@ -2,16 +2,17 @@
   <div>
     <Head>
       <Title>Profil - ioTactile</Title>
-      <Meta name="description" content="Page où l'on retrouve les informations utilisateur - ioTactile" />
+      <Meta
+        name="description"
+        content="Page où l'on retrouve les informations utilisateur - ioTactile"
+      />
     </Head>
     <v-container class="container">
       <v-row>
         <v-col cols="12">
           <v-card rounded="0" color="main" elevation="0">
             <v-card-title class="d-flex justify-space-between align-center">
-              <h2 class="text-h5">
-                Mon profil
-              </h2>
+              <h2 class="text-h5">Mon profil</h2>
               <v-btn
                 :icon="mdiDotsVertical"
                 variant="text"
@@ -94,7 +95,18 @@
 </template>
 
 <script lang="ts" setup>
-import { VContainer, VRow, VCol, VCard, VCardTitle, VCardText, VForm, VTextField, VBtn, VDivider } from 'vuetify/components'
+import {
+  VContainer,
+  VRow,
+  VCol,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VForm,
+  VTextField,
+  VBtn,
+  VDivider
+} from 'vuetify/components'
 import { mdiDotsVertical, mdiPencil } from '@mdi/js'
 import { deleteUser, getIdTokenResult, signOut } from '@firebase/auth'
 import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore'
@@ -139,7 +151,9 @@ onMounted(async () => {
 })
 
 const updateProfile = async () => {
-  if (!user.value || !(await form.value?.validate())?.valid) { return }
+  if (!user.value || !(await form.value?.validate())?.valid) {
+    return
+  }
   loading.value = true
 
   try {
@@ -159,7 +173,7 @@ const updateProfile = async () => {
   } catch (error) {
     notifier({
       content:
-          'Une erreur est survenue lors de la mise à jour de vos informations',
+        'Une erreur est survenue lors de la mise à jour de vos informations',
       color: 'error',
       error
     })

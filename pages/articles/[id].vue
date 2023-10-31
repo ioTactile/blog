@@ -7,7 +7,9 @@
     <v-container class="container">
       <v-row align="center" justify="center">
         <v-col cols="12">
-          <h2 class="pt-12 pb-4 font-weight-bold text-h4 text-sm-h3 text-center text-sm-left">
+          <h2
+            class="pt-12 pb-4 font-weight-bold text-h4 text-sm-h3 text-center text-sm-left"
+          >
             {{ article.title }}
           </h2>
         </v-col>
@@ -15,7 +17,7 @@
           <v-img :src="article.images?.[0]?.url" />
         </v-col>
         <v-col cols="12" class="content-container">
-          <div class="text-subtitle-2 text-sm-subtitle-1 ">
+          <div class="text-subtitle-2 text-sm-subtitle-1">
             Publié {{ dateFormatter(article.creationDate) }}
           </div>
           <div class="font-weight-bold text-h6 text-sm-h5 py-4">
@@ -49,7 +51,14 @@
 </template>
 
 <script lang="ts" async setup>
-import { VContainer, VRow, VCol, VImg, VIcon, VSpacer } from 'vuetify/components'
+import {
+  VContainer,
+  VRow,
+  VCol,
+  VImg,
+  VIcon,
+  VSpacer
+} from 'vuetify/components'
 import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
 import { collection, getDocs, query, orderBy } from '@firebase/firestore'
 import { articleConverter, LocalArticleType } from '~/stores'
@@ -60,11 +69,16 @@ const route = useRoute()
 const articlesRef = collection(db, 'articles').withConverter(articleConverter)
 const articleQuery = query(articlesRef, orderBy('updateDate', 'desc'))
 const articlesFetched = await getDocs(articleQuery)
-const articlesDocs = articlesFetched.docs.map(doc => doc.data())
-const article = articlesDocs.find(article => article.slug === route.params.id) as LocalArticleType
-const articleIndex = articlesDocs.findIndex(article => article.slug === route.params.id)
+const articlesDocs = articlesFetched.docs.map((doc) => doc.data())
+const article = articlesDocs.find(
+  (article) => article.slug === route.params.id
+) as LocalArticleType
+const articleIndex = articlesDocs.findIndex(
+  (article) => article.slug === route.params.id
+)
 const previousArticle = articleIndex > 0 ? articlesDocs[articleIndex - 1] : null
-const nextArticle = articleIndex < articlesDocs.length - 1 ? articlesDocs[articleIndex + 1] : null
+const nextArticle =
+  articleIndex < articlesDocs.length - 1 ? articlesDocs[articleIndex + 1] : null
 
 const dateFormatter = new Intl.DateTimeFormat('fr', {
   weekday: 'long',
@@ -78,13 +92,13 @@ const dateFormatter = new Intl.DateTimeFormat('fr', {
 
 <style scoped>
 .container {
-    max-width: 1080px;
-    margin: 0 auto;
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .content-container {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .image-border {

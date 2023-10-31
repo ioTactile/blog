@@ -38,7 +38,7 @@ type NestedTypeMapper<T, I, O> = T extends I
 type DatabaseUserType = NestedTypeMapper<User, Timestamp, FirestoreTimestamp>
 export type LocalUserType = NestedTypeMapper<User, Timestamp, Date>
 export const userConverter: FirestoreDataConverter<LocalUserType> = {
-  toFirestore: item => item,
+  toFirestore: (item) => item,
   fromFirestore: (
     snapshot: QueryDocumentSnapshot<DatabaseUserType>,
     options
@@ -53,10 +53,14 @@ export const userConverter: FirestoreDataConverter<LocalUserType> = {
   }
 }
 
-type DatabaseArticleType = NestedTypeMapper<Article, Timestamp, FirestoreTimestamp>
+type DatabaseArticleType = NestedTypeMapper<
+  Article,
+  Timestamp,
+  FirestoreTimestamp
+>
 export type LocalArticleType = NestedTypeMapper<Article, Timestamp, Date>
 export const articleConverter: FirestoreDataConverter<LocalArticleType> = {
-  toFirestore: item => item,
+  toFirestore: (item) => item,
   fromFirestore: (
     snapshot: QueryDocumentSnapshot<DatabaseArticleType>,
     options

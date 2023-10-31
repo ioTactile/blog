@@ -29,6 +29,26 @@
     "vue/valid-v-slot": "off",
     "vue/block-lang": ["error", { "script": { "lang": "ts" } }],
     "vue/component-api-style": ["error", ["script-setup"]],
-    "vue/no-v-for-template-key": "off"
+    "vue/no-v-for-template-key": "off",
+    "comma-dangle": ["error", "never"],
+    "func-call-spacing": "off",
+    "curly": "off",
+    "object-curly-spacing": "off",
+    "space-before-function-paren": "off",
+    "arrow-parens": ["error", "always"],
+    "vue/html-self-closing": [
+      "error",
+      {
+        "html": {
+          "void": "always",
+          "normal": "always",
+          "component": "always"
+        },
+        "svg": "always",
+        "math": "always"
+      }
+    ],
+    "vue/html-indent": "off",
+    "vue/singleline-html-element-content-newline": "off"
   }
 }

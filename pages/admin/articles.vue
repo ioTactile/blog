@@ -2,7 +2,10 @@
   <div>
     <Head>
       <Title>Articles - ioTactile</Title>
-      <Meta name="description" content="Page où je rédige les articles - ioTactile" />
+      <Meta
+        name="description"
+        content="Page où je rédige les articles - ioTactile"
+      />
     </Head>
     <v-container>
       <div class="pb-4">
@@ -92,11 +95,20 @@
                 </v-row>
               </v-card-text>
               <v-card-actions>
-                <v-btn :loading="removing" :disabled="loading || fileLoading" color="error" @click="removeArticle">
+                <v-btn
+                  :loading="removing"
+                  :disabled="loading || fileLoading"
+                  color="error"
+                  @click="removeArticle"
+                >
                   Supprimer
                 </v-btn>
                 <v-spacer />
-                <v-btn variant="text" :disabled="loading || fileLoading || removing" @click="reset">
+                <v-btn
+                  variant="text"
+                  :disabled="loading || fileLoading || removing"
+                  @click="reset"
+                >
                   Annuler
                 </v-btn>
                 <v-btn
@@ -119,8 +131,31 @@
 
 <script lang="ts" async setup>
 import { mdiPencil, mdiClose } from '@mdi/js'
-import { VContainer, VForm, VTextField, VTextarea, VBtn, VSpacer, VDialog, VCard, VCardTitle, VCardText, VCardActions, VRow, VCol, VTable } from 'vuetify/components'
-import { collection, getDocs, setDoc, doc, query, orderBy, Timestamp } from 'firebase/firestore'
+import {
+  VContainer,
+  VForm,
+  VTextField,
+  VTextarea,
+  VBtn,
+  VSpacer,
+  VDialog,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VCardActions,
+  VRow,
+  VCol,
+  VTable
+} from 'vuetify/components'
+import {
+  collection,
+  getDocs,
+  setDoc,
+  doc,
+  query,
+  orderBy,
+  Timestamp
+} from 'firebase/firestore'
 import { useFirestore, useCurrentUser } from 'vuefire'
 import slugify from 'slugify'
 import { articleConverter, LocalArticleType } from '~/stores'
@@ -132,7 +167,7 @@ const db = useFirestore()
 const user = useCurrentUser()
 
 const dialog = ref(false)
-const id = ref<string|null>(null)
+const id = ref<string | null>(null)
 const imageManager = ref()
 const images = ref<Image[]>([])
 const title = ref<string>('')
@@ -149,7 +184,7 @@ const articlesRef = collection(db, 'articles').withConverter(articleConverter)
 const getArticles = async () => {
   const articlesQuery = query(articlesRef, orderBy('creationDate', 'desc'))
   const articles = await getDocs(articlesQuery)
-  return articles.docs.map(doc => doc.data())
+  return articles.docs.map((doc) => doc.data())
 }
 const articles = ref(await getArticles())
 
@@ -159,7 +194,9 @@ const createArticle = () => {
 }
 
 const saveArticle = async () => {
-  if (!(await form.value?.validate())?.valid || !id.value || !user.value) { return }
+  if (!(await form.value?.validate())?.valid || !id.value || !user.value) {
+    return
+  }
   loading.value = true
 
   try {

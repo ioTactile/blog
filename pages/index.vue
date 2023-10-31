@@ -17,15 +17,17 @@
                   cover
                 />
               </v-col>
-              <v-col cols="12" md="6" class="d-flex flex-column justify-space-between">
+              <v-col
+                cols="12"
+                md="6"
+                class="d-flex flex-column justify-space-between"
+              >
                 <div>
                   <v-card-title class="text-h6 text-sm-h5">
                     {{ article.title }}
                   </v-card-title>
                   <v-card-subtitle>
-                    {{
-                      dateFormatter(article.creationDate)
-                    }}
+                    {{ dateFormatter(article.creationDate) }}
                   </v-card-subtitle>
                   <v-card-text class="pt-2 text-body-2 text-sm-body-1">
                     {{ article.description?.substring(0, 500) }}
@@ -46,7 +48,17 @@
 </template>
 
 <script lang="ts" async setup>
-import { VContainer, VRow, VCol, VIcon, VCard, VCardTitle, VCardText, VCardActions, VCardSubtitle } from 'vuetify/components'
+import {
+  VContainer,
+  VRow,
+  VCol,
+  VIcon,
+  VCard,
+  VCardTitle,
+  VCardText,
+  VCardActions,
+  VCardSubtitle
+} from 'vuetify/components'
 import { mdiChevronRight } from '@mdi/js'
 import { collection, query, orderBy, getDocs } from 'firebase/firestore'
 import { useFirestore } from 'vuefire'
@@ -57,7 +69,7 @@ const db = useFirestore()
 const articlesRef = collection(db, 'articles').withConverter(articleConverter)
 const articlesQuery = query(articlesRef, orderBy('updateDate', 'desc'))
 const articlesDocs = await getDocs(articlesQuery)
-const articles = articlesDocs.docs.map(doc => doc.data())
+const articles = articlesDocs.docs.map((doc) => doc.data())
 
 const title = `ioTactile - Un blog sur le développement informatique - Dernier article: ${articles[0].title}`
 const content = ref(title)

@@ -21,7 +21,7 @@
         :append-inner-icon="show2 ? mdiEye : mdiEyeOff"
         :rules="[
           (v) => v === password || 'Les mots de passe doivent être similaire',
-          ...rules,
+          ...rules
         ]"
         :type="show2 ? 'text' : 'password'"
         label="Confirmer le mot de passe"
@@ -41,12 +41,12 @@ import { mdiEye, mdiEyeOff } from '@mdi/js'
 const MIN_LENGTH = 6
 
 defineProps<{
-    modelValue?: string
-    variant?: 'filled' | 'outlined' | 'plain' | 'underlined' | 'solo'
-    notInLine?: boolean
-    inputClass?: string
-  }>()
-const emits = defineEmits<{(e: 'update:model-value', value?: string): void }>()
+  modelValue?: string
+  variant?: 'filled' | 'outlined' | 'plain' | 'underlined' | 'solo'
+  notInLine?: boolean
+  inputClass?: string
+}>()
+const emits = defineEmits<{ (e: 'update:model-value', value?: string): void }>()
 
 const password = ref('')
 const passwordConfirm = ref('')

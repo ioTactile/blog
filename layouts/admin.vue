@@ -29,7 +29,9 @@ onErrorCaptured((error) => {
 })
 
 onBeforeMount(async () => {
-  if (!user.value) { return await navigateTo('/') }
+  if (!user.value) {
+    return await navigateTo('/')
+  }
   const { vp9Available, av1Available, webpAvailable, avifAvailable } =
     await TestAllFeatures()
 

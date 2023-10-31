@@ -24,7 +24,11 @@
             :label="fileInputLabel"
           >
             <template #progress>
-              <v-progress-linear absolute height="2" :model-value="uploadProgress" />
+              <v-progress-linear
+                absolute
+                height="2"
+                :model-value="uploadProgress"
+              />
             </template>
             <template #selection="{ text }">
               <v-chip small label color="primary">
@@ -36,11 +40,7 @@
         </v-col>
       </v-row>
       <v-container v-if="unique && allImages.length && allImages[0]">
-        <VideoManager
-          v-if="video"
-          controls
-          :src="allImages[0]?.ref"
-        />
+        <VideoManager v-if="video" controls :src="allImages[0]?.ref" />
         <StorageImg
           v-else
           contain
@@ -57,22 +57,28 @@
                 <tr>
                   <th />
                   <th v-if="allowCopy" />
-                  <th class="text-left">
-                    Image
-                  </th>
-                  <th class="text-left">
-                    Action
-                  </th>
+                  <th class="text-left">Image</th>
+                  <th class="text-left">Action</th>
                 </tr>
               </thead>
-              <draggable :model-value="allImages" tag="tbody" item-key="name" @update:model-value="updateList">
+              <draggable
+                :model-value="allImages"
+                tag="tbody"
+                item-key="name"
+                @update:model-value="updateList"
+              >
                 <template #item="{ element, index }">
                   <tr>
                     <td class="icon-container">
                       <v-icon :icon="mdiDrag" />
                     </td>
                     <td v-if="allowCopy">
-                      <v-btn :icon="mdiContentCopy" variant="text" :disabled="!element.url" @click="copy(element.url)" />
+                      <v-btn
+                        :icon="mdiContentCopy"
+                        variant="text"
+                        :disabled="!element.url"
+                        @click="copy(element.url)"
+                      />
                     </td>
                     <td class="text-left">
                       <VideoManager v-if="video" controls :src="element.ref" />
@@ -84,7 +90,7 @@
                               element.name.split('.')[
                                 element.name.split('.').length - 1
                               ] !== 'pdf') ||
-                              !element.name
+                            !element.name
                           "
                           height="50"
                           width="50"
@@ -108,12 +114,21 @@
                         :icon="mdiDelete"
                         color="red"
                         variant="text"
-                        :loading="(fileRemoving === index)"
+                        :loading="fileRemoving === index"
                         @click="deleteImg(index)"
                       />
-                      <v-tooltip v-if="index === 0" location="top" text="Image par défaut">
+                      <v-tooltip
+                        v-if="index === 0"
+                        location="top"
+                        text="Image par défaut"
+                      >
                         <template #activator="{ props: attrs }">
-                          <v-icon :icon="mdiCrown" color="primary" dark v-bind="attrs" />
+                          <v-icon
+                            :icon="mdiCrown"
+                            color="primary"
+                            dark
+                            v-bind="attrs"
+                          />
                         </template>
                       </v-tooltip>
                     </td>
@@ -129,8 +144,31 @@
 </template>
 
 <script lang="ts" setup>
-import { VCard, VCardTitle, VCardText, VFileInput, VProgressLinear, VDivider, VTable, VBtn, VIcon, VTooltip, VChip, VRow, VCol, VContainer } from 'vuetify/components'
-import { mdiDrag, mdiContentCopy, mdiFilePdfBox, mdiCrown, mdiVideo, mdiImage, mdiDelete } from '@mdi/js'
+import {
+  VCard,
+  VCardTitle,
+  VCardText,
+  VFileInput,
+  VProgressLinear,
+  VDivider,
+  VTable,
+  VBtn,
+  VIcon,
+  VTooltip,
+  VChip,
+  VRow,
+  VCol,
+  VContainer
+} from 'vuetify/components'
+import {
+  mdiDrag,
+  mdiContentCopy,
+  mdiFilePdfBox,
+  mdiCrown,
+  mdiVideo,
+  mdiImage,
+  mdiDelete
+} from '@mdi/js'
 import draggable from 'vuedraggable'
 import {
   ref as storageRef,
@@ -146,30 +184,34 @@ const toBase64 = (file: Blob) =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
-    reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '')
-    reader.onerror = error => reject(error)
+    reader.onload = () =>
+      resolve(typeof reader.result === 'string' ? reader.result : '')
+    reader.onerror = (error) => reject(error)
   })
 
-  type dbFile = {
-    url: string,
-    ref?: string,
-    name: string,
-    file?: File,
-  }
-  type tuUpFile = Omit<dbFile, 'ref'> & { file: File }
+type dbFile = {
+  url: string
+  ref?: string
+  name: string
+  file?: File
+}
+type tuUpFile = Omit<dbFile, 'ref'> & { file: File }
 
 const props = defineProps<{
-    modelValue?: dbFile[]|dbFile,
-    slug: string,
-    collection: string,
-    disabled?: boolean,
-    maxHeight?: number,
-    unique?: boolean,
-    video?: boolean,
-    label?: string,
-    allowCopy?: boolean,
-  }>()
-const emits = defineEmits<{(e: 'update:model-value', value?: dbFile[]|dbFile): void, (e: 'fileLoading', value: boolean): void}>()
+  modelValue?: dbFile[] | dbFile
+  slug: string
+  collection: string
+  disabled?: boolean
+  maxHeight?: number
+  unique?: boolean
+  video?: boolean
+  label?: string
+  allowCopy?: boolean
+}>()
+const emits = defineEmits<{
+  (e: 'update:model-value', value?: dbFile[] | dbFile): void
+  (e: 'fileLoading', value: boolean): void
+}>()
 
 const storage = useFirebaseStorage()
 const { notifier } = useNotifier()
@@ -178,70 +220,87 @@ const currentFiles = ref<File[]>()
 const fileLoading = ref(false)
 const fileRemoving = ref<number>()
 const uploadProgress = ref<number>()
-const toUpload = ref<(tuUpFile)[]>([])
+const toUpload = ref<tuUpFile[]>([])
 const toDelete = ref<dbFile[]>([])
-const allImages = ref<dbFile[]>(Array.isArray(props.modelValue) ? props.modelValue : (props.modelValue ? [props.modelValue] : []))
+const allImages = ref<dbFile[]>(
+  Array.isArray(props.modelValue)
+    ? props.modelValue
+    : props.modelValue
+      ? [props.modelValue]
+      : []
+)
 const saving = ref(false)
 
-const type = computed(() => props.video ? 'video' : 'illustration')
+const type = computed(() => (props.video ? 'video' : 'illustration'))
 const fileInputLabel = computed(() => {
   const determinant = props.video ? 'la ' : "l'"
-  if (!props.unique) { return `Ajouter des ${type.value}s` }
-  if (Array.isArray(allImages.value) && allImages.value.length) { return `Modifier ${determinant}${type.value}` }
+  if (!props.unique) {
+    return `Ajouter des ${type.value}s`
+  }
+  if (Array.isArray(allImages.value) && allImages.value.length) {
+    return `Modifier ${determinant}${type.value}`
+  }
   return `Ajouter une ${type.value}`
 })
 
-watch(
-  currentFiles,
-  async (files) => {
-    if (!files) { return }
-    emits('fileLoading', true)
-    fileLoading.value = true
+watch(currentFiles, async (files) => {
+  if (!files) {
+    return
+  }
+  emits('fileLoading', true)
+  fileLoading.value = true
 
-    let newFiles = Array.isArray(files) ? files : [files]
-    if (!props.video) { newFiles = await resizeImage(newFiles, props.maxHeight) }
+  let newFiles = Array.isArray(files) ? files : [files]
+  if (!props.video) {
+    newFiles = await resizeImage(newFiles, props.maxHeight)
+  }
 
-    for (let i = 0; i < newFiles.length; i++) {
-      const file = newFiles[i]
+  for (let i = 0; i < newFiles.length; i++) {
+    const file = newFiles[i]
 
-      try {
-        const result = {
-          url: await toBase64(file),
-          name: `${Date.now()}-${file.name}`,
-          file
-        }
-
-        if (!props.unique) {
-          toUpload.value.push(result)
-        } else {
-          toUpload.value = [result]
-        }
-      } catch (error) {
-        notifier({
-          content: "Une erreur est survenue lors de l'envoie de l'image",
-          color: 'error',
-          error
-        })
+    try {
+      const result = {
+        url: await toBase64(file),
+        name: `${Date.now()}-${file.name}`,
+        file
       }
-    }
 
-    fileLoading.value = false
-    emits('fileLoading', false)
-    currentFiles.value = undefined
-  }
-)
-
-watch(
-  toUpload,
-  (newValue) => {
-    if (!props.unique) {
-      allImages.value = [...(props.modelValue ? (Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue]) : []), ...newValue]
-    } else {
-      if (Array.isArray(props.modelValue) && props.modelValue.length) { emits('update:model-value', undefined) }
-      allImages.value = [...newValue]
+      if (!props.unique) {
+        toUpload.value.push(result)
+      } else {
+        toUpload.value = [result]
+      }
+    } catch (error) {
+      notifier({
+        content: "Une erreur est survenue lors de l'envoie de l'image",
+        color: 'error',
+        error
+      })
     }
   }
-)
+
+  fileLoading.value = false
+  emits('fileLoading', false)
+  currentFiles.value = undefined
+})
+
+watch(toUpload, (newValue) => {
+  if (!props.unique) {
+    allImages.value = [
+      ...(props.modelValue
+        ? Array.isArray(props.modelValue)
+          ? props.modelValue
+          : [props.modelValue]
+        : []),
+      ...newValue
+    ]
+  } else {
+    if (Array.isArray(props.modelValue) && props.modelValue.length) {
+      emits('update:model-value', undefined)
+    }
+    allImages.value = [...newValue]
+  }
+})
 
 watch(
   () => props.modelValue,
@@ -255,12 +314,14 @@ watch(
 const displayPdfFile = async (file: dbFile) => {
   if (
     !file ||
-      file.name?.split('.')?.[file.name?.split('.')?.length - 1] !== 'pdf'
-  ) { return }
+    file.name?.split('.')?.[file.name?.split('.')?.length - 1] !== 'pdf'
+  ) {
+    return
+  }
 
   const fileRef = storageRef(
     storage,
-      `${props.collection}/${props.slug}/${file.name}`
+    `${props.collection}/${props.slug}/${file.name}`
   )
   const downloadURL = await getDownloadURL(fileRef)
   window.open(downloadURL, '_blank')?.focus()
@@ -272,7 +333,10 @@ const uploadFile = (file: tuUpFile, transferred: number, totalSize: number) =>
     if (props.unique) {
       fileRef = storageRef(storage, `${props.collection}/${props.slug}`)
     } else {
-      fileRef = storageRef(storage, `${props.collection}/${props.slug}/${file.name}`)
+      fileRef = storageRef(
+        storage,
+        `${props.collection}/${props.slug}/${file.name}`
+      )
     }
     const uploadTask = uploadBytesResumable(fileRef, file.file)
 
@@ -280,7 +344,7 @@ const uploadFile = (file: tuUpFile, transferred: number, totalSize: number) =>
       'state_changed',
       (snapshot) => {
         uploadProgress.value =
-            ((transferred + snapshot.bytesTransferred) / totalSize) * 100
+          ((transferred + snapshot.bytesTransferred) / totalSize) * 100
       },
       reject,
       async () => {
@@ -294,10 +358,14 @@ const uploadFile = (file: tuUpFile, transferred: number, totalSize: number) =>
   })
 
 const deleteImg = (id: number) => {
-  if (!Array.isArray(props.modelValue)) { return }
+  if (!Array.isArray(props.modelValue)) {
+    return
+  }
   fileRemoving.value = id
   if (id >= props.modelValue.length) {
-    toUpload.value = toUpload.value.filter((_, index) => index !== id - (props.modelValue as dbFile[]).length)
+    toUpload.value = toUpload.value.filter(
+      (_, index) => index !== id - (props.modelValue as dbFile[]).length
+    )
   } else {
     toDelete.value.push(props.modelValue[id])
     const illustrations = props.modelValue.filter((_, i) => i !== id)
@@ -308,7 +376,9 @@ const deleteImg = (id: number) => {
 
 const save = async () => {
   saving.value = true
-  if (!toUpload.value.length && !toDelete.value.length) { return }
+  if (!toUpload.value.length && !toDelete.value.length) {
+    return
+  }
   const formats = ['', '.webp', '.avif']
   if (toUpload.value.length) {
     const uploadPromises = []
@@ -323,13 +393,28 @@ const save = async () => {
     const results = await Promise.all(uploadPromises)
 
     if (props.unique) {
-      emits('update:model-value', results[0] || (Array.isArray(props.modelValue) ? props.modelValue[0] : props.modelValue))
+      emits(
+        'update:model-value',
+        results[0] ||
+          (Array.isArray(props.modelValue)
+            ? props.modelValue[0]
+            : props.modelValue)
+      )
     } else {
-      emits('update:model-value', [...(props.modelValue ? (Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue]) : []), ...results])
+      emits('update:model-value', [
+        ...(props.modelValue
+          ? Array.isArray(props.modelValue)
+            ? props.modelValue
+            : [props.modelValue]
+          : []),
+        ...results
+      ])
     }
   }
 
-  if (!toDelete.value.length) { return }
+  if (!toDelete.value.length) {
+    return
+  }
 
   const deletePromise = []
 
@@ -343,10 +428,10 @@ const save = async () => {
     } else if (
       formats
         .filter((_, i) => i !== 0)
-        .some(format => file.name.includes(format))
+        .some((format) => file.name.includes(format))
     ) {
-      fileRefs = formats.map(it => storageRef(storage, file.ref + it))
-      promises = fileRefs.map(it => deleteObject(it))
+      fileRefs = formats.map((it) => storageRef(storage, file.ref + it))
+      promises = fileRefs.map((it) => deleteObject(it))
       deletePromise.push(...promises)
     } else {
       fileRefs = storageRef(storage, file.ref)
@@ -379,8 +464,8 @@ const copy = async (value: string) => {
 defineExpose({ save, deleteImg })
 </script>
 
-  <style>
-  .icon-container {
-    width: 30px;
-  }
-  </style>
+<style>
+.icon-container {
+  width: 30px;
+}
+</style>
