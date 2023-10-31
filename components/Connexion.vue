@@ -7,7 +7,7 @@
   >
     <v-card color="main">
       <v-card-title class="d-flex align-center">
-        <span class="text-h5 mr-auto"> Blog de iotactile </span>
+        <span class="text-h5 mr-auto"> Espace administration </span>
         <v-btn
           :icon="mdiClose"
           variant="text"
@@ -15,64 +15,24 @@
           @click="emits('update:modelValue', false)"
         />
       </v-card-title>
-      <v-tabs v-model="tab" grow color="buttonBack">
-        <v-tab
-          value="one"
-          class="text-capitalize"
-          @click="createAccount = false"
-        >
-          Connexion
-        </v-tab>
-        <v-tab
-          value="two"
-          class="text-capitalize"
-          @click="createAccount = true"
-        >
-          Inscription
-        </v-tab>
-      </v-tabs>
       <v-card-text>
         <v-form ref="form" @submit.prevent="login">
-          <v-window v-model="tab">
-            <v-window-item value="one">
-              <template v-if="!createAccount">
-                <InputsEmail
-                  v-model="email"
-                  variant="outlined"
-                  icon
-                  class="mt-2"
-                  name="email"
-                />
-                <InputsPassword
-                  v-if="!forgotPassword"
-                  v-model="password"
-                  variant="outlined"
-                />
-              </template>
-              <div class="d-flex justify-center mb-10">
-                <v-btn
-                  class="text-lowercase"
-                  variant="text"
-                  @click="forgotPassword = !forgotPassword"
-                >
-                  {{ forgotPassword ? 'Retour' : 'Mot de passe oublié' }}
-                </v-btn>
-              </div>
-            </v-window-item>
-
-            <v-window-item value="two">
-              <template v-if="createAccount">
-                <InputsEmail
-                  v-model="email"
-                  variant="outlined"
-                  icon
-                  class="mt-2"
-                  name="createEmail"
-                />
-                <InputsPasswordFirst v-model="password" variant="outlined" />
-              </template>
-            </v-window-item>
-          </v-window>
+          <InputsEmail v-model="email" variant="outlined" icon name="email" />
+          <InputsPassword
+            v-if="!forgotPassword"
+            v-model="password"
+            class="mt-2"
+            variant="outlined"
+          />
+          <div class="d-flex justify-center mb-10">
+            <v-btn
+              class="text-lowercase"
+              variant="text"
+              @click="forgotPassword = !forgotPassword"
+            >
+              {{ forgotPassword ? 'Retour' : 'Mot de passe oublié' }}
+            </v-btn>
+          </div>
           <v-btn
             block
             color="buttonBack"
@@ -81,11 +41,7 @@
             :loading="loading === 'email'"
           >
             {{
-              createAccount
-                ? "M'inscire"
-                : forgotPassword
-                ? 'Réinitialiser mon mot de passe'
-                : 'Connexion'
+              forgotPassword ? 'Réinitialiser mon mot de passe' : 'Connexion'
             }}
           </v-btn>
         </v-form>
@@ -97,19 +53,14 @@
 <script lang="ts" setup>
 import {
   VForm,
-  VWindow,
-  VWindowItem,
   VCard,
   VBtn,
   VCardText,
   VDialog,
-  VTabs,
-  VTab,
   VCardTitle
 } from 'vuetify/components'
 import { mdiClose } from '@mdi/js'
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   AuthErrorCodes,
@@ -117,11 +68,8 @@ import {
 } from 'firebase/auth'
 import type { ParsedToken } from 'firebase/auth'
 import { FirebaseError } from '@firebase/util'
-import { Timestamp, doc, setDoc } from 'firebase/firestore'
-import { userConverter } from '~/stores'
 
 const { notifier } = useNotifier()
-const db = useFirestore()
 const user = useCurrentUser()
 const auth = useFirebaseAuth()
 
@@ -134,12 +82,9 @@ const emits = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>()
 const email = ref('')
 const password = ref('')
 const userClaims = ref<null | ParsedToken>(null)
-const date = ref(new Date(Date.now()))
-const createAccount = ref(false)
 const forgotPassword = ref(false)
 const loading = ref<'email' | null>(null)
 const form = ref<VForm>()
-const tab = ref(null)
 
 onBeforeMount(async () => {
   if (user.value) {
@@ -154,26 +99,7 @@ const login = async () => {
   }
   loading.value = 'email'
   try {
-    if (createAccount.value) {
-      createUserWithEmailAndPassword(auth, email.value, password.value).then(
-        (credentials) => {
-          const userRef = doc(db, 'users', credentials.user.uid).withConverter(
-            userConverter
-          )
-          setDoc(
-            userRef,
-            {
-              id: credentials.user.uid,
-              email: email.value,
-              creationDate: Timestamp.fromDate(date.value),
-              updateDate: Timestamp.now()
-            },
-            { merge: true }
-          )
-        }
-      )
-      notifier({ content: 'Inscription réussie', color: 'success' })
-    } else if (forgotPassword.value) {
+    if (forgotPassword.value) {
       await sendPasswordResetEmail(auth, email.value)
       notifier({
         content: 'Un email de réinitialisation a été envoyé',
@@ -199,12 +125,6 @@ const login = async () => {
 
     let errMessage
     switch (error.code) {
-      case AuthErrorCodes.EMAIL_EXISTS:
-        errMessage = 'Adresse mail déjà utilisée'
-        break
-      case AuthErrorCodes.USER_DELETED:
-        errMessage = 'Utilisateur supprimé'
-        break
       case AuthErrorCodes.INVALID_PASSWORD:
         errMessage = 'Mot de passe incorrect'
         break
