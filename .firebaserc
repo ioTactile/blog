@@ -1,5 +1,6 @@
 {
   "projects": {
-    "cubes5-bde": "iotactile"
+    "cubes5-bde": "iotactile",
+    "default": "iotactile"
   }
 }

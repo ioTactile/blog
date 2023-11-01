@@ -17,10 +17,7 @@ const myCustomLightTheme: ThemeDefinition = {
     headline: '#272343', // dark blue
     paragraph: '#2d334a', // dark blue
     buttonBack: '#ffd803', // yellow
-    buttonText: '#272343', // dark blue
-    // Events
-    error: '#ed4337', // red
-    success: '#4caf50' // green
+    buttonText: '#272343' // dark blue
   }
 }
 
@@ -39,10 +36,7 @@ const myCustomDarkTheme: ThemeDefinition = {
     headline: '#fffffe', // white
     paragraph: '#e3f6f5', // light blue
     buttonBack: '#ffd803', // yellow
-    buttonText: '#fffffe', // white
-    // Events
-    error: '#ed4337', // red
-    success: '#4caf50' // green
+    buttonText: '#fffffe' // white
   }
 }
 

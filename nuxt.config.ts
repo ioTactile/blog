@@ -1,4 +1,5 @@
 export default defineNuxtConfig({
+  ssr: true,
   modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', 'nuxt-vuefire'],
   build: { transpile: ['vuetify'] },
   vite: { define: { 'process.env.DEBUG': false } },
@@ -18,5 +19,9 @@ export default defineNuxtConfig({
       appId: '1:855373712183:web:55c78efe77bd08905e68b2',
       measurementId: 'G-12178KVRFW'
     }
+  },
+  routeRules: {
+    '/profil': { ssr: false },
+    '/admin/*': { ssr: false }
   }
 })

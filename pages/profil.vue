@@ -62,21 +62,11 @@
               v-if="openDeleteUser"
               class="mt-4"
               block
-              color="buttonBack"
-              variant="outlined"
+              color="error"
               :disabled="loading"
               @click="deleteProfile"
             >
               Supprimer votre compte
-            </v-btn>
-            <v-btn
-              v-if="userClaims?.admin"
-              class="mt-4"
-              block
-              color="logo"
-              to="/admin"
-            >
-              Espace d'administration
             </v-btn>
           </v-card-text>
         </v-card>
@@ -99,32 +89,23 @@ import {
   VDivider
 } from 'vuetify/components'
 import { mdiDotsVertical, mdiPencil } from '@mdi/js'
-import { deleteUser, getIdTokenResult, signOut } from '@firebase/auth'
+import { deleteUser, signOut } from '@firebase/auth'
 import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore'
 import { userConverter } from '~/stores'
+
+definePageMeta({ layout: 'admin' })
 
 const { notifier } = useNotifier()
 const auth = useFirebaseAuth()
 const user = useCurrentUser()
 const db = useFirestore()
 
-const userClaims = ref()
 const loading = ref(false)
 const change = ref(false)
 const openDeleteUser = ref(false)
 const firstName = ref<string>()
 const lastName = ref<string>()
 const form = ref(VForm)
-
-useSeoMeta({
-  title: 'Profil',
-  ogTitle: 'Profil - ioTactile',
-  description: "Page où l'on retrouve les informations utilisateur",
-  ogDescription:
-    "Page où l'on retrouve les informations utilisateur - ioTactile",
-  ogImage: '/iotactile.png',
-  ogUrl: 'https://iotactile.com/profil'
-})
 
 const isChange = () => {
   if (!change.value) {
@@ -146,9 +127,6 @@ onMounted(async () => {
     firstName.value = userFetched.firstName
     lastName.value = userFetched.lastName
   }
-
-  const { claims } = await getIdTokenResult(user.value, true)
-  userClaims.value = claims
 })
 
 const updateProfile = async () => {
@@ -168,7 +146,7 @@ const updateProfile = async () => {
       )
       notifier({
         content: 'Profil mis à jour',
-        color: 'main'
+        color: 'success'
       })
     }
   } catch (error) {
