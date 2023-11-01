@@ -5,8 +5,8 @@
         <v-card :to="`/articles/${article.slug}`" rounded="O" color="main">
           <v-row>
             <v-col cols="12" md="6">
-              <storage-img
-                :storage-src="article.images?.[0]?.url"
+              <v-img
+                :src="article.images?.[0]?.url"
                 height="400"
                 :alt="article.title"
                 cover
@@ -51,7 +51,8 @@ import {
   VCardTitle,
   VCardText,
   VCardActions,
-  VCardSubtitle
+  VCardSubtitle,
+  VImg
 } from 'vuetify/components'
 import { mdiChevronRight } from '@mdi/js'
 import { collection, query, orderBy, getDocs } from 'firebase/firestore'

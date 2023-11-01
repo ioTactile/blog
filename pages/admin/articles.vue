@@ -27,8 +27,8 @@
         <tbody>
           <tr v-for="article in articles" :key="article.id">
             <td>
-              <storage-img
-                :storage-src="article.images?.[0]?.url"
+              <v-img
+                :src="article.images?.[0]?.url"
                 width="100"
                 height="100"
                 contain
@@ -145,7 +145,8 @@ import {
   VCardActions,
   VRow,
   VCol,
-  VTable
+  VTable,
+  VImg
 } from 'vuetify/components'
 import {
   collection,
