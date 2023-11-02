@@ -134,6 +134,5 @@ const dateFormatter = new Intl.DateTimeFormat('fr', {
 <style scoped>
 div {
   margin: 20px auto;
-  padding: 0 16px;
 }
 </style>

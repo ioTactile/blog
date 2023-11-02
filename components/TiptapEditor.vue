@@ -502,7 +502,13 @@ const editor = useEditor({
     Superscript,
     TextAlign.configure({ types: ['heading', 'paragraph'] }),
     Link.configure({ protocols: ['mailto'] }),
-    Image.configure({ inline: true, allowBase64: true }),
+    Image.configure({
+      inline: true,
+      allowBase64: true,
+      HTMLAttributes: {
+        style: 'max-width: 100%; height: auto;'
+      }
+    }),
     TaskList,
     TaskItem.configure({ nested: true }),
     Youtube.configure({ modestBranding: true }),
