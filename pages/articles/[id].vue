@@ -46,15 +46,15 @@
         <v-btn
           color="highlight"
           class="mb-2 mb-sm-0"
-          @click="isShowMessages = 'not-show'"
+          @click="isShowComments = 'not-show'"
         >
           Laisser un commentaire
         </v-btn>
-        <v-btn color="highlight" class="ml-2" @click="isShowMessages = 'show'">
+        <v-btn color="highlight" class="ml-2" @click="isShowComments = 'show'">
           Voir les commentaires
         </v-btn>
       </div>
-      <Message :id="article.id" :show-messages="isShowMessages" />
+      <Message :id="article.id" :show-comments="isShowComments" />
     </div>
   </v-container>
 </template>
@@ -77,7 +77,7 @@ import type { LocalArticleType } from '~/stores'
 const db = useFirestore()
 const route = useRoute()
 
-const isShowMessages = ref<string>('')
+const isShowComments = ref<string>('')
 
 const articlesRef = collection(db, 'articles').withConverter(articleConverter)
 const articleQuery = query(articlesRef, orderBy('creationDate', 'desc'))
