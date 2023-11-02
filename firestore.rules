@@ -4,7 +4,9 @@ service cloud.firestore {
 
     match /articles/{article} {
       allow read: if true;
+      allow create: if request.auth.token.admin;
       allow update: if request.auth.token.admin || request.resource.id == article;
+      allow delete: if request.auth.token.admin;
     }
 
     match /users/{userId} {
