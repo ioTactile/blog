@@ -1,29 +1,27 @@
 <template>
-  <template v-if="showMessages === 'show'">
-    <div v-if="!messages?.length" class="text-center font-weight-bold">
+  <template v-if="showComments === 'show'">
+    <div v-if="!comments?.length" class="text-center font-weight-bold">
       Aucun commentaire
     </div>
     <div v-else>
       <v-card
-        v-for="(message, i) in messages"
+        v-for="(message, i) in comments"
         :key="i"
         max-width="600"
         elevation="3"
       >
-        <div class="d-flex flex-column">
-          <span class="text-subtitle-1 font-weight-bold">
-            {{ message?.firstName }}
-            {{ message?.lastName.substring(0, 1) + '.' }}
-          </span>
-          <span class="text-subtitle-2">
-            {{ dateFormatter(message?.createdAt) }}
-          </span>
-        </div>
-        <v-card-text>{{ message?.content }}</v-card-text>
+        <v-card-title class="d-flex flex-column py-0 mb-0">
+          {{ message?.firstName }}
+          {{ message?.lastName.substring(0, 1) + '.' }}
+        </v-card-title>
+        <v-card-subtitle class="my-0">
+          {{ dateFormatter(message?.createdAt) }}
+        </v-card-subtitle>
+        <v-card-text class="my-0">{{ message?.content }}</v-card-text>
       </v-card>
     </div>
   </template>
-  <template v-if="showMessages === 'not-show'">
+  <template v-if="showComments === 'not-show'">
     <div :style="'max-width: 600px'">
       <v-textarea
         v-model="comment"
@@ -65,7 +63,9 @@ import {
   VTextField,
   VBtn,
   VCard,
-  VCardText
+  VCardText,
+  VCardTitle,
+  VCardSubtitle
 } from 'vuetify/components'
 import {
   updateDoc,
@@ -78,7 +78,7 @@ import { articleConverter } from '~/stores'
 import type { LocalArticleType } from '~/stores'
 
 const props = defineProps<{
-  showMessages: string
+  showComments: string
   id: string
 }>()
 
@@ -93,10 +93,10 @@ const lastName = ref<string>('')
 const firstName = ref<string>('')
 const createdAt = ref(new Date(Date.now()))
 
-const messages = ref<LocalArticleType['comments']>([])
+const comments = ref<LocalArticleType['comments']>([])
 
 const articleDoc = await getDoc(articleRef)
-messages.value = articleDoc.data()?.comments ?? []
+comments.value = articleDoc.data()?.comments ?? []
 
 const sendComment = async () => {
   if (!comment.value || !firstName.value || !lastName.value) {
@@ -111,7 +111,8 @@ const sendComment = async () => {
         firstName: firstName.value,
         lastName: lastName.value,
         content: comment.value,
-        createdAt: Timestamp.fromDate(createdAt.value)
+        createdAt: Timestamp.fromDate(createdAt.value),
+        updatedAt: Timestamp.now()
       })
     })
 
