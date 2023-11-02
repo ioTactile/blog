@@ -7,9 +7,9 @@
             <v-col cols="12" md="6">
               <v-img
                 :src="article.images?.[0]?.url"
-                height="400"
+                height="100%"
                 :alt="article.title"
-                cover
+                contain
               />
             </v-col>
             <v-col
@@ -18,7 +18,7 @@
               class="d-flex flex-column justify-space-between"
             >
               <div>
-                <v-card-title class="text-h6 text-sm-h5">
+                <v-card-title class="text-h6 text-sm-h5" :title="article.title">
                   {{ article.title }}
                 </v-card-title>
                 <v-card-subtitle>
@@ -62,7 +62,7 @@ import { articleConverter } from '~/stores'
 const db = useFirestore()
 
 const articlesRef = collection(db, 'articles').withConverter(articleConverter)
-const articlesQuery = query(articlesRef, orderBy('updateDate', 'desc'))
+const articlesQuery = query(articlesRef, orderBy('creationDate', 'desc'))
 const articlesDocs = await getDocs(articlesQuery)
 const articles = articlesDocs.docs.map((doc) => doc.data())
 

@@ -80,7 +80,7 @@ const route = useRoute()
 const isShowMessages = ref<string>('')
 
 const articlesRef = collection(db, 'articles').withConverter(articleConverter)
-const articleQuery = query(articlesRef, orderBy('updateDate', 'desc'))
+const articleQuery = query(articlesRef, orderBy('creationDate', 'desc'))
 const articlesFetched = await getDocs(articleQuery)
 const articlesDocs = articlesFetched.docs.map((doc) => doc.data())
 const article = articlesDocs.find(
