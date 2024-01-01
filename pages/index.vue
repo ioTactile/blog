@@ -41,7 +41,7 @@
   </v-container>
 </template>
 
-<script lang="ts" async setup>
+<script async setup lang="ts">
 import {
   VContainer,
   VRow,
@@ -81,14 +81,31 @@ const dateFormatter = new Intl.DateTimeFormat("fr", {
 useSeoMeta({
   title: "Accueil - ioTactile",
   ogTitle: "Accueil - ioTactile",
+  twitterTitle: "Accueil - ioTactile",
   description: content,
   ogDescription: content,
+  twitterDescription: content,
   ogImage: articles[0].images?.[0]?.url,
+  twitterImage: articles[0].images?.[0]?.url,
+  twitterCard: "summary_large_image",
   ogUrl: "https://iotactile.com",
+});
+
+useHead({
+  htmlAttrs: {
+    lang: "fr",
+  },
+  link: [
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "favicon.png",
+    },
+  ],
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   max-width: 1080px;
 }

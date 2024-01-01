@@ -129,7 +129,7 @@
   </div>
 </template>
 
-<script lang="ts" async setup>
+<script async setup lang="ts">
 import { mdiPencil, mdiClose } from "@mdi/js";
 import {
   VContainer,

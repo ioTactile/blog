@@ -59,7 +59,7 @@
   </v-container>
 </template>
 
-<script lang="ts" async setup>
+<script async setup lang="ts">
 import {
   VContainer,
   VRow,
@@ -84,10 +84,10 @@ const articleQuery = query(articlesRef, orderBy("creationDate", "desc"));
 const articlesFetched = await getDocs(articleQuery);
 const articlesDocs = articlesFetched.docs.map((doc) => doc.data());
 const article = articlesDocs.find(
-  (article) => article.slug === route.params.id,
+  (article) => article.slug === route.params.id
 ) as LocalArticleType;
 const articleIndex = articlesDocs.findIndex(
-  (article) => article.slug === route.params.id,
+  (article) => article.slug === route.params.id
 );
 const previousArticle =
   articleIndex > 0 ? articlesDocs[articleIndex - 1] : null;
@@ -108,14 +108,31 @@ const dateFormatter = new Intl.DateTimeFormat("fr", {
 useSeoMeta({
   title: article.title + " - ioTactile",
   ogTitle: article.title + " - ioTactile",
+  twitterTitle: article.title + " - ioTactile",
   description: article.description,
   ogDescription: article.description,
+  twitterDescription: article.description,
   ogImage: article.images?.[0]?.url,
+  twitterImage: article.images?.[0]?.url,
+  twitterCard: "summary_large_image",
   ogUrl: `https://iotactile.fr/articles/${article.slug}`,
+});
+
+useHead({
+  htmlAttrs: {
+    lang: "fr",
+  },
+  link: [
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "favicon.png",
+    },
+  ],
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   max-width: 1080px;
   margin: 0 auto;

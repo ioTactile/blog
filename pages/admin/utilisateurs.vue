@@ -94,7 +94,7 @@
   </div>
 </template>
 
-<script lang="ts" async setup>
+<script async setup lang="ts">
 import { mdiDelete, mdiClose } from "@mdi/js";
 import {
   VContainer,
