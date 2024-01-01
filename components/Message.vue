@@ -12,7 +12,7 @@
       >
         <v-card-title class="d-flex flex-column py-0 mb-0">
           {{ message?.firstName }}
-          {{ message?.lastName.substring(0, 1) + '.' }}
+          {{ message?.lastName.substring(0, 1) + "." }}
         </v-card-title>
         <v-card-subtitle class="my-0">
           {{ dateFormatter(message?.createdAt) }}
@@ -65,46 +65,48 @@ import {
   VCard,
   VCardText,
   VCardTitle,
-  VCardSubtitle
-} from 'vuetify/components'
+  VCardSubtitle,
+} from "vuetify/components";
 import {
   updateDoc,
   doc,
   arrayUnion,
   Timestamp,
-  getDoc
-} from '@firebase/firestore'
-import { articleConverter } from '~/stores'
-import type { LocalArticleType } from '~/stores'
+  getDoc,
+} from "@firebase/firestore";
+import { articleConverter } from "~/stores";
+import type { LocalArticleType } from "~/stores";
 
 const props = defineProps<{
-  showComments: string
-  id: string
-}>()
+  showComments: string;
+  id: string;
+}>();
 
-const { notifier } = useNotifier()
-const db = useFirestore()
+const { notifier } = useNotifier();
+const db = useFirestore();
 
-const articleRef = doc(db, 'articles', props.id).withConverter(articleConverter)
+const articleRef = doc(db, "articles", props.id).withConverter(
+  articleConverter,
+);
 
-const loading = ref<boolean>(false)
-const comment = ref<string>('')
-const lastName = ref<string>('')
-const firstName = ref<string>('')
-const createdAt = ref(new Date(Date.now()))
+const loading = ref<boolean>(false);
+const comment = ref<string>("");
+const lastName = ref<string>("");
+const firstName = ref<string>("");
+const createdAt = ref(new Date(Date.now()));
 
-const comments = ref<LocalArticleType['comments']>([])
+const comments = ref<LocalArticleType["comments"]>([]);
 
-const articleDoc = await getDoc(articleRef)
-comments.value = articleDoc.data()?.comments ?? []
+const articleDoc = await getDoc(articleRef);
+comments.value = articleDoc.data()?.comments ?? [];
 
 const sendComment = async () => {
   if (!comment.value || !firstName.value || !lastName.value) {
-    notifier({ content: 'Veuillez remplir tous les champs', color: 'error' })
-    return
+    notifier({ content: "Veuillez remplir tous les champs", color: "error" });
+    return;
   }
   try {
-    loading.value = true
+    loading.value = true;
 
     await updateDoc(articleRef, {
       comments: arrayUnion({
@@ -112,24 +114,24 @@ const sendComment = async () => {
         lastName: lastName.value,
         content: comment.value,
         createdAt: Timestamp.fromDate(createdAt.value),
-        updatedAt: Timestamp.now()
-      })
-    })
+        updatedAt: Timestamp.now(),
+      }),
+    });
 
-    notifier({ content: 'Commentaire envoyé', color: 'success' })
+    notifier({ content: "Commentaire envoyé", color: "success" });
   } finally {
-    comment.value = ''
-    firstName.value = ''
-    lastName.value = ''
-    loading.value = false
+    comment.value = "";
+    firstName.value = "";
+    lastName.value = "";
+    loading.value = false;
   }
-}
+};
 
-const dateFormatter = new Intl.DateTimeFormat('fr', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric'
-}).format
+const dateFormatter = new Intl.DateTimeFormat("fr", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+}).format;
 </script>
 
 <style scoped>

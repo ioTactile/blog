@@ -1,27 +1,27 @@
 import {
   QueryDocumentSnapshot,
-  Timestamp as FirestoreTimestamp
-} from '@firebase/firestore'
-import type { FirestoreDataConverter } from '@firebase/firestore'
-import { defineStore } from 'pinia'
-import { Timestamp } from '~/functions/src/types'
-import type { User, Article } from '~/functions/src/types'
+  Timestamp as FirestoreTimestamp,
+} from "@firebase/firestore";
+import type { FirestoreDataConverter } from "@firebase/firestore";
+import { defineStore } from "pinia";
+import { Timestamp } from "~/functions/src/types";
+import type { User, Article } from "~/functions/src/types";
 
-export const useStore = defineStore('main', () => {
-  const av1Support = ref<null | boolean>(null)
-  const avifSupport = ref<null | boolean>(null)
-  const vp9Support = ref<null | boolean>(null)
-  const webpSupport = ref<null | boolean>(null)
-  const search = ref('')
+export const useStore = defineStore("main", () => {
+  const av1Support = ref<null | boolean>(null);
+  const avifSupport = ref<null | boolean>(null);
+  const vp9Support = ref<null | boolean>(null);
+  const webpSupport = ref<null | boolean>(null);
+  const search = ref("");
 
   return {
     av1Support,
     avifSupport,
     vp9Support,
     webpSupport,
-    search
-  }
-})
+    search,
+  };
+});
 
 type NestedTypeMapper<T, I, O> = T extends I
   ? O
@@ -33,55 +33,55 @@ type NestedTypeMapper<T, I, O> = T extends I
         ? T[Property] extends I
           ? O
           : T[Property]
-        : NestedTypeMapper<T[Property], I, O>
-    }
+        : NestedTypeMapper<T[Property], I, O>;
+    };
 
-type DatabaseUserType = NestedTypeMapper<User, Timestamp, FirestoreTimestamp>
-export type LocalUserType = NestedTypeMapper<User, Timestamp, Date>
+type DatabaseUserType = NestedTypeMapper<User, Timestamp, FirestoreTimestamp>;
+export type LocalUserType = NestedTypeMapper<User, Timestamp, Date>;
 export const userConverter: FirestoreDataConverter<LocalUserType> = {
   toFirestore: (item) => item,
   fromFirestore: (
     snapshot: QueryDocumentSnapshot<DatabaseUserType>,
-    options
+    options,
   ) => {
-    const data = snapshot.data(options)
+    const data = snapshot.data(options);
     return {
       ...data,
       id: snapshot.id,
       creationDate: data.creationDate.toDate(),
-      updateDate: data.updateDate.toDate()
-    }
-  }
-}
+      updateDate: data.updateDate.toDate(),
+    };
+  },
+};
 
 type DatabaseArticleType = NestedTypeMapper<
   Article,
   Timestamp,
   FirestoreTimestamp
->
-export type LocalArticleType = NestedTypeMapper<Article, Timestamp, Date>
+>;
+export type LocalArticleType = NestedTypeMapper<Article, Timestamp, Date>;
 export const articleConverter: FirestoreDataConverter<LocalArticleType> = {
   toFirestore: (item) => item,
   fromFirestore: (
     snapshot: QueryDocumentSnapshot<DatabaseArticleType>,
-    options
+    options,
   ) => {
-    const data = snapshot.data(options)
+    const data = snapshot.data(options);
     const comments = data.comments
       ? data.comments.map((comment) => {
           return {
             ...comment,
-            createdAt: comment.createdAt.toDate()
-          }
+            createdAt: comment.createdAt.toDate(),
+          };
         })
-      : []
+      : [];
 
     return {
       ...data,
       id: snapshot.id,
       creationDate: data.creationDate.toDate(),
       updateDate: data.updateDate.toDate(),
-      comments
-    }
-  }
-}
+      comments,
+    };
+  },
+};

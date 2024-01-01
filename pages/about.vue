@@ -30,20 +30,37 @@
   </v-container>
 </template>
 
-<script lang="ts" setup>
-import { VContainer, VRow, VCol } from 'vuetify/components'
+<script setup lang="ts">
+import { VContainer, VRow, VCol } from "vuetify/components";
 
 useSeoMeta({
-  title: 'À Propos - ioTactile',
-  ogTitle: 'À Propos - ioTactile',
-  description: 'Page où je présente le site et moi-même',
-  ogDescription: 'Page où je présente le site et moi-même',
-  ogImage: '/iotactile.png',
-  ogUrl: 'https://iotactile.fr/about'
-})
+  title: "À Propos - ioTactile",
+  ogTitle: "À Propos - ioTactile",
+  twitterTitle: "À Propos - ioTactile",
+  description: "Page où je présente le site et moi-même",
+  ogDescription: "Page où je présente le site et moi-même",
+  twitterDescription: "Page où je présente le site et moi-même",
+  ogImage: "/iotactile.png",
+  twitterImage: "/blog.png",
+  twitterCard: "summary_large_image",
+  ogUrl: "https://iotactile.fr/about",
+});
+
+useHead({
+  htmlAttrs: {
+    lang: "fr",
+  },
+  link: [
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "favicon.png",
+    },
+  ],
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   max-width: 800px;
   margin: 0 auto;

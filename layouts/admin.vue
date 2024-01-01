@@ -11,33 +11,33 @@
   </v-app>
 </template>
 
-<script lang="ts" setup>
-import { VApp, VMain } from 'vuetify/components'
-import { storeToRefs } from 'pinia'
-import { useStore } from '~/stores'
-import TestAllFeatures from '~/assets/feature-test'
+<script setup lang="ts">
+import { VApp, VMain } from "vuetify/components";
+import { storeToRefs } from "pinia";
+import { useStore } from "~/stores";
+import TestAllFeatures from "~/assets/feature-test";
 
-const user = useCurrentUser()
-const { notifier } = useNotifier()
+const user = useCurrentUser();
+const { notifier } = useNotifier();
 
-const store = useStore()
-const { av1Support, avifSupport, vp9Support, webpSupport } = storeToRefs(store)
+const store = useStore();
+const { av1Support, avifSupport, vp9Support, webpSupport } = storeToRefs(store);
 
 onErrorCaptured((error) => {
-  notifier({ error })
-  return false
-})
+  notifier({ error });
+  return false;
+});
 
 onBeforeMount(async () => {
   if (!user.value) {
-    return await navigateTo('/')
+    return await navigateTo("/");
   }
   const { vp9Available, av1Available, webpAvailable, avifAvailable } =
-    await TestAllFeatures()
+    await TestAllFeatures();
 
-  av1Support.value = av1Available
-  avifSupport.value = avifAvailable
-  vp9Support.value = vp9Available
-  webpSupport.value = webpAvailable
-})
+  av1Support.value = av1Available;
+  avifSupport.value = avifAvailable;
+  vp9Support.value = vp9Available;
+  webpSupport.value = webpAvailable;
+});
 </script>

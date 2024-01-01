@@ -41,7 +41,7 @@
   </v-container>
 </template>
 
-<script lang="ts" async setup>
+<script async setup lang="ts">
 import {
   VContainer,
   VRow,
@@ -52,43 +52,60 @@ import {
   VCardText,
   VCardActions,
   VCardSubtitle,
-  VImg
-} from 'vuetify/components'
-import { mdiChevronRight } from '@mdi/js'
-import { collection, query, orderBy, getDocs } from 'firebase/firestore'
-import { useFirestore } from 'vuefire'
-import { articleConverter } from '~/stores'
+  VImg,
+} from "vuetify/components";
+import { mdiChevronRight } from "@mdi/js";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { useFirestore } from "vuefire";
+import { articleConverter } from "~/stores";
 
-const db = useFirestore()
+const db = useFirestore();
 
-const articlesRef = collection(db, 'articles').withConverter(articleConverter)
-const articlesQuery = query(articlesRef, orderBy('creationDate', 'desc'))
-const articlesDocs = await getDocs(articlesQuery)
-const articles = articlesDocs.docs.map((doc) => doc.data())
+const articlesRef = collection(db, "articles").withConverter(articleConverter);
+const articlesQuery = query(articlesRef, orderBy("creationDate", "desc"));
+const articlesDocs = await getDocs(articlesQuery);
+const articles = articlesDocs.docs.map((doc) => doc.data());
 
-const title = `ioTactile - Un blog sur le développement informatique - Dernier article: ${articles[0].title}`
-const content = ref(title)
+const title = `ioTactile - Un blog sur le développement informatique - Dernier article: ${articles[0].title}`;
+const content = ref(title);
 
-const dateFormatter = new Intl.DateTimeFormat('fr', {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-}).format
+const dateFormatter = new Intl.DateTimeFormat("fr", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+}).format;
 
 useSeoMeta({
-  title: 'Accueil - ioTactile',
-  ogTitle: 'Accueil - ioTactile',
+  title: "Accueil - ioTactile",
+  ogTitle: "Accueil - ioTactile",
+  twitterTitle: "Accueil - ioTactile",
   description: content,
   ogDescription: content,
+  twitterDescription: content,
   ogImage: articles[0].images?.[0]?.url,
-  ogUrl: 'https://iotactile.com'
-})
+  twitterImage: articles[0].images?.[0]?.url,
+  twitterCard: "summary_large_image",
+  ogUrl: "https://iotactile.com",
+});
+
+useHead({
+  htmlAttrs: {
+    lang: "fr",
+  },
+  link: [
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "favicon.png",
+    },
+  ],
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   max-width: 1080px;
 }

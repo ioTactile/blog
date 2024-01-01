@@ -11,6 +11,6 @@
   </v-app>
 </template>
 
-<script lang="ts" setup>
-import { VApp, VMain } from 'vuetify/components'
+<script setup lang="ts">
+import { VApp, VMain } from "vuetify/components";
 </script>

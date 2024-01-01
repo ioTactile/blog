@@ -10,8 +10,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { VContainer } from 'vuetify/components'
+<script setup lang="ts">
+import { VContainer } from "vuetify/components";
 
-definePageMeta({ layout: 'admin' })
+definePageMeta({ layout: "admin" });
 </script>

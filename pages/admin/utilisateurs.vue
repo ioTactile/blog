@@ -94,8 +94,8 @@
   </div>
 </template>
 
-<script lang="ts" async setup>
-import { mdiDelete, mdiClose } from '@mdi/js'
+<script async setup lang="ts">
+import { mdiDelete, mdiClose } from "@mdi/js";
 import {
   VContainer,
   VForm,
@@ -107,28 +107,28 @@ import {
   VCardText,
   VCardActions,
   VSpacer,
-  VCheckbox
-} from 'vuetify/components'
-import { collection, getDocs } from 'firebase/firestore'
-import { useFirebaseFunctions } from '~/composables/useFirebaseFunctions'
-import { userConverter } from '~/stores'
-import type { LocalUserType } from '~/stores'
+  VCheckbox,
+} from "vuetify/components";
+import { collection, getDocs } from "firebase/firestore";
+import { useFirebaseFunctions } from "~/composables/useFirebaseFunctions";
+import { userConverter } from "~/stores";
+import type { LocalUserType } from "~/stores";
 
-definePageMeta({ layout: 'admin' })
+definePageMeta({ layout: "admin" });
 
-const db = useFirestore()
-const functions = useFirebaseFunctions()
-const dialog = ref(false)
-const email = ref<string>()
-const password = ref<string>()
-const role = ref<'admin' | null>(null)
-const loading = ref(false)
-const removing = ref<string | null>(null)
-const form = ref<VForm>()
+const db = useFirestore();
+const functions = useFirebaseFunctions();
+const dialog = ref(false);
+const email = ref<string>();
+const password = ref<string>();
+const role = ref<"admin" | null>(null);
+const loading = ref(false);
+const removing = ref<string | null>(null);
+const form = ref<VForm>();
 
-const usersRef = collection(db, 'users').withConverter(userConverter)
-const usersDocs = await getDocs(usersRef)
-const users = ref(usersDocs.docs.map((doc) => doc.data()))
+const usersRef = collection(db, "users").withConverter(userConverter);
+const usersDocs = await getDocs(usersRef);
+const users = ref(usersDocs.docs.map((doc) => doc.data()));
 
 const createUser = async () => {
   if (
@@ -136,45 +136,45 @@ const createUser = async () => {
     !email.value ||
     !password.value
   ) {
-    return
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
 
   try {
     const { data } = await functions<
       { email: string; password: string; role: { admin: true } },
       LocalUserType
-    >('createAdmin')({
+    >("createAdmin")({
       email: email.value,
       password: password.value,
-      role: { admin: true }
-    })
+      role: { admin: true },
+    });
 
-    users.value.push(data)
-    dialog.value = false
+    users.value.push(data);
+    dialog.value = false;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 const removeUser = async (id: string) => {
-  removing.value = id
+  removing.value = id;
 
   try {
-    await functions('removeAdmin')({ id })
+    await functions("removeAdmin")({ id });
 
-    users.value = users.value.filter((user) => user.id !== id)
+    users.value = users.value.filter((user) => user.id !== id);
   } finally {
-    removing.value = null
+    removing.value = null;
   }
-}
+};
 
 const getRole = (role: { admin: true } | undefined) => {
   if (!role) {
-    return 'Utilisateur'
+    return "Utilisateur";
   }
   if (role.admin) {
-    return 'Admin'
+    return "Admin";
   }
-}
+};
 </script>

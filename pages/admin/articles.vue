@@ -129,8 +129,8 @@
   </div>
 </template>
 
-<script lang="ts" async setup>
-import { mdiPencil, mdiClose } from '@mdi/js'
+<script async setup lang="ts">
+import { mdiPencil, mdiClose } from "@mdi/js";
 import {
   VContainer,
   VForm,
@@ -146,8 +146,8 @@ import {
   VRow,
   VCol,
   VTable,
-  VImg
-} from 'vuetify/components'
+  VImg,
+} from "vuetify/components";
 import {
   collection,
   getDocs,
@@ -155,121 +155,121 @@ import {
   doc,
   query,
   orderBy,
-  Timestamp
-} from 'firebase/firestore'
-import { useFirestore, useCurrentUser } from 'vuefire'
-import slugify from 'slugify'
-import { articleConverter } from '~/stores'
-import type { LocalArticleType } from '~/stores'
-import type { Image } from '~/functions/src/types'
+  Timestamp,
+} from "firebase/firestore";
+import { useFirestore, useCurrentUser } from "vuefire";
+import slugify from "slugify";
+import { articleConverter } from "~/stores";
+import type { LocalArticleType } from "~/stores";
+import type { Image } from "~/functions/src/types";
 
-definePageMeta({ layout: 'admin' })
+definePageMeta({ layout: "admin" });
 
-const db = useFirestore()
-const user = useCurrentUser()
+const db = useFirestore();
+const user = useCurrentUser();
 
-const dialog = ref(false)
-const id = ref<string | null>(null)
-const imageManager = ref()
-const images = ref<Image[]>([])
-const title = ref<string>('')
-const description = ref<string>('')
-const content = ref<string>('')
-const creationDate = ref(new Date(Date.now()))
-const loading = ref(false)
-const fileLoading = ref(false)
-const removing = ref(false)
-const form = ref<VForm>()
+const dialog = ref(false);
+const id = ref<string | null>(null);
+const imageManager = ref();
+const images = ref<Image[]>([]);
+const title = ref<string>("");
+const description = ref<string>("");
+const content = ref<string>("");
+const creationDate = ref(new Date(Date.now()));
+const loading = ref(false);
+const fileLoading = ref(false);
+const removing = ref(false);
+const form = ref<VForm>();
 
-const articlesRef = collection(db, 'articles').withConverter(articleConverter)
+const articlesRef = collection(db, "articles").withConverter(articleConverter);
 
 const getArticles = async () => {
-  const articlesQuery = query(articlesRef, orderBy('creationDate', 'desc'))
-  const articles = await getDocs(articlesQuery)
-  return articles.docs.map((doc) => doc.data())
-}
-const articles = ref(await getArticles())
+  const articlesQuery = query(articlesRef, orderBy("creationDate", "desc"));
+  const articles = await getDocs(articlesQuery);
+  return articles.docs.map((doc) => doc.data());
+};
+const articles = ref(await getArticles());
 
 const createArticle = () => {
-  id.value = doc(articlesRef).id
-  dialog.value = true
-}
+  id.value = doc(articlesRef).id;
+  dialog.value = true;
+};
 
 const saveArticle = async () => {
   if (!(await form.value?.validate())?.valid || !id.value || !user.value) {
-    return
+    return;
   }
-  loading.value = true
+  loading.value = true;
 
   try {
-    await imageManager.value.save()
+    await imageManager.value.save();
 
-    const articleRef = doc(articlesRef, id.value)
+    const articleRef = doc(articlesRef, id.value);
     await setDoc(articleRef, {
       id: id.value,
       images: images.value,
       title: title.value,
-      slug: slugify(title.value + '-' + articleRef.id, {
+      slug: slugify(title.value + "-" + articleRef.id, {
         lower: true,
-        strict: true
+        strict: true,
       }),
       description: description.value,
       content: content.value,
       comments: [],
       creationDate: Timestamp.fromDate(creationDate.value),
-      updateDate: Timestamp.now()
-    })
+      updateDate: Timestamp.now(),
+    });
 
-    articles.value = await getArticles()
+    articles.value = await getArticles();
   } finally {
-    reset()
+    reset();
   }
-}
+};
 
 const edit = (article: LocalArticleType) => {
-  id.value = article.id
-  images.value = article.images
-  title.value = article.title
-  description.value = article.description
-  content.value = article.content
-  creationDate.value = article.creationDate
-  dialog.value = true
-}
+  id.value = article.id;
+  images.value = article.images;
+  title.value = article.title;
+  description.value = article.description;
+  content.value = article.content;
+  creationDate.value = article.creationDate;
+  dialog.value = true;
+};
 
 const removeArticle = async () => {
-  removing.value = true
+  removing.value = true;
 
   try {
-    images.value?.forEach((_, id) => imageManager.value.deleteImg(id))
-    await imageManager.value.save()
+    images.value?.forEach((_, id) => imageManager.value.deleteImg(id));
+    await imageManager.value.save();
 
     // const articleRef = doc(articlesRef, id.value)
     // await deleteDoc(articleRef)
 
-    articles.value = await getArticles()
+    articles.value = await getArticles();
   } finally {
-    reset()
+    reset();
   }
-}
+};
 
 const reset = () => {
-  id.value = null
-  images.value = []
-  title.value = ''
-  description.value = ''
-  content.value = ''
-  creationDate.value = new Date(Date.now())
-  dialog.value = false
-  loading.value = false
-  removing.value = false
-}
+  id.value = null;
+  images.value = [];
+  title.value = "";
+  description.value = "";
+  content.value = "";
+  creationDate.value = new Date(Date.now());
+  dialog.value = false;
+  loading.value = false;
+  removing.value = false;
+};
 
-const dateFormatter = new Intl.DateTimeFormat('fr', {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-}).format
+const dateFormatter = new Intl.DateTimeFormat("fr", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+}).format;
 </script>
