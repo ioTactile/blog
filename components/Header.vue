@@ -48,7 +48,7 @@
       <v-list nav>
         <v-list-item to="/about"> À Propos </v-list-item>
         <v-list-item @click="toggleTheme">
-          Thème {{ theme.current.value.dark ? 'clair' : 'sombre' }}
+          Thème {{ theme.current.value.dark ? "clair" : "sombre" }}
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -68,52 +68,52 @@ import {
   VList,
   VListItem,
   VNavigationDrawer,
-  VSpacer
-} from 'vuetify/components'
-import { mdiAccount, mdiThemeLightDark } from '@mdi/js'
-import { getIdTokenResult } from 'firebase/auth'
-import { useDisplay, useTheme } from 'vuetify'
+  VSpacer,
+} from "vuetify/components";
+import { mdiAccount, mdiThemeLightDark } from "@mdi/js";
+import { getIdTokenResult } from "firebase/auth";
+import { useDisplay, useTheme } from "vuetify";
 
-const { xs } = useDisplay()
-const theme = useTheme()
-const user = useCurrentUser()
+const { xs } = useDisplay();
+const theme = useTheme();
+const user = useCurrentUser();
 
-const login = ref<boolean>(false)
-const adminUser = ref<boolean | unknown>(false)
-const drawer = ref<boolean>(false)
+const login = ref<boolean>(false);
+const adminUser = ref<boolean | unknown>(false);
+const drawer = ref<boolean>(false);
 
-defineProps<{ admin?: boolean }>()
+defineProps<{ admin?: boolean }>();
 
 onMounted(async () => {
   if (!user.value) {
-    return
+    return;
   }
-  const { claims } = await getIdTokenResult(user.value, true)
-  adminUser.value = claims.admin
+  const { claims } = await getIdTokenResult(user.value, true);
+  adminUser.value = claims.admin;
 
-  localStorage.getItem('theme') === 'myCustomDarkTheme'
-    ? (theme.global.name.value = 'myCustomDarkTheme')
-    : (theme.global.name.value = 'myCustomLightTheme')
-})
+  localStorage.getItem("theme") === "myCustomDarkTheme"
+    ? (theme.global.name.value = "myCustomDarkTheme")
+    : (theme.global.name.value = "myCustomLightTheme");
+});
 
 const isLogin = (path: string) => {
   if (!user.value) {
-    login.value = true
+    login.value = true;
   } else {
-    navigateTo(path)
+    navigateTo(path);
   }
-}
+};
 
 const toggleDrawer = () => {
-  drawer.value = !drawer.value
-}
+  drawer.value = !drawer.value;
+};
 
 const toggleTheme = () => {
   theme.global.name.value =
-    theme.name.value === 'myCustomLightTheme'
-      ? 'myCustomDarkTheme'
-      : 'myCustomLightTheme'
+    theme.name.value === "myCustomLightTheme"
+      ? "myCustomDarkTheme"
+      : "myCustomLightTheme";
 
-  localStorage.setItem('theme', theme.global.name.value)
-}
+  localStorage.setItem("theme", theme.global.name.value);
+};
 </script>

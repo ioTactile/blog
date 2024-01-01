@@ -86,122 +86,122 @@ import {
   VForm,
   VTextField,
   VBtn,
-  VDivider
-} from 'vuetify/components'
-import { mdiDotsVertical, mdiPencil } from '@mdi/js'
-import { deleteUser, signOut } from '@firebase/auth'
-import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore'
-import { userConverter } from '~/stores'
+  VDivider,
+} from "vuetify/components";
+import { mdiDotsVertical, mdiPencil } from "@mdi/js";
+import { deleteUser, signOut } from "@firebase/auth";
+import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { userConverter } from "~/stores";
 
-definePageMeta({ layout: 'admin' })
+definePageMeta({ layout: "admin" });
 
-const { notifier } = useNotifier()
-const auth = useFirebaseAuth()
-const user = useCurrentUser()
-const db = useFirestore()
+const { notifier } = useNotifier();
+const auth = useFirebaseAuth();
+const user = useCurrentUser();
+const db = useFirestore();
 
-const loading = ref(false)
-const change = ref(false)
-const openDeleteUser = ref(false)
-const firstName = ref<string>()
-const lastName = ref<string>()
-const form = ref(VForm)
+const loading = ref(false);
+const change = ref(false);
+const openDeleteUser = ref(false);
+const firstName = ref<string>();
+const lastName = ref<string>();
+const form = ref(VForm);
 
 const isChange = () => {
   if (!change.value) {
-    change.value = true
+    change.value = true;
   } else {
-    change.value = false
+    change.value = false;
   }
-}
+};
 
 onMounted(async () => {
   if (!user.value) {
-    return
+    return;
   }
-  const userId = user.value.uid
-  const userRef = doc(db, 'users', userId).withConverter(userConverter)
-  const userDoc = await getDoc(userRef)
-  const userFetched = userDoc.data()
+  const userId = user.value.uid;
+  const userRef = doc(db, "users", userId).withConverter(userConverter);
+  const userDoc = await getDoc(userRef);
+  const userFetched = userDoc.data();
   if (userFetched) {
-    firstName.value = userFetched.firstName
-    lastName.value = userFetched.lastName
+    firstName.value = userFetched.firstName;
+    lastName.value = userFetched.lastName;
   }
-})
+});
 
 const updateProfile = async () => {
   if (!user.value || !(await form.value?.validate())?.valid) {
-    return
+    return;
   }
-  loading.value = true
+  loading.value = true;
 
   try {
     if (user.value) {
-      const userId = user.value.uid
-      const userRef = doc(db, 'users', userId).withConverter(userConverter)
+      const userId = user.value.uid;
+      const userRef = doc(db, "users", userId).withConverter(userConverter);
       await setDoc(
         userRef,
         { firstName: firstName.value, lastName: lastName.value },
-        { merge: true }
-      )
+        { merge: true },
+      );
       notifier({
-        content: 'Profil mis à jour',
-        color: 'success'
-      })
+        content: "Profil mis à jour",
+        color: "success",
+      });
     }
   } catch (error) {
     notifier({
       content:
-        'Une erreur est survenue lors de la mise à jour de vos informations',
-      color: 'error',
-      error
-    })
+        "Une erreur est survenue lors de la mise à jour de vos informations",
+      color: "error",
+      error,
+    });
   } finally {
-    change.value = false
-    loading.value = false
+    change.value = false;
+    loading.value = false;
   }
-}
+};
 
 const deleteProfile = async () => {
   if (!user.value) {
-    return
+    return;
   }
-  loading.value = true
+  loading.value = true;
 
   try {
-    const userRef = doc(db, 'users', user.value.uid)
-    await deleteDoc(userRef)
-    await deleteUser(user.value)
+    const userRef = doc(db, "users", user.value.uid);
+    await deleteDoc(userRef);
+    await deleteUser(user.value);
   } catch (error) {
     notifier({
-      content: 'Une erreur est survenue lors de la suppression de votre compte',
-      color: 'error',
-      error
-    })
+      content: "Une erreur est survenue lors de la suppression de votre compte",
+      color: "error",
+      error,
+    });
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const logout = async () => {
   if (!auth) {
-    return
+    return;
   }
-  loading.value = true
+  loading.value = true;
 
   try {
-    await signOut(auth)
-    await navigateTo('/')
+    await signOut(auth);
+    await navigateTo("/");
   } catch (error) {
     notifier({
-      content: 'Une erreur est survenue lors de la déconnexion',
-      color: 'error',
-      error
-    })
+      content: "Une erreur est survenue lors de la déconnexion",
+      color: "error",
+      error,
+    });
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <style scoped>

@@ -30,7 +30,7 @@
               variant="text"
               @click="forgotPassword = !forgotPassword"
             >
-              {{ forgotPassword ? 'Retour' : 'Mot de passe oublié' }}
+              {{ forgotPassword ? "Retour" : "Mot de passe oublié" }}
             </v-btn>
           </div>
           <v-btn
@@ -41,7 +41,7 @@
             :loading="loading === 'email'"
           >
             {{
-              forgotPassword ? 'Réinitialiser mon mot de passe' : 'Connexion'
+              forgotPassword ? "Réinitialiser mon mot de passe" : "Connexion"
             }}
           </v-btn>
         </v-form>
@@ -57,84 +57,84 @@ import {
   VBtn,
   VCardText,
   VDialog,
-  VCardTitle
-} from 'vuetify/components'
-import { mdiClose } from '@mdi/js'
+  VCardTitle,
+} from "vuetify/components";
+import { mdiClose } from "@mdi/js";
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   AuthErrorCodes,
-  getIdTokenResult
-} from 'firebase/auth'
-import type { ParsedToken } from 'firebase/auth'
-import { FirebaseError } from '@firebase/util'
+  getIdTokenResult,
+} from "firebase/auth";
+import type { ParsedToken } from "firebase/auth";
+import { FirebaseError } from "@firebase/util";
 
-const { notifier } = useNotifier()
-const user = useCurrentUser()
-const auth = useFirebaseAuth()
+const { notifier } = useNotifier();
+const user = useCurrentUser();
+const auth = useFirebaseAuth();
 
 defineProps<{
-  modelValue: boolean
-}>()
+  modelValue: boolean;
+}>();
 
-const emits = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>()
+const emits = defineEmits<{ (e: "update:modelValue", value: boolean): void }>();
 
-const email = ref('')
-const password = ref('')
-const userClaims = ref<null | ParsedToken>(null)
-const forgotPassword = ref(false)
-const loading = ref<'email' | null>(null)
-const form = ref<VForm>()
+const email = ref("");
+const password = ref("");
+const userClaims = ref<null | ParsedToken>(null);
+const forgotPassword = ref(false);
+const loading = ref<"email" | null>(null);
+const form = ref<VForm>();
 
 onBeforeMount(async () => {
   if (user.value) {
-    const { claims } = await getIdTokenResult(user.value, true)
-    userClaims.value = claims
+    const { claims } = await getIdTokenResult(user.value, true);
+    userClaims.value = claims;
   }
-})
+});
 
 const login = async () => {
   if (!auth || !(await form.value?.validate())?.valid) {
-    return
+    return;
   }
-  loading.value = 'email'
+  loading.value = "email";
   try {
     if (forgotPassword.value) {
-      await sendPasswordResetEmail(auth, email.value)
+      await sendPasswordResetEmail(auth, email.value);
       notifier({
-        content: 'Un email de réinitialisation a été envoyé',
-        color: 'success'
-      })
-      forgotPassword.value = false
+        content: "Un email de réinitialisation a été envoyé",
+        color: "success",
+      });
+      forgotPassword.value = false;
     } else {
       const userCredentials = await signInWithEmailAndPassword(
         auth,
         email.value,
-        password.value
-      )
-      const { claims } = await getIdTokenResult(userCredentials.user, true)
+        password.value,
+      );
+      const { claims } = await getIdTokenResult(userCredentials.user, true);
       if (claims.admin) {
-        navigateTo('/admin')
+        navigateTo("/admin");
       }
     }
-    emits('update:modelValue', false)
+    emits("update:modelValue", false);
   } catch (error: unknown) {
     if (!(error instanceof FirebaseError)) {
-      throw error
+      throw error;
     }
 
-    let errMessage
+    let errMessage;
     switch (error.code) {
       case AuthErrorCodes.INVALID_PASSWORD:
-        errMessage = 'Mot de passe incorrect'
-        break
+        errMessage = "Mot de passe incorrect";
+        break;
       default:
-        errMessage = 'une erreur est survenue'
-        break
+        errMessage = "une erreur est survenue";
+        break;
     }
-    notifier({ content: errMessage, color: 'error', error })
+    notifier({ content: errMessage, color: "error", error });
   } finally {
-    loading.value = null
+    loading.value = null;
   }
-}
+};
 </script>

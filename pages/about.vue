@@ -31,16 +31,16 @@
 </template>
 
 <script lang="ts" setup>
-import { VContainer, VRow, VCol } from 'vuetify/components'
+import { VContainer, VRow, VCol } from "vuetify/components";
 
 useSeoMeta({
-  title: 'À Propos - ioTactile',
-  ogTitle: 'À Propos - ioTactile',
-  description: 'Page où je présente le site et moi-même',
-  ogDescription: 'Page où je présente le site et moi-même',
-  ogImage: '/iotactile.png',
-  ogUrl: 'https://iotactile.fr/about'
-})
+  title: "À Propos - ioTactile",
+  ogTitle: "À Propos - ioTactile",
+  description: "Page où je présente le site et moi-même",
+  ogDescription: "Page où je présente le site et moi-même",
+  ogImage: "/iotactile.png",
+  ogUrl: "https://iotactile.fr/about",
+});
 </script>
 
 <style scoped>

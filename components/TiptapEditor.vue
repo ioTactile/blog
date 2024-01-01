@@ -305,7 +305,7 @@
             editor?.commands.insertTable({
               rows: 3,
               cols: 3,
-              withHeaderRow: true
+              withHeaderRow: true,
             })
           "
         >
@@ -401,8 +401,8 @@ import {
   VTextField,
   VForm,
   VColorPicker,
-  VDivider
-} from 'vuetify/components'
+  VDivider,
+} from "vuetify/components";
 import {
   mdiArrowDownDropCircle,
   mdiFormatAlignCenter,
@@ -444,50 +444,50 @@ import {
   mdiTableRowRemove,
   mdiTableSplitCell,
   mdiUndo,
-  mdiVideo
-} from '@mdi/js'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+  mdiVideo,
+} from "@mdi/js";
+import { useEditor, EditorContent } from "@tiptap/vue-3";
 // eslint-disable-next-line import/no-named-as-default
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from "@tiptap/starter-kit";
 // eslint-disable-next-line import/no-named-as-default
-import Underline from '@tiptap/extension-underline'
+import Underline from "@tiptap/extension-underline";
 // eslint-disable-next-line import/no-named-as-default
-import HardBreak from '@tiptap/extension-hard-break'
+import HardBreak from "@tiptap/extension-hard-break";
 // eslint-disable-next-line import/no-named-as-default
-import Highlight from '@tiptap/extension-highlight'
+import Highlight from "@tiptap/extension-highlight";
 // eslint-disable-next-line import/no-named-as-default
-import TextStyle from '@tiptap/extension-text-style'
+import TextStyle from "@tiptap/extension-text-style";
 // eslint-disable-next-line import/no-named-as-default
-import Color from '@tiptap/extension-color'
+import Color from "@tiptap/extension-color";
 // eslint-disable-next-line import/no-named-as-default
-import Subscript from '@tiptap/extension-subscript'
+import Subscript from "@tiptap/extension-subscript";
 // eslint-disable-next-line import/no-named-as-default
-import Superscript from '@tiptap/extension-superscript'
+import Superscript from "@tiptap/extension-superscript";
 // eslint-disable-next-line import/no-named-as-default
-import TextAlign from '@tiptap/extension-text-align'
+import TextAlign from "@tiptap/extension-text-align";
 // eslint-disable-next-line import/no-named-as-default
-import Link from '@tiptap/extension-link'
+import Link from "@tiptap/extension-link";
 // eslint-disable-next-line import/no-named-as-default
-import Image from '@tiptap/extension-image'
+import Image from "@tiptap/extension-image";
 // eslint-disable-next-line import/no-named-as-default
-import TaskItem from '@tiptap/extension-task-item'
+import TaskItem from "@tiptap/extension-task-item";
 // eslint-disable-next-line import/no-named-as-default
-import TaskList from '@tiptap/extension-task-list'
+import TaskList from "@tiptap/extension-task-list";
 // eslint-disable-next-line import/no-named-as-default
-import Youtube from '@tiptap/extension-youtube'
+import Youtube from "@tiptap/extension-youtube";
 // eslint-disable-next-line import/no-named-as-default
-import Table from '@tiptap/extension-table'
+import Table from "@tiptap/extension-table";
 // eslint-disable-next-line import/no-named-as-default
-import TableCell from '@tiptap/extension-table-cell'
+import TableCell from "@tiptap/extension-table-cell";
 // eslint-disable-next-line import/no-named-as-default
-import TableHeader from '@tiptap/extension-table-header'
+import TableHeader from "@tiptap/extension-table-header";
 // eslint-disable-next-line import/no-named-as-default
-import TableRow from '@tiptap/extension-table-row'
+import TableRow from "@tiptap/extension-table-row";
 
-const componentProps = defineProps<{ modelValue?: string }>()
+const componentProps = defineProps<{ modelValue?: string }>();
 const emits = defineEmits<{
-  (e: 'update:model-value', newVal?: string): void
-}>()
+  (e: "update:model-value", newVal?: string): void;
+}>();
 
 const editor = useEditor({
   content: componentProps.modelValue,
@@ -497,17 +497,17 @@ const editor = useEditor({
     Highlight.configure({ multicolor: true }),
     HardBreak,
     TextStyle,
-    Color.configure({ types: ['textStyle'] }),
+    Color.configure({ types: ["textStyle"] }),
     Subscript,
     Superscript,
-    TextAlign.configure({ types: ['heading', 'paragraph'] }),
-    Link.configure({ protocols: ['mailto'] }),
+    TextAlign.configure({ types: ["heading", "paragraph"] }),
+    Link.configure({ protocols: ["mailto"] }),
     Image.configure({
       inline: true,
       allowBase64: true,
       HTMLAttributes: {
-        style: 'max-width: 100%; height: auto;'
-      }
+        style: "max-width: 100%; height: auto;",
+      },
     }),
     TaskList,
     TaskItem.configure({ nested: true }),
@@ -515,29 +515,29 @@ const editor = useEditor({
     Table.configure({ resizable: true }),
     TableCell,
     TableHeader,
-    TableRow
+    TableRow,
   ],
-  onUpdate: () => emits('update:model-value', editor.value?.getHTML())
-})
+  onUpdate: () => emits("update:model-value", editor.value?.getHTML()),
+});
 
-const color = ref('#000000')
-const backgroundColor = ref('#CCA66C')
-const link = ref('')
-const imageLink = ref('')
-const videoLink = ref('')
+const color = ref("#000000");
+const backgroundColor = ref("#CCA66C");
+const link = ref("");
+const imageLink = ref("");
+const videoLink = ref("");
 
 watch(
   () => componentProps.modelValue,
   (value) => {
-    const isSame = editor.value?.getHTML() === value
+    const isSame = editor.value?.getHTML() === value;
     if (isSame || !value) {
-      return
+      return;
     }
-    editor.value?.commands.setContent(value, false)
-  }
-)
+    editor.value?.commands.setContent(value, false);
+  },
+);
 
-onBeforeUnmount(() => editor.value?.destroy())
+onBeforeUnmount(() => editor.value?.destroy());
 </script>
 
 <style lang="scss">
