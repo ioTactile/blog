@@ -84,10 +84,10 @@ const articleQuery = query(articlesRef, orderBy("creationDate", "desc"));
 const articlesFetched = await getDocs(articleQuery);
 const articlesDocs = articlesFetched.docs.map((doc) => doc.data());
 const article = articlesDocs.find(
-  (article) => article.slug === route.params.id
+  (article) => article.slug === route.params.id,
 ) as LocalArticleType;
 const articleIndex = articlesDocs.findIndex(
-  (article) => article.slug === route.params.id
+  (article) => article.slug === route.params.id,
 );
 const previousArticle =
   articleIndex > 0 ? articlesDocs[articleIndex - 1] : null;

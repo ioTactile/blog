@@ -142,7 +142,7 @@ const updateProfile = async () => {
       await setDoc(
         userRef,
         { firstName: firstName.value, lastName: lastName.value },
-        { merge: true }
+        { merge: true },
       );
       notifier({
         content: "Profil mis à jour",
