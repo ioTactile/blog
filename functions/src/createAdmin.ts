@@ -9,18 +9,25 @@ export type Data = {
 };
 
 export const createAdmin = functions
+  .runWith({ enforceAppCheck: true })
   .region("europe-west3")
   .https.onCall(async (data: Data, context) => {
+    if (context.app == undefined) {
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "The function must be called from an App Check verified app."
+      );
+    }
     if (!context.auth) {
       throw new functions.https.HttpsError(
         "unauthenticated",
-        "Une authentification est nécessaire",
+        "Une authentification est nécessaire"
       );
     }
     if (!data.email || !data.password || !data.role) {
       throw new functions.https.HttpsError(
         "invalid-argument",
-        "Paramètres incorrect",
+        "Paramètres incorrect"
       );
     }
 
