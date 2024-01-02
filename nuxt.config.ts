@@ -3,8 +3,19 @@ export default defineNuxtConfig({
   css: ["vuetify/styles", "~/assets/main.scss"],
   build: { transpile: ["vuetify"] },
   vite: { define: { "process.env.DEBUG": false } },
+  runtimeConfig: {
+    APP_CHECK_DEBUG_TOKEN_FROM_CI: process.env.APP_CHECK_DEBUG_TOKEN_FROM_CI,
+  },
   vuefire: {
-    auth: true,
+    auth: {
+      enabled: true,
+    },
+    appCheck: {
+      debug: process.env.NODE_ENV !== "production",
+      isTokenAutoRefreshEnabled: true,
+      provider: "ReCaptchaV3",
+      key: "6LdaGkMpAAAAAAKMirSgcZJShFoUOt8X5pZMiAZr",
+    },
     config: {
       apiKey: "AIzaSyCyYv1vujR377lBM2d5z8c2RDXA_Fl8d_0",
       authDomain: "iotactile.firebaseapp.com",
