@@ -43,7 +43,7 @@ export default async () => {
         () => true,
         () => false,
       );
-    } catch (e) {
+    } catch {
       return false;
     }
   };

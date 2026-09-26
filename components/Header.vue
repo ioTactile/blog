@@ -91,9 +91,11 @@ onMounted(async () => {
   const { claims } = await getIdTokenResult(user.value, true);
   adminUser.value = claims.admin;
 
-  localStorage.getItem("theme") === "myCustomDarkTheme"
-    ? (theme.global.name.value = "myCustomDarkTheme")
-    : (theme.global.name.value = "myCustomLightTheme");
+  if (localStorage.getItem("theme") === "myCustomDarkTheme") {
+    theme.global.name.value = "myCustomDarkTheme";
+  } else {
+    theme.global.name.value = "myCustomLightTheme";
+  }
 });
 
 const isLogin = (path: string) => {

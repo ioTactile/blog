@@ -59,7 +59,7 @@ const getBestVideoFormat = async () => {
   );
   const urlsPromises = refs.map((it) => getDownloadURL(it));
   const urls = await Promise.allSettled(urlsPromises);
-  // @ts-ignore
+  // @ts-expect-error vuetify prop typing
   const bestUrl = urls.find((it) => it.status === "fulfilled")?.value;
   bestVideoFormatSrc.value = bestUrl || props.src;
 };

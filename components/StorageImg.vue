@@ -80,7 +80,7 @@ const getImage = async () => {
   );
   const urlsPromises = refs.map((it) => getDownloadURL(it));
   const urls = await Promise.allSettled(urlsPromises);
-  // @ts-ignore
+  // @ts-expect-error vuetify prop typing
   const bestUrl = urls.find((it) => it.status === "fulfilled")?.value;
   imageUrl.value = bestUrl || props.src;
 };

@@ -1,11 +1,10 @@
-import {
+import type {
   QueryDocumentSnapshot,
   Timestamp as FirestoreTimestamp,
+  FirestoreDataConverter,
 } from "@firebase/firestore";
-import type { FirestoreDataConverter } from "@firebase/firestore";
 import { defineStore } from "pinia";
-import { Timestamp } from "~/functions/src/types";
-import type { User, Article } from "~/functions/src/types";
+import type { Timestamp, User, Article } from "~/functions/src/types";
 
 export const useStore = defineStore("main", () => {
   const av1Support = ref<null | boolean>(null);
@@ -27,9 +26,7 @@ type NestedTypeMapper<T, I, O> = T extends I
   ? O
   : {
       [Property in keyof T]: T[Property] extends
-        | Date
-        | FirestoreTimestamp
-        | Timestamp
+        Date | FirestoreTimestamp | Timestamp
         ? T[Property] extends I
           ? O
           : T[Property]

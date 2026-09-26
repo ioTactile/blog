@@ -2,9 +2,8 @@ type NotifierParams = {
   show: boolean;
   content?: string;
   color?: string;
-  error?: any;
+  error?: unknown;
 };
-
 const notification = reactive<NotifierParams>({
   show: false,
 });
@@ -16,11 +15,13 @@ export const useNotifier = () => {
     error,
   }: Omit<NotifierParams, "show">) => {
     notification.color = color || (error ? "error" : "info");
-    notification.content = content || error || "Une erreur est survenue";
+    notification.content =
+      content ||
+      (typeof error === "string" ? error : undefined) ||
+      "Une erreur est survenue";
     notification.show = true;
 
     if (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
     }
   };

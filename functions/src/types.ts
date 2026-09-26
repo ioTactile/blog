@@ -1,7 +1,7 @@
 import {
-  DocumentData,
-  QueryDocumentSnapshot,
   Timestamp,
+  type DocumentData,
+  type QueryDocumentSnapshot,
 } from "firebase-admin/firestore";
 
 export { Timestamp };
