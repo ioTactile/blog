@@ -1,8 +1,28 @@
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
+
 export default defineNuxtConfig({
-  modules: ["@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "nuxt-vuefire"],
+  compatibilityDate: "2025-09-26",
+  modules: [
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
+    "nuxt-vuefire",
+    "@nuxt/eslint",
+  ],
   css: ["vuetify/styles", "~/assets/main.scss"],
   build: { transpile: ["vuetify"] },
-  vite: { define: { "process.env.DEBUG": false } },
+  vite: {
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+  },
+  hooks: {
+    "vite:extendConfig"(config) {
+      config.plugins = config.plugins || [];
+      config.plugins.push(vuetify({ autoImport: true }));
+    },
+  },
   runtimeConfig: {
     APP_CHECK_DEBUG_TOKEN_FROM_CI: process.env.APP_CHECK_DEBUG_TOKEN_FROM_CI,
   },
