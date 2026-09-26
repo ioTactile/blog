@@ -12,10 +12,10 @@
 </template>
 
 <script setup lang="ts">
-import { VApp, VMain } from "vuetify/components";
-import { storeToRefs } from "pinia";
-import { useStore } from "~/stores";
-import TestAllFeatures from "~/assets/feature-test";
+import { VApp, VMain } from 'vuetify/components';
+import { storeToRefs } from 'pinia';
+import { useStore } from '~/stores';
+import TestAllFeatures from '~/assets/feature-test';
 
 const user = useCurrentUser();
 const { notifier } = useNotifier();
@@ -30,10 +30,9 @@ onErrorCaptured((error) => {
 
 onBeforeMount(async () => {
   if (!user.value) {
-    return await navigateTo("/");
+    return await navigateTo('/');
   }
-  const { vp9Available, av1Available, webpAvailable, avifAvailable } =
-    await TestAllFeatures();
+  const { vp9Available, av1Available, webpAvailable, avifAvailable } = await TestAllFeatures();
 
   av1Support.value = av1Available;
   avifSupport.value = avifAvailable;

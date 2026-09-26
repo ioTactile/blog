@@ -1,15 +1,14 @@
-import Pica from "pica";
+import Pica from 'pica';
 const pica = new Pica();
 
 export const resizeImage = async (imageFiles: File[], maxHeight = 700) => {
   const resultPromises = imageFiles.map(async (imageFile) => {
-    if (["image/svg+xml", "application/pdf"].includes(imageFile.type)) {
+    if (['image/svg+xml', 'application/pdf'].includes(imageFile.type)) {
       return imageFile;
     }
     const dataUrl = await new Promise<string>((resolve) => {
       const fr = new FileReader();
-      fr.onload = (e) =>
-        resolve(typeof e.target?.result === "string" ? e.target.result : "");
+      fr.onload = (e) => resolve(typeof e.target?.result === 'string' ? e.target.result : '');
       fr.readAsDataURL(imageFile);
     });
 
@@ -19,7 +18,7 @@ export const resizeImage = async (imageFiles: File[], maxHeight = 700) => {
       img.src = dataUrl;
     });
 
-    const to = document.createElement("canvas");
+    const to = document.createElement('canvas');
     to.height = maxHeight;
     to.width = (img.width * maxHeight) / img.height;
 

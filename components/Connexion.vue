@@ -25,12 +25,8 @@
             variant="outlined"
           />
           <div class="d-flex justify-center mb-10">
-            <v-btn
-              class="text-lowercase"
-              variant="text"
-              @click="forgotPassword = !forgotPassword"
-            >
-              {{ forgotPassword ? "Retour" : "Mot de passe oublié" }}
+            <v-btn class="text-lowercase" variant="text" @click="forgotPassword = !forgotPassword">
+              {{ forgotPassword ? 'Retour' : 'Mot de passe oublié' }}
             </v-btn>
           </div>
           <v-btn
@@ -40,9 +36,7 @@
             :disabled="loading !== null && loading !== 'email'"
             :loading="loading === 'email'"
           >
-            {{
-              forgotPassword ? "Réinitialiser mon mot de passe" : "Connexion"
-            }}
+            {{ forgotPassword ? 'Réinitialiser mon mot de passe' : 'Connexion' }}
           </v-btn>
         </v-form>
       </v-card-text>
@@ -51,23 +45,16 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  VForm,
-  VCard,
-  VBtn,
-  VCardText,
-  VDialog,
-  VCardTitle,
-} from "vuetify/components";
-import { mdiClose } from "@mdi/js";
+import { VForm, VCard, VBtn, VCardText, VDialog, VCardTitle } from 'vuetify/components';
+import { mdiClose } from '@mdi/js';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   AuthErrorCodes,
   getIdTokenResult,
-} from "firebase/auth";
-import type { ParsedToken } from "firebase/auth";
-import { FirebaseError } from "@firebase/util";
+} from 'firebase/auth';
+import type { ParsedToken } from 'firebase/auth';
+import { FirebaseError } from '@firebase/util';
 
 const { notifier } = useNotifier();
 const user = useCurrentUser();
@@ -77,13 +64,13 @@ defineProps<{
   modelValue: boolean;
 }>();
 
-const emits = defineEmits<{ (e: "update:modelValue", value: boolean): void }>();
+const emits = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>();
 
-const email = ref("");
-const password = ref("");
+const email = ref('');
+const password = ref('');
 const userClaims = ref<null | ParsedToken>(null);
 const forgotPassword = ref(false);
-const loading = ref<"email" | null>(null);
+const loading = ref<'email' | null>(null);
 const form = ref<VForm>();
 
 onBeforeMount(async () => {
@@ -97,27 +84,23 @@ const login = async () => {
   if (!auth || !(await form.value?.validate())?.valid) {
     return;
   }
-  loading.value = "email";
+  loading.value = 'email';
   try {
     if (forgotPassword.value) {
       await sendPasswordResetEmail(auth, email.value);
       notifier({
-        content: "Un email de réinitialisation a été envoyé",
-        color: "success",
+        content: 'Un email de réinitialisation a été envoyé',
+        color: 'success',
       });
       forgotPassword.value = false;
     } else {
-      const userCredentials = await signInWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value,
-      );
+      const userCredentials = await signInWithEmailAndPassword(auth, email.value, password.value);
       const { claims } = await getIdTokenResult(userCredentials.user, true);
       if (claims.admin) {
-        navigateTo("/admin");
+        navigateTo('/admin');
       }
     }
-    emits("update:modelValue", false);
+    emits('update:modelValue', false);
   } catch (error: unknown) {
     if (!(error instanceof FirebaseError)) {
       throw error;
@@ -126,13 +109,13 @@ const login = async () => {
     let errMessage;
     switch (error.code) {
       case AuthErrorCodes.INVALID_PASSWORD:
-        errMessage = "Mot de passe incorrect";
+        errMessage = 'Mot de passe incorrect';
         break;
       default:
-        errMessage = "une erreur est survenue";
+        errMessage = 'une erreur est survenue';
         break;
     }
-    notifier({ content: errMessage, color: "error", error });
+    notifier({ content: errMessage, color: 'error', error });
   } finally {
     loading.value = null;
   }

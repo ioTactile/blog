@@ -50,20 +50,11 @@
         :active="editor?.isActive('textStyle', { color })"
         @click="editor?.chain().focus().setColor(color).run()"
       >
-        <v-icon
-          :icon="mdiFormatColorText"
-          size="x-large"
-          class="mx-4"
-          :style="{ color }"
-        />
+        <v-icon :icon="mdiFormatColorText" size="x-large" class="mx-4" :style="{ color }" />
         <v-divider vertical />
         <v-menu :close-on-content-click="false">
           <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
-              class="px-0 h-100 custom-min-width"
-              variant="flat"
-            >
+            <v-btn v-bind="props" class="px-0 h-100 custom-min-width" variant="flat">
               <v-icon :icon="mdiArrowDownDropCircle" size="small" />
             </v-btn>
           </template>
@@ -74,13 +65,7 @@
         variant="flat"
         class="px-0 full-height-content"
         :active="editor?.isActive('highlight')"
-        @click="
-          editor
-            ?.chain()
-            .focus()
-            .toggleHighlight({ color: backgroundColor })
-            .run()
-        "
+        @click="editor?.chain().focus().toggleHighlight({ color: backgroundColor }).run()"
       >
         <div class="d-flex align-center flex-column justify-center">
           <v-icon :icon="mdiFormatColorHighlight" size="x-large" class="mx-4" />
@@ -89,11 +74,7 @@
         <v-divider vertical />
         <v-menu :close-on-content-click="false">
           <template #activator="{ props }">
-            <v-btn
-              v-bind="props"
-              class="px-0 h-100 custom-min-width"
-              variant="flat"
-            >
+            <v-btn v-bind="props" class="px-0 h-100 custom-min-width" variant="flat">
               <v-icon :icon="mdiArrowDownDropCircle" size="small" />
             </v-btn>
           </template>
@@ -156,18 +137,8 @@
       >
         <v-icon :icon="mdiFormatIndentDecrease" />
       </v-btn>
-      <v-btn
-        variant="flat"
-        @click="editor?.chain().focus().setHorizontalRule().run()"
-      >
-        _
-      </v-btn>
-      <v-btn
-        variant="flat"
-        @click="editor?.chain().focus().setHardBreak().run()"
-      >
-        Space
-      </v-btn>
+      <v-btn variant="flat" @click="editor?.chain().focus().setHorizontalRule().run()"> _ </v-btn>
+      <v-btn variant="flat" @click="editor?.chain().focus().setHardBreak().run()"> Space </v-btn>
 
       <v-btn
         variant="flat"
@@ -207,11 +178,7 @@
           </v-btn>
         </template>
         <div class="bg-white pa-6">
-          <v-form
-            @submit.prevent="
-              editor?.chain().focus().setImage({ src: imageLink }).run()
-            "
-          >
+          <v-form @submit.prevent="editor?.chain().focus().setImage({ src: imageLink }).run()">
             <v-text-field v-model="imageLink" label="Lien" variant="outlined" />
             <div class="text-right">
               <v-btn type="submit" color="primary"> Valider </v-btn>
@@ -226,16 +193,8 @@
           </v-btn>
         </template>
         <div class="bg-white pa-6">
-          <v-form
-            @submit.prevent="
-              editor?.commands.setYoutubeVideo({ src: videoLink })
-            "
-          >
-            <v-text-field
-              v-model="videoLink"
-              label="Lien Youtube"
-              variant="outlined"
-            />
+          <v-form @submit.prevent="editor?.commands.setYoutubeVideo({ src: videoLink })">
+            <v-text-field v-model="videoLink" label="Lien Youtube" variant="outlined" />
             <div class="text-right">
               <v-btn type="submit" color="primary"> Valider </v-btn>
             </div>
@@ -402,7 +361,7 @@ import {
   VForm,
   VColorPicker,
   VDivider,
-} from "vuetify/components";
+} from 'vuetify/components';
 import {
   mdiArrowDownDropCircle,
   mdiFormatAlignCenter,
@@ -445,27 +404,22 @@ import {
   mdiTableSplitCell,
   mdiUndo,
   mdiVideo,
-} from "@mdi/js";
-import { useEditor, EditorContent } from "@tiptap/vue-3";
-import { StarterKit } from "@tiptap/starter-kit";
-import { Highlight } from "@tiptap/extension-highlight";
-import { TextStyle, Color } from "@tiptap/extension-text-style";
-import { Subscript } from "@tiptap/extension-subscript";
-import { Superscript } from "@tiptap/extension-superscript";
-import { TextAlign } from "@tiptap/extension-text-align";
-import { Image } from "@tiptap/extension-image";
-import { TaskItem, TaskList } from "@tiptap/extension-list";
-import { Youtube } from "@tiptap/extension-youtube";
-import {
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "@tiptap/extension-table";
+} from '@mdi/js';
+import { useEditor, EditorContent } from '@tiptap/vue-3';
+import { StarterKit } from '@tiptap/starter-kit';
+import { Highlight } from '@tiptap/extension-highlight';
+import { TextStyle, Color } from '@tiptap/extension-text-style';
+import { Subscript } from '@tiptap/extension-subscript';
+import { Superscript } from '@tiptap/extension-superscript';
+import { TextAlign } from '@tiptap/extension-text-align';
+import { Image } from '@tiptap/extension-image';
+import { TaskItem, TaskList } from '@tiptap/extension-list';
+import { Youtube } from '@tiptap/extension-youtube';
+import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table';
 
 const componentProps = defineProps<{ modelValue?: string }>();
 const emits = defineEmits<{
-  (e: "update:model-value", newVal?: string): void;
+  (e: 'update:model-value', newVal?: string): void;
 }>();
 
 const editor = useEditor({
@@ -473,19 +427,19 @@ const editor = useEditor({
   extensions: [
     StarterKit.configure({
       heading: { levels: [2, 3, 4, 5, 6] },
-      link: { protocols: ["mailto"] },
+      link: { protocols: ['mailto'] },
     }),
     Highlight.configure({ multicolor: true }),
     TextStyle,
-    Color.configure({ types: ["textStyle"] }),
+    Color.configure({ types: ['textStyle'] }),
     Subscript,
     Superscript,
-    TextAlign.configure({ types: ["heading", "paragraph"] }),
+    TextAlign.configure({ types: ['heading', 'paragraph'] }),
     Image.configure({
       inline: true,
       allowBase64: true,
       HTMLAttributes: {
-        style: "max-width: 100%; height: auto;",
+        style: 'max-width: 100%; height: auto;',
       },
     }),
     TaskList,
@@ -496,14 +450,14 @@ const editor = useEditor({
     TableHeader,
     TableRow,
   ],
-  onUpdate: () => emits("update:model-value", editor.value?.getHTML()),
+  onUpdate: () => emits('update:model-value', editor.value?.getHTML()),
 });
 
-const color = ref("#000000");
-const backgroundColor = ref("#CCA66C");
-const link = ref("");
-const imageLink = ref("");
-const videoLink = ref("");
+const color = ref('#000000');
+const backgroundColor = ref('#CCA66C');
+const link = ref('');
+const imageLink = ref('');
+const videoLink = ref('');
 
 watch(
   () => componentProps.modelValue,

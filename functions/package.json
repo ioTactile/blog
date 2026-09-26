@@ -1,6 +1,7 @@
 {
   "name": "functions",
   "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "lint": "eslint .",
     "build": "tsc",

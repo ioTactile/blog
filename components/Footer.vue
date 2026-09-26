@@ -4,10 +4,7 @@
       <v-row>
         <v-col cols="12" class="text-center text-md-h6 mt-4">
           © {{ new Date().getFullYear() }} - Réalisé par
-          <a
-            href="https://github.com/ioTactile"
-            class="text-decoration-none text-logo"
-          >
+          <a href="https://github.com/ioTactile" class="text-decoration-none text-logo">
             <strong>iotactile</strong>
           </a>
         </v-col>
@@ -17,5 +14,5 @@
 </template>
 
 <script lang="ts" setup>
-import { VFooter, VRow, VCol } from "vuetify/components";
+import { VFooter, VRow, VCol } from 'vuetify/components';
 </script>

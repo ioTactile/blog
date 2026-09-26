@@ -8,47 +8,25 @@
       </NuxtLink>
       <v-spacer />
       <div v-if="admin && adminUser" class="text-center">
-        <v-btn
-          variant="text"
-          to="/admin/articles"
-          class="text-capitalize text-h6"
-        >
+        <v-btn variant="text" to="/admin/articles" class="text-capitalize text-h6">
           Articles
         </v-btn>
-        <v-btn
-          variant="text"
-          to="/admin/utilisateurs"
-          class="text-capitalize text-h6"
-        >
+        <v-btn variant="text" to="/admin/utilisateurs" class="text-capitalize text-h6">
           Utilisateurs
         </v-btn>
       </div>
-      <v-btn
-        variant="text"
-        to="/about"
-        class="d-none d-sm-flex text-capitalize text-h6"
-      >
+      <v-btn variant="text" to="/about" class="d-none d-sm-flex text-capitalize text-h6">
         À propos
       </v-btn>
-      <v-btn
-        class="d-none d-sm-block"
-        :icon="mdiThemeLightDark"
-        @click="toggleTheme"
-      />
+      <v-btn class="d-none d-sm-block" :icon="mdiThemeLightDark" @click="toggleTheme" />
       <v-btn :icon="mdiAccount" size="large" @click="isLogin('/profil')" />
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-      width="200"
-      color="background"
-    >
+    <v-navigation-drawer v-model="drawer" absolute temporary width="200" color="background">
       <v-list nav>
         <v-list-item to="/about"> À Propos </v-list-item>
         <v-list-item @click="toggleTheme">
-          Thème {{ theme.current.value.dark ? "clair" : "sombre" }}
+          Thème {{ theme.current.value.dark ? 'clair' : 'sombre' }}
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -69,10 +47,10 @@ import {
   VListItem,
   VNavigationDrawer,
   VSpacer,
-} from "vuetify/components";
-import { mdiAccount, mdiThemeLightDark } from "@mdi/js";
-import { getIdTokenResult } from "firebase/auth";
-import { useDisplay, useTheme } from "vuetify";
+} from 'vuetify/components';
+import { mdiAccount, mdiThemeLightDark } from '@mdi/js';
+import { getIdTokenResult } from 'firebase/auth';
+import { useDisplay, useTheme } from 'vuetify';
 
 const { xs } = useDisplay();
 const theme = useTheme();
@@ -91,10 +69,10 @@ onMounted(async () => {
   const { claims } = await getIdTokenResult(user.value, true);
   adminUser.value = claims.admin;
 
-  if (localStorage.getItem("theme") === "myCustomDarkTheme") {
-    theme.global.name.value = "myCustomDarkTheme";
+  if (localStorage.getItem('theme') === 'myCustomDarkTheme') {
+    theme.global.name.value = 'myCustomDarkTheme';
   } else {
-    theme.global.name.value = "myCustomLightTheme";
+    theme.global.name.value = 'myCustomLightTheme';
   }
 });
 
@@ -112,10 +90,8 @@ const toggleDrawer = () => {
 
 const toggleTheme = () => {
   theme.global.name.value =
-    theme.name.value === "myCustomLightTheme"
-      ? "myCustomDarkTheme"
-      : "myCustomLightTheme";
+    theme.name.value === 'myCustomLightTheme' ? 'myCustomDarkTheme' : 'myCustomLightTheme';
 
-  localStorage.setItem("theme", theme.global.name.value);
+  localStorage.setItem('theme', theme.global.name.value);
 };
 </script>

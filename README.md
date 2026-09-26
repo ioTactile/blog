@@ -2,9 +2,7 @@
 
 Application web de blog technique avec espace d’administration, authentification et gestion de contenu riche. Le front est construit avec **Nuxt 4** et **Vuetify 4** ; le backend s’appuie sur **Firebase** (Auth, Firestore, Storage, Cloud Functions, App Check).
 
----
-
-## Fonctionnalités
+## Features
 
 - **Publication d’articles** — titre, description, contenu riche, illustrations et vidéos
 - **Éditeur WYSIWYG** — TipTap (formatage, tableaux, liens, médias, YouTube, listes de tâches)
@@ -14,9 +12,7 @@ Application web de blog technique avec espace d’administration, authentificati
 - **Médias** — upload, redimensionnement d’images, Storage Firebase, drag & drop
 - **Sécurité** — règles Firestore / Storage, App Check (reCAPTCHA v3), Cloud Functions protégées
 
----
-
-## Stack technique
+## Stack
 
 | Couche               | Technologies                                                 |
 | -------------------- | ------------------------------------------------------------ |
@@ -26,7 +22,33 @@ Application web de blog technique avec espace d’administration, authentificati
 | Intégration Firebase | VueFire / nuxt-vuefire                                       |
 | Qualité              | ESLint, Prettier, Husky, lint-staged                         |
 
----
+## Structure
+
+```text
+blog/
+├── assets/              # Styles SCSS, utilitaires (images, feature detection)
+├── components/          # UI (éditeur TipTap, médias, auth, formulaires)
+├── composables/         # Logique réutilisable (notifs, callable functions)
+├── functions/           # Cloud Functions (createAdmin, removeAdmin)
+├── layouts/             # Layouts public et admin
+├── pages/               # Routes (articles, profil, admin)
+├── plugins/             # Plugin Vuetify (thèmes clair / sombre)
+├── stores/              # Stores Pinia + converters Firestore
+├── firestore.rules      # Règles de sécurité Firestore
+├── storage.rules        # Règles de sécurité Storage
+├── firebase.json        # Config Firebase (functions, rules)
+└── nuxt.config.ts       # Configuration Nuxt
+```
+
+### Routes principales
+
+| Route            | Description                | SSR |
+| ---------------- | -------------------------- | --- |
+| `/`              | Liste des articles         | oui |
+| `/articles/[id]` | Détail d’un article (slug) | oui |
+| `/about`         | À propos                   | oui |
+| `/profil`        | Profil utilisateur         | non |
+| `/admin/*`       | Espace d’administration    | non |
 
 ## Prérequis
 
@@ -36,9 +58,7 @@ Application web de blog technique avec espace d’administration, authentificati
 - Firebase CLI (`npm i -g firebase-tools`) pour le déploiement des functions
 - Fichier de compte de service Firebase (non versionné) pour le développement local des functions
 
----
-
-## Démarrage rapide
+## Démarrage
 
 ### 1. Cloner et installer
 
@@ -71,9 +91,33 @@ npm run dev
 
 L’application est disponible sur [http://localhost:3000](http://localhost:3000).
 
----
+### Déploiement
 
-## Scripts disponibles
+Front-end :
+
+```bash
+npm run build
+```
+
+Déployez le contenu de `.output/` (ou le résultat de `generate`) sur l’hébergeur de votre choix.
+
+Firebase (rules + functions) :
+
+```bash
+firebase login
+firebase deploy
+```
+
+Déploiement ciblé :
+
+```bash
+firebase deploy --only functions
+firebase deploy --only firestore:rules,storage
+```
+
+Le `predeploy` des functions exécute automatiquement `lint` puis `build`.
+
+## Scripts
 
 ### Application (racine)
 
@@ -94,38 +138,6 @@ L’application est disponible sur [http://localhost:3000](http://localhost:3000
 | `npm run lint`   | Lint du package functions       |
 | `npm run serve`  | Émulateurs Firebase (functions) |
 | `npm run deploy` | Déploiement des functions       |
-
----
-
-## Structure du projet
-
-```text
-blog/
-├── assets/              # Styles SCSS, utilitaires (images, feature detection)
-├── components/          # UI (éditeur TipTap, médias, auth, formulaires)
-├── composables/         # Logique réutilisable (notifs, callable functions)
-├── functions/           # Cloud Functions (createAdmin, removeAdmin)
-├── layouts/             # Layouts public et admin
-├── pages/               # Routes (articles, profil, admin)
-├── plugins/             # Plugin Vuetify (thèmes clair / sombre)
-├── stores/              # Stores Pinia + converters Firestore
-├── firestore.rules      # Règles de sécurité Firestore
-├── storage.rules        # Règles de sécurité Storage
-├── firebase.json        # Config Firebase (functions, rules)
-└── nuxt.config.ts       # Configuration Nuxt
-```
-
-### Routes principales
-
-| Route            | Description                | SSR |
-| ---------------- | -------------------------- | --- |
-| `/`              | Liste des articles         | oui |
-| `/articles/[id]` | Détail d’un article (slug) | oui |
-| `/about`         | À propos                   | oui |
-| `/profil`        | Profil utilisateur         | non |
-| `/admin/*`       | Espace d’administration    | non |
-
----
 
 ## Architecture
 
@@ -148,58 +160,6 @@ blog/
 - Les rôles admin reposent sur des **custom claims** Auth, gérés via Cloud Functions avec **App Check** obligatoire.
 - Les médias sont stockés dans **Firebase Storage** ; le redimensionnement côté client utilise **Pica**.
 
----
-
-## Déploiement
-
-### Front-end
-
-```bash
-npm run build
-```
-
-Déployez le contenu de `.output/` (ou le résultat de `generate`) sur l’hébergeur de votre choix (Node / static selon la cible).
-
-### Firebase (rules + functions)
-
-```bash
-firebase login
-firebase deploy
-```
-
-Déploiement ciblé :
-
-```bash
-firebase deploy --only functions
-firebase deploy --only firestore:rules,storage
-```
-
-Le `predeploy` des functions exécute automatiquement `lint` puis `build`.
-
----
-
-## Qualité de code
-
-- **ESLint** (flat config) + **Prettier** sur l’application et les functions
-- **Husky** + **lint-staged** : contrôle automatique avant chaque commit
-- TypeScript strict côté functions ; Nuxt gère le typage du front
-
-```bash
-npm run lint
-cd functions && npm run lint
-```
-
----
-
-## Sécurité
-
-- Ne jamais versionner `service-account.json`, `.env` ni les clés secrètes
-- Les règles Firestore / Storage doivent rester alignées avec les rôles Auth
-- App Check (reCAPTCHA v3) protège les callables sensibles
-- Les clés Firebase **client** dans `nuxt.config.ts` sont publiques par design ; la sécurité repose sur les rules et App Check
-
----
-
 ## Licence
 
-Projet privé — tous droits réservés.
+MIT License — see [LICENSE](./LICENSE).

@@ -9,9 +9,7 @@
     </Head>
     <v-container>
       <div>
-        <v-btn color="buttonBack" @click="dialog = true">
-          Créer un admin
-        </v-btn>
+        <v-btn color="buttonBack" @click="dialog = true"> Créer un admin </v-btn>
       </div>
 
       <v-table class="mt-4" :height="users.length > 13 ? '60vh' : ''">
@@ -56,33 +54,13 @@
               </v-card-title>
               <v-card-text>
                 <inputs-email v-model="email" variant="outlined" icon />
-                <inputs-password-first
-                  v-model="password"
-                  variant="outlined"
-                  not-in-line
-                />
-                <v-checkbox
-                  v-model="role"
-                  label="Ajouter comme admin"
-                  value="admin"
-                  hide-details
-                />
+                <inputs-password-first v-model="password" variant="outlined" not-in-line />
+                <v-checkbox v-model="role" label="Ajouter comme admin" value="admin" hide-details />
               </v-card-text>
               <v-card-actions class="mr-2">
-                <v-btn
-                  variant="text"
-                  :disabled="loading"
-                  @click="dialog = false"
-                >
-                  Annuler
-                </v-btn>
+                <v-btn variant="text" :disabled="loading" @click="dialog = false"> Annuler </v-btn>
                 <v-spacer />
-                <v-btn
-                  color="buttonBack"
-                  :loading="loading"
-                  type="submit"
-                  variant="elevated"
-                >
+                <v-btn color="buttonBack" :loading="loading" type="submit" variant="elevated">
                   Ajouter
                 </v-btn>
               </v-card-actions>
@@ -95,7 +73,7 @@
 </template>
 
 <script async setup lang="ts">
-import { mdiDelete, mdiClose } from "@mdi/js";
+import { mdiDelete, mdiClose } from '@mdi/js';
 import {
   VContainer,
   VForm,
@@ -108,34 +86,30 @@ import {
   VCardActions,
   VSpacer,
   VCheckbox,
-} from "vuetify/components";
-import { collection, getDocs } from "firebase/firestore";
-import { useFirebaseFunctions } from "~/composables/useFirebaseFunctions";
-import { userConverter } from "~/stores";
-import type { LocalUserType } from "~/stores";
+} from 'vuetify/components';
+import { collection, getDocs } from 'firebase/firestore';
+import { useFirebaseFunctions } from '~/composables/useFirebaseFunctions';
+import { userConverter } from '~/stores';
+import type { LocalUserType } from '~/stores';
 
-definePageMeta({ layout: "admin" });
+definePageMeta({ layout: 'admin' });
 
 const db = useFirestore();
 const functions = useFirebaseFunctions();
 const dialog = ref(false);
 const email = ref<string>();
 const password = ref<string>();
-const role = ref<"admin" | null>(null);
+const role = ref<'admin' | null>(null);
 const loading = ref(false);
 const removing = ref<string | null>(null);
 const form = ref<VForm>();
 
-const usersRef = collection(db, "users").withConverter(userConverter);
+const usersRef = collection(db, 'users').withConverter(userConverter);
 const usersDocs = await getDocs(usersRef);
 const users = ref(usersDocs.docs.map((doc) => doc.data()));
 
 const createUser = async () => {
-  if (
-    !(await form.value?.validate())?.valid ||
-    !email.value ||
-    !password.value
-  ) {
+  if (!(await form.value?.validate())?.valid || !email.value || !password.value) {
     return;
   }
 
@@ -145,7 +119,7 @@ const createUser = async () => {
     const { data } = await functions<
       { email: string; password: string; role: { admin: true } },
       LocalUserType
-    >("createAdmin")({
+    >('createAdmin')({
       email: email.value,
       password: password.value,
       role: { admin: true },
@@ -161,7 +135,7 @@ const removeUser = async (id: string) => {
   removing.value = id;
 
   try {
-    await functions("removeAdmin")({ id });
+    await functions('removeAdmin')({ id });
 
     users.value = users.value.filter((user) => user.id !== id);
   } finally {
@@ -171,10 +145,10 @@ const removeUser = async (id: string) => {
 
 const getRole = (role: { admin: true } | undefined) => {
   if (!role) {
-    return "Utilisateur";
+    return 'Utilisateur';
   }
   if (role.admin) {
-    return "Admin";
+    return 'Admin';
   }
 };
 </script>

@@ -2,9 +2,7 @@
   <v-container class="container">
     <v-row align="center" justify="center">
       <v-col cols="12">
-        <h2
-          class="pt-12 pb-4 font-weight-bold text-h4 text-sm-h3 text-center text-sm-left"
-        >
+        <h2 class="pt-12 pb-4 font-weight-bold text-h4 text-sm-h3 text-center text-sm-left">
           {{ article.title }}
         </h2>
       </v-col>
@@ -43,11 +41,7 @@
     </div>
     <div class="content-container">
       <div class="d-flex flex-column flex-sm-row justify-center align-center">
-        <v-btn
-          color="highlight"
-          class="mb-2 mb-sm-0"
-          @click="isShowComments = 'not-show'"
-        >
+        <v-btn color="highlight" class="mb-2 mb-sm-0" @click="isShowComments = 'not-show'">
           Laisser un commentaire
         </v-btn>
         <v-btn color="highlight" class="ml-2" @click="isShowComments = 'show'">
@@ -60,73 +54,59 @@
 </template>
 
 <script async setup lang="ts">
-import {
-  VContainer,
-  VRow,
-  VCol,
-  VImg,
-  VIcon,
-  VSpacer,
-  VBtn,
-} from "vuetify/components";
-import { mdiArrowLeft, mdiArrowRight } from "@mdi/js";
-import { collection, getDocs, query, orderBy } from "@firebase/firestore";
-import { articleConverter } from "~/stores";
-import type { LocalArticleType } from "~/stores";
+import { VContainer, VRow, VCol, VImg, VIcon, VSpacer, VBtn } from 'vuetify/components';
+import { mdiArrowLeft, mdiArrowRight } from '@mdi/js';
+import { collection, getDocs, query, orderBy } from '@firebase/firestore';
+import { articleConverter } from '~/stores';
+import type { LocalArticleType } from '~/stores';
 
 const db = useFirestore();
 const route = useRoute();
 
-const isShowComments = ref<string>("");
+const isShowComments = ref<string>('');
 
-const articlesRef = collection(db, "articles").withConverter(articleConverter);
-const articleQuery = query(articlesRef, orderBy("creationDate", "desc"));
+const articlesRef = collection(db, 'articles').withConverter(articleConverter);
+const articleQuery = query(articlesRef, orderBy('creationDate', 'desc'));
 const articlesFetched = await getDocs(articleQuery);
 const articlesDocs = articlesFetched.docs.map((doc) => doc.data());
 const article = articlesDocs.find(
   (article) => article.slug === route.params.id,
 ) as LocalArticleType;
-const articleIndex = articlesDocs.findIndex(
-  (article) => article.slug === route.params.id,
-);
-const previousArticle =
-  articleIndex > 0 ? articlesDocs[articleIndex - 1] : null;
-const nextArticle =
-  articleIndex < articlesDocs.length - 1
-    ? articlesDocs[articleIndex + 1]
-    : null;
+const articleIndex = articlesDocs.findIndex((article) => article.slug === route.params.id);
+const previousArticle = articleIndex > 0 ? articlesDocs[articleIndex - 1] : null;
+const nextArticle = articleIndex < articlesDocs.length - 1 ? articlesDocs[articleIndex + 1] : null;
 
-const dateFormatter = new Intl.DateTimeFormat("fr", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
+const dateFormatter = new Intl.DateTimeFormat('fr', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
 }).format;
 
 useSeoMeta({
-  title: article.title + " - ioTactile",
-  ogTitle: article.title + " - ioTactile",
-  twitterTitle: article.title + " - ioTactile",
+  title: article.title + ' - ioTactile',
+  ogTitle: article.title + ' - ioTactile',
+  twitterTitle: article.title + ' - ioTactile',
   description: article.description,
   ogDescription: article.description,
   twitterDescription: article.description,
   ogImage: article.images?.[0]?.url,
   twitterImage: article.images?.[0]?.url,
-  twitterCard: "summary_large_image",
+  twitterCard: 'summary_large_image',
   ogUrl: `https://iotactile.fr/articles/${article.slug}`,
 });
 
 useHead({
   htmlAttrs: {
-    lang: "fr",
+    lang: 'fr',
   },
   link: [
     {
-      rel: "icon",
-      type: "image/png",
-      href: "favicon.png",
+      rel: 'icon',
+      type: 'image/png',
+      href: 'favicon.png',
     },
   ],
 });

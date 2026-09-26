@@ -2,6 +2,7 @@
   "name": "cubes5-bde",
   "version": "0.0.1",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -16,7 +17,7 @@
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,vue}": [
-      "eslint --fix",
+      "eslint --fix --no-warn-ignored",
       "prettier --write"
     ],
     "*.{json,md,scss,css,yml,yaml}": [

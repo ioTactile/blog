@@ -2,16 +2,11 @@
   <div>
     <Head>
       <Title>Articles - ioTactile</Title>
-      <Meta
-        name="description"
-        content="Page où je rédige les articles - ioTactile"
-      />
+      <Meta name="description" content="Page où je rédige les articles - ioTactile" />
     </Head>
     <v-container>
       <div class="pb-4">
-        <v-btn color="buttonBack" @click="createArticle">
-          Ajouter un article
-        </v-btn>
+        <v-btn color="buttonBack" @click="createArticle"> Ajouter un article </v-btn>
       </div>
 
       <v-table>
@@ -27,23 +22,13 @@
         <tbody>
           <tr v-for="article in articles" :key="article.id">
             <td>
-              <v-img
-                :src="article.images?.[0]?.url"
-                width="100"
-                height="100"
-                contain
-              />
+              <v-img :src="article.images?.[0]?.url" width="100" height="100" contain />
             </td>
             <td>{{ article.title }}</td>
             <td>{{ article.description }}</td>
             <td>{{ dateFormatter(article.creationDate) }}</td>
             <td>
-              <v-btn
-                :icon="mdiPencil"
-                color="stroke"
-                variant="text"
-                @click="edit(article)"
-              />
+              <v-btn :icon="mdiPencil" color="stroke" variant="text" @click="edit(article)" />
             </td>
           </tr>
         </tbody>
@@ -73,11 +58,7 @@
                     />
                   </v-col>
                   <v-col cols="12">
-                    <v-textarea
-                      v-model="description"
-                      label="Description"
-                      rows="2"
-                    />
+                    <v-textarea v-model="description" label="Description" rows="2" />
                   </v-col>
                   <v-col cols="12">
                     <images-manager
@@ -104,11 +85,7 @@
                   Supprimer
                 </v-btn>
                 <v-spacer />
-                <v-btn
-                  variant="text"
-                  :disabled="loading || fileLoading || removing"
-                  @click="reset"
-                >
+                <v-btn variant="text" :disabled="loading || fileLoading || removing" @click="reset">
                   Annuler
                 </v-btn>
                 <v-btn
@@ -130,7 +107,7 @@
 </template>
 
 <script async setup lang="ts">
-import { mdiPencil, mdiClose } from "@mdi/js";
+import { mdiPencil, mdiClose } from '@mdi/js';
 import {
   VContainer,
   VForm,
@@ -147,23 +124,15 @@ import {
   VCol,
   VTable,
   VImg,
-} from "vuetify/components";
-import {
-  collection,
-  getDocs,
-  setDoc,
-  doc,
-  query,
-  orderBy,
-  Timestamp,
-} from "firebase/firestore";
-import { useFirestore, useCurrentUser } from "vuefire";
-import slugify from "slugify";
-import { articleConverter } from "~/stores";
-import type { LocalArticleType } from "~/stores";
-import type { Image } from "~/functions/src/types";
+} from 'vuetify/components';
+import { collection, getDocs, setDoc, doc, query, orderBy, Timestamp } from 'firebase/firestore';
+import { useFirestore, useCurrentUser } from 'vuefire';
+import slugify from 'slugify';
+import { articleConverter } from '~/stores';
+import type { LocalArticleType } from '~/stores';
+import type { Image } from '~/functions/src/types';
 
-definePageMeta({ layout: "admin" });
+definePageMeta({ layout: 'admin' });
 
 const db = useFirestore();
 const user = useCurrentUser();
@@ -172,19 +141,19 @@ const dialog = ref(false);
 const id = ref<string | null>(null);
 const imageManager = ref();
 const images = ref<Image[]>([]);
-const title = ref<string>("");
-const description = ref<string>("");
-const content = ref<string>("");
+const title = ref<string>('');
+const description = ref<string>('');
+const content = ref<string>('');
 const creationDate = ref(new Date(Date.now()));
 const loading = ref(false);
 const fileLoading = ref(false);
 const removing = ref(false);
 const form = ref<VForm>();
 
-const articlesRef = collection(db, "articles").withConverter(articleConverter);
+const articlesRef = collection(db, 'articles').withConverter(articleConverter);
 
 const getArticles = async () => {
-  const articlesQuery = query(articlesRef, orderBy("creationDate", "desc"));
+  const articlesQuery = query(articlesRef, orderBy('creationDate', 'desc'));
   const articles = await getDocs(articlesQuery);
   return articles.docs.map((doc) => doc.data());
 };
@@ -209,7 +178,7 @@ const saveArticle = async () => {
       id: id.value,
       images: images.value,
       title: title.value,
-      slug: slugify(title.value + "-" + articleRef.id, {
+      slug: slugify(title.value + '-' + articleRef.id, {
         lower: true,
         strict: true,
       }),
@@ -243,9 +212,6 @@ const removeArticle = async () => {
     images.value?.forEach((_, id) => imageManager.value.deleteImg(id));
     await imageManager.value.save();
 
-    // const articleRef = doc(articlesRef, id.value)
-    // await deleteDoc(articleRef)
-
     articles.value = await getArticles();
   } finally {
     reset();
@@ -255,21 +221,21 @@ const removeArticle = async () => {
 const reset = () => {
   id.value = null;
   images.value = [];
-  title.value = "";
-  description.value = "";
-  content.value = "";
+  title.value = '';
+  description.value = '';
+  content.value = '';
   creationDate.value = new Date(Date.now());
   dialog.value = false;
   loading.value = false;
   removing.value = false;
 };
 
-const dateFormatter = new Intl.DateTimeFormat("fr", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
+const dateFormatter = new Intl.DateTimeFormat('fr', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
 }).format;
 </script>

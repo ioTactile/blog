@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts" setup>
-import { VImg } from "vuetify/components";
-import { getDownloadURL, ref as storageRef } from "firebase/storage";
-import { storeToRefs } from "pinia";
-import { useFirebaseStorage } from "vuefire";
-import { useStore } from "@/stores";
+import { VImg } from 'vuetify/components';
+import { getDownloadURL, ref as storageRef } from 'firebase/storage';
+import { storeToRefs } from 'pinia';
+import { useFirebaseStorage } from 'vuefire';
+import { useStore } from '@/stores';
 
 const props = defineProps<{
   src?: string;
@@ -25,11 +25,7 @@ const imageUrl = ref<string | undefined>(undefined);
 watch(
   () => props.storageSrc,
   async (after, before) => {
-    if (
-      after !== before &&
-      webpSupport.value !== null &&
-      avifSupport.value !== null
-    ) {
+    if (after !== before && webpSupport.value !== null && avifSupport.value !== null) {
       await getImage();
     }
   },
@@ -37,11 +33,7 @@ watch(
 watch(
   () => props.src,
   async (after, before) => {
-    if (
-      after !== before &&
-      webpSupport.value !== null &&
-      avifSupport.value !== null
-    ) {
+    if (after !== before && webpSupport.value !== null && avifSupport.value !== null) {
       await getImage();
     }
   },
@@ -58,10 +50,10 @@ watch(webpSupport, async (value) => {
 });
 
 const createRefPath = (ref: string, format: string) => {
-  if (ref.slice(0, 8) !== "https://") {
+  if (ref.slice(0, 8) !== 'https://') {
     return ref + format;
   }
-  const altPos = ref.indexOf("?alt=");
+  const altPos = ref.indexOf('?alt=');
   return ref.slice(0, altPos) + format + ref.slice(altPos);
 };
 
@@ -69,19 +61,19 @@ const getImage = async () => {
   if (!props.storageSrc) {
     return (imageUrl.value = props.src);
   }
-  let bestFormat = "";
+  let bestFormat = '';
   if (avifSupport.value) {
-    bestFormat = ".avif";
+    bestFormat = '.avif';
   } else if (webpSupport.value) {
-    bestFormat = ".webp";
+    bestFormat = '.webp';
   }
-  const refs = [bestFormat, ""].map((it) =>
-    storageRef(storage, createRefPath(props.storageSrc || "", it)),
+  const refs = [bestFormat, ''].map((it) =>
+    storageRef(storage, createRefPath(props.storageSrc || '', it)),
   );
   const urlsPromises = refs.map((it) => getDownloadURL(it));
   const urls = await Promise.allSettled(urlsPromises);
   // @ts-expect-error vuetify prop typing
-  const bestUrl = urls.find((it) => it.status === "fulfilled")?.value;
+  const bestUrl = urls.find((it) => it.status === 'fulfilled')?.value;
   imageUrl.value = bestUrl || props.src;
 };
 

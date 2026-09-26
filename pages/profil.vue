@@ -29,33 +29,16 @@
                   variant="outlined"
                   class="ml-2"
                 />
-                <v-btn
-                  class="ml-2"
-                  :icon="mdiPencil"
-                  variant="text"
-                  @click="isChange()"
-                />
+                <v-btn class="ml-2" :icon="mdiPencil" variant="text" @click="isChange()" />
               </div>
-              <v-btn
-                v-if="change"
-                block
-                type="submit"
-                color="buttonBack"
-                :loadind="loading"
-              >
+              <v-btn v-if="change" block type="submit" color="buttonBack" :loadind="loading">
                 Modifier
               </v-btn>
             </v-form>
           </v-card-text>
           <v-divider />
           <v-card-text>
-            <v-btn
-              class="mt-2"
-              block
-              color="highlight"
-              :disabled="loading"
-              @click="logout"
-            >
+            <v-btn class="mt-2" block color="highlight" :disabled="loading" @click="logout">
               Se déconnecter
             </v-btn>
             <v-btn
@@ -87,13 +70,13 @@ import {
   VTextField,
   VBtn,
   VDivider,
-} from "vuetify/components";
-import { mdiDotsVertical, mdiPencil } from "@mdi/js";
-import { deleteUser, signOut } from "@firebase/auth";
-import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
-import { userConverter } from "~/stores";
+} from 'vuetify/components';
+import { mdiDotsVertical, mdiPencil } from '@mdi/js';
+import { deleteUser, signOut } from '@firebase/auth';
+import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
+import { userConverter } from '~/stores';
 
-definePageMeta({ layout: "admin" });
+definePageMeta({ layout: 'admin' });
 
 const { notifier } = useNotifier();
 const auth = useFirebaseAuth();
@@ -120,7 +103,7 @@ onMounted(async () => {
     return;
   }
   const userId = user.value.uid;
-  const userRef = doc(db, "users", userId).withConverter(userConverter);
+  const userRef = doc(db, 'users', userId).withConverter(userConverter);
   const userDoc = await getDoc(userRef);
   const userFetched = userDoc.data();
   if (userFetched) {
@@ -138,22 +121,21 @@ const updateProfile = async () => {
   try {
     if (user.value) {
       const userId = user.value.uid;
-      const userRef = doc(db, "users", userId).withConverter(userConverter);
+      const userRef = doc(db, 'users', userId).withConverter(userConverter);
       await setDoc(
         userRef,
         { firstName: firstName.value, lastName: lastName.value },
         { merge: true },
       );
       notifier({
-        content: "Profil mis à jour",
-        color: "success",
+        content: 'Profil mis à jour',
+        color: 'success',
       });
     }
   } catch (error) {
     notifier({
-      content:
-        "Une erreur est survenue lors de la mise à jour de vos informations",
-      color: "error",
+      content: 'Une erreur est survenue lors de la mise à jour de vos informations',
+      color: 'error',
       error,
     });
   } finally {
@@ -169,13 +151,13 @@ const deleteProfile = async () => {
   loading.value = true;
 
   try {
-    const userRef = doc(db, "users", user.value.uid);
+    const userRef = doc(db, 'users', user.value.uid);
     await deleteDoc(userRef);
     await deleteUser(user.value);
   } catch (error) {
     notifier({
-      content: "Une erreur est survenue lors de la suppression de votre compte",
-      color: "error",
+      content: 'Une erreur est survenue lors de la suppression de votre compte',
+      color: 'error',
       error,
     });
   } finally {
@@ -191,11 +173,11 @@ const logout = async () => {
 
   try {
     await signOut(auth);
-    await navigateTo("/");
+    await navigateTo('/');
   } catch (error) {
     notifier({
-      content: "Une erreur est survenue lors de la déconnexion",
-      color: "error",
+      content: 'Une erreur est survenue lors de la déconnexion',
+      color: 'error',
       error,
     });
   } finally {
